@@ -1,0 +1,36 @@
+.tag {
+  display: inline-block;
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+}
+
+/* Variants */
+
+.default {
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+.secondary {
+  background-color: var(--color-secondary-bg);
+  color: var(--color-secondary-dark);
+}
+
+.outline {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-light);
+  background-color: transparent;
+}
+
+/* Sizes */
+
+.sm {
+  padding: 0.25rem 0.75rem;
+  font-size: var(--font-size-xs);
+}
+
+.md {
+  padding: 0.375rem 1rem;
+  font-size: var(--font-size-sm);
+}

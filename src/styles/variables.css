@@ -1,0 +1,89 @@
+:root {
+  /* Colors — 海報風格：天空藍 + 暖黃 + 柔粉 */
+  --color-primary: #5bb8d4;
+  --color-primary-light: #7ec8e3;
+  --color-primary-dark: #3a9abf;
+  --color-primary-bg: #e8f4fa;
+  --color-secondary: #f2c94c;
+  --color-secondary-light: #f5d76e;
+  --color-secondary-dark: #d4a935;
+  --color-secondary-bg: #fef9e7;
+  --color-accent-pink: #f4a4a4;
+  --color-accent-orange: #f2994a;
+  --color-accent-green: #6bc5a0;
+  --color-bg: #ffffff;
+  --color-bg-alt: #eef7fb;
+  --color-bg-sky: #d4eef7;
+  --color-bg-grey: #f5f7fa;
+  --color-text: #2d3436;
+  --color-text-light: #555555;
+  --color-text-lighter: #888888;
+  --color-border: #d6e4eb;
+  --color-border-light: #e8f0f4;
+  --color-success: #6bc5a0;
+  --color-error: #e74c3c;
+  --color-warning: #f2994a;
+  --color-info: #5bb8d4;
+
+  /* Typography */
+  --font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 2.5rem;
+  --font-size-4xl: 3rem;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* Border Radius — 更圓潤 */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Shadows — 柔和 */
+  --shadow-sm: 0 2px 8px rgba(91, 184, 212, 0.08);
+  --shadow-md: 0 4px 16px rgba(91, 184, 212, 0.12);
+  --shadow-lg: 0 8px 32px rgba(91, 184, 212, 0.16);
+  --shadow-primary: 0 4px 20px rgba(91, 184, 212, 0.3);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Z-index layers */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-tooltip: 600;
+
+  /* Layout */
+  --header-height: 72px;
+  --max-width: 1200px;
+  --sidebar-width: 260px;
+}

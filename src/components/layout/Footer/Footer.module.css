@@ -1,0 +1,118 @@
+.footer {
+  background: linear-gradient(180deg, #2c3e50 0%, #1a2332 100%);
+  color: #cbd5e1;
+  padding-top: var(--space-3xl);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2xl);
+}
+
+/* About column */
+.title {
+  color: var(--color-secondary);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.subtitle {
+  color: white;
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.desc {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-sm);
+}
+
+.org {
+  font-size: var(--font-size-sm);
+  color: #94a3b8;
+}
+
+/* Quick links column */
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.link {
+  color: #cbd5e1;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  transition: var(--transition-fast);
+  font-size: var(--font-size-sm);
+}
+
+.link:hover {
+  color: var(--color-secondary-light);
+}
+
+.linkIcon {
+  font-size: 0.7em;
+  color: var(--color-secondary);
+}
+
+/* Contact column */
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-size: var(--font-size-sm);
+}
+
+.contactIcon {
+  color: var(--color-secondary);
+  margin-top: 3px;
+  width: 16px;
+}
+
+/* Bottom bar */
+.bottom {
+  margin-top: var(--space-2xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: var(--space-lg) 0;
+}
+
+.copyright {
+  font-size: var(--font-size-xs);
+  text-align: center;
+  color: #64748b;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    text-align: center;
+  }
+
+  .contactItem {
+    justify-content: center;
+  }
+}
