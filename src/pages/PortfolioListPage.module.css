@@ -1,0 +1,77 @@
+/* === Content Section === */
+.contentSection {
+  padding: 4rem 0;
+  background: var(--color-bg-alt);
+  position: relative;
+  z-index: 1;
+}
+
+.contentSection::before {
+  content: '';
+  position: absolute;
+  top: -79px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: var(--color-bg-alt);
+  -webkit-mask-image: var(--wave-mask-url);
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: var(--wave-mask-url);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Content 散佈裝飾 — 少量大元素 */
+.contentSpot {
+  position: absolute;
+  top: 10%;
+  right: -80px;
+  z-index: 0;
+}
+
+.contentLeaves {
+  position: absolute;
+  bottom: -50px;
+  left: -70px;
+  z-index: 0;
+  opacity: 0.55;
+  animation: floatSlow 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.contentCloud {
+  position: absolute;
+  top: 4%;
+  left: 28%;
+  z-index: 0;
+  opacity: 0.75;
+  animation: cloudDrift 16s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .contentCloud { display: none; }
+  .contentLeaves { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contentLeaves, .contentCloud {
+    animation: none !important;
+  }
+}

@@ -5,6 +5,7 @@ import {
   faUsers,
   faChalkboardTeacher,
 } from '@fortawesome/free-solid-svg-icons'
+import { LeafSprig, WaterDrop } from '@/components/common/Decorations/Decorations'
 import styles from './GoalSection.module.css'
 
 const goals = [
@@ -38,6 +39,10 @@ export default function GoalSection() {
         <div className={styles.grid}>
           {goals.map((goal, index) => (
             <div key={index} className={styles.card}>
+              {/* 從卡片邊緣長出的嫩枝與水滴 */}
+              <LeafSprig size={38} className={styles.sprigTop} />
+              <WaterDrop size={18} color="#7BC5A0" className={styles.dropSide} />
+
               <div className={styles.iconWrap}>
                 <FontAwesomeIcon
                   icon={goal.icon}

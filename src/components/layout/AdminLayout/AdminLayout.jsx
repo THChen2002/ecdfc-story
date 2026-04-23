@@ -5,6 +5,7 @@ import {
   faChartLine,
   faImages,
   faNewspaper,
+  faUsers,
   faSignOutAlt,
   faBars,
   faTimes,
@@ -17,6 +18,7 @@ const iconMap = {
   'chart-line': faChartLine,
   images: faImages,
   newspaper: faNewspaper,
+  users: faUsers,
 }
 
 export default function AdminLayout({ children }) {

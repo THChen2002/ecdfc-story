@@ -7,7 +7,7 @@
 /* Sidebar */
 .sidebar {
   width: var(--sidebar-width);
-  background: #1a2332;
+  background: #3D2C1E;
   color: white;
   display: flex;
   flex-direction: column;
@@ -54,7 +54,7 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 0.75rem var(--space-md);
-  color: #94a3b8;
+  color: #C8B8A0;
   text-decoration: none;
   border-radius: var(--radius-sm);
   transition: var(--transition-fast);
@@ -86,7 +86,7 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 0.75rem var(--space-lg);
-  color: #94a3b8;
+  color: #C8B8A0;
   background: none;
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.1);

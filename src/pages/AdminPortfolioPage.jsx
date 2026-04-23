@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faEdit, faTrash, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore'
@@ -7,6 +7,7 @@ import { db } from '@/services/firebase'
 import Button from '@/components/common/Button/Button'
 import Modal from '@/components/common/Modal/Modal'
 import Loading from '@/components/common/Loading/Loading'
+import s from '@/styles/admin.module.css'
 
 export default function AdminPortfolioPage() {
   const [portfolios, setPortfolios] = useState([])
@@ -51,70 +52,58 @@ export default function AdminPortfolioPage() {
 
   return (
     <div>
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: '1.5rem',
-      }}>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>成果管理</h1>
+      <div className={s.pageHeader}>
+        <h1 className={s.pageTitle}>成果管理</h1>
         <Button icon={faPlus} size="sm" onClick={() => navigate('/admin/portfolio/new')}>
           新增成果
         </Button>
       </div>
 
       {portfolios.length === 0 ? (
-        <div style={{
-          background: 'white', borderRadius: '16px', padding: '3rem',
-          textAlign: 'center', color: '#888', boxShadow: '0 2px 8px rgba(91,184,212,0.08)',
-        }}>
+        <div className={s.emptyCard}>
           <p>目前沒有成果資料，點擊「新增成果」開始建立。</p>
         </div>
       ) : (
-        <div style={{
-          background: 'white', borderRadius: '16px',
-          boxShadow: '0 2px 8px rgba(91,184,212,0.08)', overflow: 'hidden',
-        }}>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+        <div className={s.tableCard}>
+          <div className={s.tableScroll}>
+            <table className={s.table}>
               <thead>
-                <tr style={{ background: '#f5f7fa', textAlign: 'left' }}>
-                  <th style={{ padding: '0.75rem 1rem', fontWeight: 600 }}>標題</th>
-                  <th style={{ padding: '0.75rem 1rem', fontWeight: 600 }}>分類</th>
-                  <th style={{ padding: '0.75rem 1rem', fontWeight: 600 }}>年份</th>
-                  <th style={{ padding: '0.75rem 1rem', fontWeight: 600 }}>狀態</th>
-                  <th style={{ padding: '0.75rem 1rem', fontWeight: 600, textAlign: 'center' }}>操作</th>
+                <tr>
+                  <th>標題</th>
+                  <th>分類</th>
+                  <th>年份</th>
+                  <th>狀態</th>
+                  <th className={s.thCenter}>操作</th>
                 </tr>
               </thead>
               <tbody>
                 {portfolios.map((p) => (
-                  <tr key={p.id} style={{ borderBottom: '1px solid #e8f0f4' }}>
-                    <td style={{ padding: '0.75rem 1rem', fontWeight: 500 }}>{p.title}</td>
-                    <td style={{ padding: '0.75rem 1rem' }}>
-                      <span style={{
-                        padding: '0.2rem 0.6rem', borderRadius: '9999px',
-                        fontSize: '0.75rem', background: '#e8f4fa', color: '#5bb8d4', fontWeight: 600,
-                      }}>
+                  <tr key={p.id}>
+                    <td className={s.tdBold}>{p.title}</td>
+                    <td>
+                      <span className={s.badge}>
                         {p.category === 'dfc-sdgs' ? 'DFC-SDGs' : 'DFC-SEL'}
                       </span>
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', color: '#555' }}>{p.year}</td>
-                    <td style={{ padding: '0.75rem 1rem' }}>
+                    <td className={s.tdMuted}>{p.year}</td>
+                    <td>
                       <FontAwesomeIcon
                         icon={p.published ? faEye : faEyeSlash}
-                        style={{ color: p.published ? '#6bc5a0' : '#888' }}
+                        className={p.published ? s.statusOn : s.statusOff}
                       />
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
-                      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                    <td className={s.tdCenter}>
+                      <div className={s.actions}>
                         <button
                           onClick={() => navigate(`/admin/portfolio/${p.id}`)}
-                          style={{ background: 'none', border: 'none', color: '#5bb8d4', cursor: 'pointer', padding: '0.25rem', fontSize: '1rem' }}
+                          className={`${s.iconBtn} ${s.iconBtnEdit}`}
                           title="編輯"
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
                         <button
                           onClick={() => setDeleteId(p.id)}
-                          style={{ background: 'none', border: 'none', color: '#e74c3c', cursor: 'pointer', padding: '0.25rem', fontSize: '1rem' }}
+                          className={`${s.iconBtn} ${s.iconBtnDelete}`}
                           title="刪除"
                         >
                           <FontAwesomeIcon icon={faTrash} />
@@ -130,8 +119,8 @@ export default function AdminPortfolioPage() {
       )}
 
       <Modal isOpen={deleteId !== null} onClose={() => setDeleteId(null)} title="確認刪除" size="sm">
-        <p style={{ marginBottom: '1.5rem', color: '#555' }}>確定要刪除此成果嗎？此操作無法復原。</p>
-        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
+        <p className={s.modalText}>確定要刪除此成果嗎？此操作無法復原。</p>
+        <div className={s.modalActions}>
           <Button variant="ghost" onClick={() => setDeleteId(null)}>取消</Button>
           <Button variant="danger" onClick={handleDelete} loading={deleting}>確認刪除</Button>
         </div>

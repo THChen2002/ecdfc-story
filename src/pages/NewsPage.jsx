@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons'
-import NewsFilter from '@/components/news/NewsFilter/NewsFilter'
+import Filter from '@/components/common/Filter/Filter'
 import NewsCard from '@/components/news/NewsCard/NewsCard'
 import Loading from '@/components/common/Loading/Loading'
+import PageHero from '@/components/common/PageHero/PageHero'
 import { useNews } from '@/hooks/useNews'
 import { NEWS_CATEGORIES } from '@/constants/categories'
+import styles from './NewsPage.module.css'
 
 export default function NewsPage() {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -26,19 +27,17 @@ export default function NewsPage() {
 
   return (
     <>
-      <section style={{
-        background: 'linear-gradient(180deg, #7ec8e3 0%, #d4eef7 100%)',
-        color: 'var(--color-text)',
-        padding: '3rem 1.5rem',
-        textAlign: 'center',
-      }}>
-        <FontAwesomeIcon icon={faNewspaper} style={{ fontSize: '2rem', marginBottom: '0.75rem', color: 'var(--color-secondary)' }} />
-        <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem' }}>最新消息</h1>
-        <p style={{ opacity: 0.8 }}>掌握計畫最新動態與活動資訊</p>
-      </section>
-      <section style={{ padding: '3rem 0', minHeight: '60vh' }}>
-        <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '0 1.5rem' }}>
-          <NewsFilter
+      <PageHero
+        icon={faNewspaper}
+        lead="ECDFC NEWS"
+        title="最新消息"
+        desc="掌握計畫最新動態與活動資訊"
+        waveColor="var(--color-bg)"
+        fruit="watermelon"
+      />
+      <section className={styles.newsSection}>
+        <div className={styles.newsContainer}>
+          <Filter
             categories={NEWS_CATEGORIES}
             activeCategory={activeCategory}
             onChange={setActiveCategory}
@@ -46,15 +45,15 @@ export default function NewsPage() {
           {loading ? (
             <Loading text="載入消息中..." />
           ) : error ? (
-            <div style={{ textAlign: 'center', padding: '4rem 0', color: '#e74c3c' }}>
+            <div className="page-error">
               <p>載入失敗，請重新整理頁面</p>
             </div>
           ) : filteredNews.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-lighter)' }}>
+            <div className="page-empty">
               <p style={{ fontSize: 'var(--font-size-lg)' }}>目前沒有相關消息</p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className={styles.newsGrid}>
               {filteredNews.map((news) => (
                 <NewsCard key={news.id} news={news} />
               ))}

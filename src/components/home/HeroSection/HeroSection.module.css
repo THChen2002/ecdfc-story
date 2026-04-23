@@ -1,324 +1,124 @@
 .hero {
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, #7ec8e3 0%, #a8dce9 40%, #d4eef7 100%);
-  position: relative;
+  width: 100%;
   overflow: hidden;
-  padding: var(--space-3xl) var(--space-lg);
-  text-align: center;
+  line-height: 0;
+  position: relative;
 }
 
-/* ---- 裝飾：雲朵 ---- */
-.bgDecor {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: center 70%;
+  max-height: 560px;
 }
 
-.cloud {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 100px;
-}
-
-.cloud::before,
-.cloud::after {
+/* 半透明遮罩 — 襯托文字，底部用 mask 跟著波浪曲線 */
+.hero::before {
   content: '';
   position: absolute;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-}
-
-.cloud1 {
-  width: 200px;
-  height: 60px;
-  top: 10%;
-  left: 5%;
-  animation: cloudFloat 12s ease-in-out infinite;
-}
-
-.cloud1::before {
-  width: 80px;
-  height: 80px;
-  top: -40px;
-  left: 30px;
-}
-
-.cloud1::after {
-  width: 100px;
-  height: 100px;
-  top: -50px;
-  left: 80px;
-}
-
-.cloud2 {
-  width: 160px;
-  height: 50px;
-  top: 15%;
-  right: 10%;
-  animation: cloudFloat 15s ease-in-out infinite 2s;
-}
-
-.cloud2::before {
-  width: 70px;
-  height: 70px;
-  top: -35px;
-  left: 20px;
-}
-
-.cloud2::after {
-  width: 85px;
-  height: 85px;
-  top: -42px;
-  left: 60px;
-}
-
-.cloud3 {
-  width: 140px;
-  height: 44px;
-  bottom: 18%;
-  left: 15%;
-  animation: cloudFloat 18s ease-in-out infinite 4s;
-}
-
-.cloud3::before {
-  width: 60px;
-  height: 60px;
-  top: -30px;
-  left: 15px;
-}
-
-.cloud3::after {
-  width: 75px;
-  height: 75px;
-  top: -38px;
-  left: 50px;
-}
-
-/* ---- 裝飾：星星（四角星） ---- */
-.star {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #2d3436;
-  clip-path: polygon(
-    50% 0%, 61% 35%, 98% 35%, 68% 57%,
-    79% 91%, 50% 70%, 21% 91%, 32% 57%,
-    2% 35%, 39% 35%
-  );
-  opacity: 0.5;
-}
-
-.star1 { top: 8%; right: 25%; width: 18px; height: 18px; animation: twinkle 3s ease-in-out infinite; }
-.star2 { top: 22%; left: 12%; width: 14px; height: 14px; animation: twinkle 4s ease-in-out infinite 1s; }
-.star3 { top: 5%; left: 35%; width: 12px; height: 12px; animation: twinkle 3.5s ease-in-out infinite 0.5s; }
-.star4 { top: 18%; right: 8%; width: 16px; height: 16px; animation: twinkle 5s ease-in-out infinite 2s; }
-
-/* ---- 內容 ---- */
-.content {
-  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.1) 100%);
   z-index: 1;
-  max-width: 750px;
+  pointer-events: none;
+  -webkit-mask-image:
+    linear-gradient(#000, #000),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1440,0 L1440,40 C1200,0 960,80 720,40 C480,0 240,80 0,40 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-position: top, bottom;
+  -webkit-mask-size: 100% calc(100% - 80px), 100% 80px;
+  -webkit-mask-repeat: no-repeat;
+  mask-image:
+    linear-gradient(#000, #000),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1440,0 L1440,40 C1200,0 960,80 720,40 C480,0 240,80 0,40 Z' fill='black'/%3E%3C/svg%3E");
+  mask-position: top, bottom;
+  mask-size: 100% calc(100% - 80px), 100% 80px;
+  mask-repeat: no-repeat;
 }
 
-.badge {
-  display: inline-block;
-  background: var(--color-secondary);
-  color: var(--color-text);
-  padding: 0.4rem 1.2rem;
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-lg);
-  letter-spacing: 1px;
-}
-
-.title {
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-black);
-  color: var(--color-text);
-  margin-bottom: var(--space-md);
-  line-height: 1.2;
-}
-
-.highlight {
-  color: var(--color-text);
-  position: relative;
-}
-
-.highlight::after {
-  content: '';
+/* 文字疊加 — 左側和諧配色 */
+.heroContent {
   position: absolute;
-  left: -4px;
-  right: -4px;
-  bottom: 2px;
-  height: 12px;
-  background: var(--color-secondary);
-  opacity: 0.4;
-  z-index: -1;
-  border-radius: 4px;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  text-align: left;
+  color: #FFFFFF;
+  z-index: 2;
+  line-height: 1.4;
+  text-shadow: 0 1px 8px rgba(60, 40, 20, 0.35);
+  max-width: 50%;
 }
 
-.subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text);
-  margin-bottom: var(--space-md);
-  font-weight: var(--font-weight-medium);
+.heroSubtitle {
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  margin: 0 0 1rem;
   opacity: 0.85;
 }
 
-.desc {
-  font-size: var(--font-size-md);
-  color: var(--color-text);
-  line-height: var(--line-height-relaxed);
-  margin-bottom: var(--space-xl);
-  max-width: 550px;
-  margin-left: auto;
-  margin-right: auto;
-  opacity: 0.8;
+.heroTitle {
+  font-size: 2.75rem;
+  font-weight: 800;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.1em;
+  color: #FFFFFF;
 }
 
-/* ---- DFC 四步驟 ---- */
-.steps {
-  display: flex;
-  gap: var(--space-lg);
-  justify-content: center;
-  margin-bottom: var(--space-2xl);
-  flex-wrap: wrap;
+.heroTagline {
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  margin: 0;
 }
 
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+/* 底部曲線裁切 */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z' fill='%23FFF8F0'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 3;
 }
 
-.stepIcon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.stepLabel {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text);
-}
-
-.stepEn {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-light);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* ---- 按鈕 ---- */
-.actions {
-  display: flex;
-  gap: var(--space-md);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btnPrimary {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: 0.875rem 2rem;
-  background: var(--color-secondary);
-  color: var(--color-text);
-  border-radius: var(--radius-full);
-  font-weight: var(--font-weight-bold);
-  text-decoration: none;
-  transition: var(--transition-normal);
-  font-size: var(--font-size-base);
-  box-shadow: 0 4px 12px rgba(242, 201, 76, 0.4);
-}
-
-.btnPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(242, 201, 76, 0.5);
-  color: var(--color-text);
-}
-
-.btnOutline {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: 0.875rem 2rem;
-  background: white;
-  color: var(--color-text);
-  border: 2px solid white;
-  border-radius: var(--radius-full);
-  font-weight: var(--font-weight-bold);
-  text-decoration: none;
-  transition: var(--transition-normal);
-  font-size: var(--font-size-base);
-  box-shadow: var(--shadow-sm);
-}
-
-.btnOutline:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  color: var(--color-text);
-}
-
-/* ---- 動畫 ---- */
-@keyframes cloudFloat {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(30px); }
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.3); }
-}
-
-/* ---- RWD ---- */
 @media (max-width: 768px) {
-  .hero {
-    min-height: 70vh;
-    padding: var(--space-2xl) var(--space-md);
+  .heroImage {
+    max-height: 300px;
   }
 
-  .title {
-    font-size: var(--font-size-2xl);
+  .hero::after {
+    height: 50px;
   }
 
-  .subtitle {
-    font-size: var(--font-size-base);
+  .hero::before {
+    -webkit-mask-size: 100% calc(100% - 50px), 100% 50px;
+    mask-size: 100% calc(100% - 50px), 100% 50px;
   }
 
-  .desc {
-    font-size: var(--font-size-sm);
+  .heroContent {
+    left: 6%;
+    max-width: 80%;
   }
 
-  .steps {
-    gap: var(--space-md);
+  .heroSubtitle {
+    font-size: 0.85rem;
   }
 
-  .stepIcon {
-    width: 48px;
-    height: 48px;
-    font-size: 1rem;
+  .heroTitle {
+    font-size: 1.5rem;
   }
 
-  .actions {
-    flex-direction: column;
-    align-items: center;
+  .heroTagline {
+    font-size: 1.125rem;
   }
-
-  .cloud1 { width: 120px; height: 40px; }
-  .cloud2 { width: 100px; height: 32px; }
-  .cloud3 { display: none; }
 }

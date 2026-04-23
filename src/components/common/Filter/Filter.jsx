@@ -1,6 +1,6 @@
-import styles from './CategoryFilter.module.css'
+import styles from './Filter.module.css'
 
-export default function CategoryFilter({
+export default function Filter({
   categories,
   activeCategory,
   onChange,

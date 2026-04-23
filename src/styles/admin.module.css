@@ -1,0 +1,328 @@
+/* === Page Header === */
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.pageHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.pageActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 1.25rem;
+  padding: 0;
+}
+
+.backBtn:hover {
+  color: #E8742A;
+}
+
+/* === Card Containers === */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(91, 184, 212, 0.08);
+}
+
+.emptyCard {
+  background: white;
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  color: #888;
+  box-shadow: 0 2px 8px rgba(91, 184, 212, 0.08);
+}
+
+.tableCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(91, 184, 212, 0.08);
+  overflow: hidden;
+}
+
+.loadingBox {
+  padding: 3rem;
+  text-align: center;
+  color: #888;
+}
+
+/* === Edit Page Layout === */
+.editGrid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.editColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .editGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === Form Fields === */
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #2d3436;
+}
+
+.input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 2px solid #d6e4eb;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #E8742A;
+}
+
+.textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.textareaTall {
+  min-height: 140px;
+}
+
+.fieldRow {
+  margin-bottom: 1rem;
+}
+
+.fieldRow:last-child {
+  margin-bottom: 0;
+}
+
+/* === Checkbox === */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #E8742A;
+}
+
+.checkboxPin {
+  accent-color: #f2994a;
+}
+
+.checkboxText {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.fieldHint {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: #888;
+  line-height: 1.5;
+}
+
+/* === Table === */
+.tableScroll {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table thead tr {
+  background: #f5f7fa;
+  text-align: left;
+}
+
+.table th {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+}
+
+.thCenter {
+  text-align: center;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #e8f0f4;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table td {
+  padding: 0.75rem 1rem;
+}
+
+.tdBold {
+  font-weight: 500;
+}
+
+.tdMuted {
+  color: #555;
+}
+
+.tdCenter {
+  text-align: center;
+}
+
+/* === Category Badge === */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  background: #FFF5ED;
+  color: #E8742A;
+  font-weight: 600;
+}
+
+/* === Action Icon Buttons (edit/delete) === */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1rem;
+  transition: opacity 0.15s;
+}
+
+.iconBtn:hover {
+  opacity: 0.7;
+}
+
+.iconBtnEdit {
+  color: #E8742A;
+}
+
+.iconBtnDelete {
+  color: #e74c3c;
+}
+
+/* === Reorder Arrows === */
+.reorderGroup {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.reorderBtn {
+  background: none;
+  border: 1px solid #d6e4eb;
+  border-radius: 6px;
+  color: #5BB8D4;
+  cursor: pointer;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.reorderBtn:hover:not(:disabled) {
+  border-color: #E8742A;
+  color: #E8742A;
+}
+
+.reorderBtn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* === Member Avatar Cell === */
+.memberCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.memberAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #F0E6D8;
+}
+
+.memberAvatarPlaceholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFF5ED;
+  color: #E8742A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Status Icon === */
+.statusOn {
+  color: #6bc5a0;
+}
+
+.statusOff {
+  color: #888;
+}
+
+.pinned {
+  color: #f2994a;
+  margin-right: 0.5rem;
+  font-size: 0.8em;
+}
+
+/* === Modal content === */
+.modalText {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}

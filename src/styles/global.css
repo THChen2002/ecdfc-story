@@ -14,6 +14,13 @@
 /* ========================================
    Base
    ======================================== */
+html,
+body {
+  /* 避免裝飾元素（如葉子）突出造成水平捲軸；
+     使用 clip 而非 hidden，讓裝飾仍可垂直疊到下個區塊 */
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--font-family);
   color: var(--color-text);
@@ -141,3 +148,21 @@ h1, h2, h3, h4, h5, h6 {
 .mb-2 { margin-bottom: var(--space-md); }
 .mb-3 { margin-bottom: var(--space-lg); }
 .mb-4 { margin-bottom: var(--space-xl); }
+
+/* ========================================
+   Utility — List empty / error states
+   供列表頁（news、portfolio 等）統一顯示空白與錯誤提示
+   ======================================== */
+.page-empty {
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--color-text-lighter);
+  grid-column: 1 / -1;
+}
+
+.page-error {
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--color-error);
+  grid-column: 1 / -1;
+}

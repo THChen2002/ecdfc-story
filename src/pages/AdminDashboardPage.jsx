@@ -34,7 +34,7 @@ export default function AdminDashboardPage() {
   }, [])
 
   const statCards = [
-    { label: '成果數量', value: stats.portfolios, icon: faImages, color: '#5bb8d4', bg: '#e8f4fa' },
+    { label: '成果數量', value: stats.portfolios, icon: faImages, color: '#E8742A', bg: '#FFF5ED' },
     { label: '公告數量', value: stats.news, icon: faNewspaper, color: '#f2994a', bg: '#fef3e0' },
     { label: '已發布', value: stats.published, icon: faEye, color: '#6bc5a0', bg: '#e8f8f0' },
   ]

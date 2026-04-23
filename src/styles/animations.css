@@ -156,3 +156,60 @@
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+
+/* ========================================
+   Decorative Animations — 插畫風裝飾
+   ======================================== */
+@keyframes gentleSway {
+  0%, 100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes drawIn {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 葉群與大型裝飾輕飄 */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* 雲朵橫向漂移 */
+@keyframes cloudDrift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(40px); }
+}
+
+/* 兔子等小動物輕跳 */
+@keyframes gentleHop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* 掛在邊緣的水滴彈跳 */
+@keyframes dropBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.85; }
+  50% { transform: translateY(5px); opacity: 1; }
+}

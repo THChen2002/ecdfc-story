@@ -2,10 +2,24 @@
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 2px solid var(--color-border-light);
+  background: #B5876B;
   height: var(--header-height);
+  border-bottom: none;
+}
+
+/* 流線型底部曲線 — 讓 nav 底邊呈現彎曲流動感 */
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -38px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1440,0 L1440,8 C1200,40 960,2 720,22 C480,40 240,4 0,24 Z' fill='%23B5876B'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .container {
@@ -47,43 +61,63 @@
 .logoName {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary-dark);
+  color: #FFFFFF;
 }
 
 .logoSub {
   font-size: var(--font-size-xs);
-  color: var(--color-text-lighter);
+  color: rgba(255, 255, 255, 0.85);
 }
 
-/* Navigation */
+/* Navigation — 手繪線條風 */
 .nav {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
 }
 
 .navLink {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  padding: 0.5rem 1rem;
-  color: var(--color-text-light);
+  padding: 0.5rem 0.875rem;
+  color: #FFFFFF;
   text-decoration: none;
-  border-radius: var(--radius-full);
-  transition: var(--transition-fast);
+  transition: color var(--transition-fast);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
+  position: relative;
+}
+
+/* 手繪風 hover 底線 — 用 SVG 模擬不規則曲線 */
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 10%;
+  right: 10%;
+  height: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 4' preserveAspectRatio='none'%3E%3Cpath d='M0,2 Q15,0 30,2.5 Q50,4 70,1.5 Q85,0 100,2' fill='none' stroke='%23FFD9A8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
 }
 
 .navLink:hover {
-  color: var(--color-primary-dark);
-  background: var(--color-primary-bg);
+  color: #FFD9A8;
+}
+
+.navLink:hover::after {
+  opacity: 1;
 }
 
 .active {
-  color: var(--color-primary-dark);
-  background: var(--color-primary-bg);
+  color: #FFD9A8;
   font-weight: var(--font-weight-bold);
+}
+
+.active::after {
+  opacity: 1;
 }
 
 .navIcon {
@@ -102,11 +136,6 @@
   z-index: calc(var(--z-sticky) + 1);
 }
 
-/* Overlay (mobile only) */
-.overlay {
-  display: none;
-}
-
 /* Mobile responsive */
 @media (max-width: 768px) {
   .menuBtn {
@@ -121,8 +150,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(12px);
+    background: var(--color-bg);
     padding: var(--space-sm) var(--space-lg) var(--space-md);
     gap: var(--space-xs);
     align-items: stretch;
@@ -140,7 +168,16 @@
     border-radius: var(--radius-md);
   }
 
-  .overlay {
+  .navLink::after {
     display: none;
+  }
+
+  .navLink:hover {
+    background: var(--color-primary-bg);
+  }
+
+  .active {
+    background: var(--color-primary-bg);
+    border-left: 3px solid var(--color-primary);
   }
 }

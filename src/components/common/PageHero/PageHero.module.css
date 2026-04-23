@@ -1,0 +1,108 @@
+.hero {
+  background: linear-gradient(180deg, #FFE8D0 0%, #FFEBD5 100%);
+  color: var(--color-text);
+  padding: 5rem 1.5rem 7rem;
+  text-align: center;
+  position: relative;
+  /* 不設 z-index，讓子元素 bigLeaves 的 z-index: 2 直接在 root stacking context 中作用，
+     同時允許下方區塊的 ::before 波浪疊到 hero 底部空間 */
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* 中心種子容器 */
+.seedWrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+/* 中心大種子 */
+.seedCenter {
+  display: block;
+  filter: drop-shadow(0 8px 20px rgba(232, 116, 42, 0.3));
+  animation: seedPulse 6s ease-in-out infinite;
+}
+
+
+
+.lead {
+  color: var(--color-primary);
+  letter-spacing: 0.25em;
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+  font-weight: var(--font-weight-medium);
+}
+
+.title {
+  font-size: 2.75rem;
+  font-weight: 900;
+  margin: 0 0 1rem;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.desc {
+  font-size: 1.125rem;
+  opacity: 0.85;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* 背景水彩暈染 */
+.bgSpot1 { position: absolute; top: -60px; left: -80px; z-index: 0; }
+.bgSpot2 { position: absolute; bottom: -40px; right: -60px; z-index: 0; }
+
+/* 主要大葉群 — 從左下角伸展，z-index: 2 確保葉子在下方區塊的波浪 (z-index: 1) 上面 */
+.bigLeaves {
+  position: absolute;
+  bottom: -40px;
+  left: -60px;
+  z-index: 2;
+  opacity: 0.85;
+  pointer-events: none;
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+/* 點綴：雲 */
+.cloud {
+  position: absolute;
+  top: 10%;
+  right: 12%;
+  z-index: 0;
+  opacity: 0.85;
+  animation: cloudDrift 18s ease-in-out infinite;
+}
+
+/* 點綴：小鳥 */
+.bird {
+  position: absolute;
+  top: 16%;
+  right: 28%;
+  z-index: 0;
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+@keyframes seedPulse {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.02); }
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 3.5rem 1.5rem 5rem; }
+  .title { font-size: 2rem; }
+  .seedCenter { width: 72px !important; height: auto !important; }
+  .cloud, .bird { display: none; }
+  .bigLeaves { opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seedCenter, .cloud, .bird, .bigLeaves {
+    animation: none !important;
+  }
+}

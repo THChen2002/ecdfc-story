@@ -1,11 +1,17 @@
 import { useState, useMemo } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImages } from '@fortawesome/free-solid-svg-icons'
-import CategoryFilter from '@/components/portfolio/CategoryFilter/CategoryFilter'
+import Filter from '@/components/common/Filter/Filter'
 import PortfolioCard from '@/components/portfolio/PortfolioCard/PortfolioCard'
 import Loading from '@/components/common/Loading/Loading'
+import PageHero from '@/components/common/PageHero/PageHero'
+import {
+  WatercolorSpot,
+  GrowingLeaves,
+  DoodleCloud,
+} from '@/components/common/Decorations/Decorations'
 import { usePortfolios } from '@/hooks/usePortfolios'
 import { PORTFOLIO_CATEGORIES } from '@/constants/categories'
+import styles from './PortfolioListPage.module.css'
 
 export default function PortfolioListPage() {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -18,19 +24,25 @@ export default function PortfolioListPage() {
 
   return (
     <>
-      <section style={{
-        background: 'linear-gradient(180deg, #7ec8e3 0%, #d4eef7 100%)',
-        color: 'var(--color-text)',
-        padding: '3rem 1.5rem',
-        textAlign: 'center',
-      }}>
-        <FontAwesomeIcon icon={faImages} style={{ fontSize: '2rem', marginBottom: '0.75rem', color: 'var(--color-secondary)' }} />
-        <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem' }}>成果展示</h1>
-        <p style={{ opacity: 0.8 }}>探索我們的教學成果與創新實踐</p>
-      </section>
-      <section style={{ padding: '3rem 0', background: 'var(--color-bg-alt)' }}>
-        <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '0 1.5rem' }}>
-          <CategoryFilter
+      <PageHero
+        icon={faImages}
+        lead="OUR PORTFOLIO"
+        title="成果展示"
+        desc="探索我們的教學成果與創新實踐"
+        waveColor="var(--color-bg-alt)"
+        fruit="orange"
+      />
+      <section className={styles.contentSection}>
+        <WatercolorSpot color="#7BC5A0" size={240} className={styles.contentSpot} />
+        <GrowingLeaves
+          size={260}
+          mainColor="#7BC5A0"
+          lineColor="#4A8A6A"
+          className={styles.contentLeaves}
+        />
+        <DoodleCloud size={170} className={styles.contentCloud} />
+        <div className={styles.container}>
+          <Filter
             categories={PORTFOLIO_CATEGORIES}
             activeCategory={activeCategory}
             onChange={setActiveCategory}
@@ -38,19 +50,15 @@ export default function PortfolioListPage() {
           {loading ? (
             <Loading text="載入成果中..." />
           ) : error ? (
-            <div style={{ textAlign: 'center', padding: '4rem 0', color: '#e74c3c' }}>
+            <div className="page-error">
               <p>載入失敗，請重新整理頁面</p>
             </div>
           ) : filteredPortfolios.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-lighter)' }}>
+            <div className="page-empty">
               <p style={{ fontSize: 'var(--font-size-lg)' }}>目前沒有相關成果</p>
             </div>
           ) : (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-              gap: '1.5rem',
-            }}>
+            <div className={styles.grid}>
               {filteredPortfolios.map((portfolio) => (
                 <PortfolioCard key={portfolio.id} portfolio={portfolio} />
               ))}

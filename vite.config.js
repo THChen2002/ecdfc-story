@@ -11,7 +11,7 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['https://454c-120-127-47-30.ngrok-free.app'],
+    allowedHosts: ['.ngrok-free.app'],
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
     },

@@ -10,6 +10,7 @@ import { useAuthContext } from '@/contexts/AuthContext'
 import { useImageUpload } from '@/hooks/useImageUpload'
 import Button from '@/components/common/Button/Button'
 import ImageUploader from '@/components/admin/ImageUploader/ImageUploader'
+import s from '@/styles/admin.module.css'
 
 const NEWS_CATS = [
   { value: '活動', label: '活動' },
@@ -26,25 +27,6 @@ const quillModules = {
     ['link'],
     ['clean'],
   ],
-}
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.625rem 0.875rem',
-  border: '2px solid #d6e4eb',
-  borderRadius: '12px',
-  fontSize: '0.9375rem',
-  fontFamily: 'inherit',
-  outline: 'none',
-  transition: '0.2s',
-}
-
-const labelStyle = {
-  display: 'block',
-  fontSize: '0.875rem',
-  fontWeight: 600,
-  marginBottom: '0.5rem',
-  color: '#2d3436',
 }
 
 export default function AdminNewsEditPage() {
@@ -139,29 +121,19 @@ export default function AdminNewsEditPage() {
   }
 
   if (loading) {
-    return (
-      <div style={{ padding: '3rem', textAlign: 'center', color: '#888' }}>載入中...</div>
-    )
+    return <div className={s.loadingBox}>載入中...</div>
   }
 
   return (
     <div>
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button
-            onClick={() => navigate('/admin/news')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#555', fontSize: '1.25rem' }}
-          >
+      <div className={s.pageHeader}>
+        <div className={s.pageHeaderLeft}>
+          <button onClick={() => navigate('/admin/news')} className={s.backBtn}>
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-            {isNew ? '新增公告' : '編輯公告'}
-          </h1>
+          <h1 className={s.pageTitle}>{isNew ? '新增公告' : '編輯公告'}</h1>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div className={s.pageActions}>
           <Button variant="ghost" onClick={() => navigate('/admin/news')} icon={faTimes}>
             取消
           </Button>
@@ -171,23 +143,20 @@ export default function AdminNewsEditPage() {
         </div>
       </div>
 
-      <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 320px', gap: '1.5rem',
-        alignItems: 'start',
-      }}>
+      <div className={s.editGrid}>
         {/* Main column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <label style={labelStyle}>標題</label>
+        <div className={s.editColumn}>
+          <div className={s.card}>
+            <label className={s.label}>標題</label>
             <input
-              style={inputStyle}
+              className={s.input}
               value={form.title}
               onChange={(e) => handleChange('title', e.target.value)}
               placeholder="輸入公告標題"
             />
           </div>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <label style={labelStyle}>內容</label>
+          <div className={s.card}>
+            <label className={s.label}>內容</label>
             <ReactQuill
               theme="snow"
               value={form.content}
@@ -199,9 +168,9 @@ export default function AdminNewsEditPage() {
         </div>
 
         {/* Sidebar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <label style={labelStyle}>封面圖片</label>
+        <div className={s.editColumn}>
+          <div className={s.card}>
+            <label className={s.label}>封面圖片</label>
             <ImageUploader
               value={form.coverImage}
               pendingFile={pendingFile}
@@ -211,11 +180,11 @@ export default function AdminNewsEditPage() {
               progress={progress}
             />
           </div>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={labelStyle}>分類</label>
+          <div className={s.card}>
+            <div className={s.fieldRow}>
+              <label className={s.label}>分類</label>
               <select
-                style={inputStyle}
+                className={s.input}
                 value={form.category}
                 onChange={(e) => handleChange('category', e.target.value)}
               >
@@ -224,35 +193,35 @@ export default function AdminNewsEditPage() {
                 ))}
               </select>
             </div>
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={labelStyle}>發布日期</label>
+            <div className={s.fieldRow}>
+              <label className={s.label}>發布日期</label>
               <input
                 type="date"
-                style={inputStyle}
+                className={s.input}
                 value={form.publishDate}
                 onChange={(e) => handleChange('publishDate', e.target.value)}
               />
             </div>
-            <div style={{ marginBottom: '0.75rem' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <div className={s.fieldRow}>
+              <label className={s.checkboxLabel}>
                 <input
                   type="checkbox"
                   checked={form.pinned}
                   onChange={(e) => handleChange('pinned', e.target.checked)}
-                  style={{ width: '18px', height: '18px', accentColor: '#f2994a' }}
+                  className={`${s.checkbox} ${s.checkboxPin}`}
                 />
-                <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>置頂公告</span>
+                <span className={s.checkboxText}>置頂公告</span>
               </label>
             </div>
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+              <label className={s.checkboxLabel}>
                 <input
                   type="checkbox"
                   checked={form.published}
                   onChange={(e) => handleChange('published', e.target.checked)}
-                  style={{ width: '18px', height: '18px', accentColor: '#5bb8d4' }}
+                  className={s.checkbox}
                 />
-                <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>公開發布</span>
+                <span className={s.checkboxText}>公開發布</span>
               </label>
             </div>
           </div>

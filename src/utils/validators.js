@@ -1,11 +1,3 @@
-export const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return re.test(email)
-}
-
-export const validateRequired = (value) =>
-  value !== null && value !== undefined && String(value).trim() !== ''
-
 export const validateImageFile = (file) => {
   if (!file) return { valid: false, error: '請選擇檔案' }
   if (!file.type.startsWith('image/'))

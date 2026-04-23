@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(180deg, #7ec8e3 0%, #d4eef7 100%)',
+      background: 'linear-gradient(180deg, #F09450 0%, #FFF3E6 100%)',
       padding: '1.5rem',
     }}>
       <div style={{
@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
           width: '72px',
           height: '72px',
           borderRadius: '50%',
-          background: isUnauthorized ? '#fef2f2' : '#e8f4fa',
+          background: isUnauthorized ? '#fef2f2' : '#FFF5ED',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -59,7 +59,7 @@ export default function AdminLoginPage() {
         }}>
           <FontAwesomeIcon icon={faLock} style={{
             fontSize: '1.75rem',
-            color: isUnauthorized ? '#dc2626' : '#5bb8d4',
+            color: isUnauthorized ? '#dc2626' : '#E8742A',
           }} />
         </div>
         <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#2d3436' }}>
@@ -140,7 +140,7 @@ export default function AdminLoginPage() {
             }}
             onMouseEnter={(e) => {
               if (!isLoggingIn) {
-                e.currentTarget.style.borderColor = '#5bb8d4'
+                e.currentTarget.style.borderColor = '#E8742A'
                 e.currentTarget.style.boxShadow = '0 2px 8px rgba(91,184,212,0.2)'
               }
             }}

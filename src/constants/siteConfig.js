@@ -14,6 +14,7 @@ export const SITE_CONFIG = {
     { path: '/admin/dashboard', label: '總覽', icon: 'chart-line' },
     { path: '/admin/portfolio', label: '成果管理', icon: 'images' },
     { path: '/admin/news', label: '公告管理', icon: 'newspaper' },
+    { path: '/admin/team', label: '團隊成員', icon: 'users' },
   ],
   footer: {
     address: '臺北市大安區和平東路二段134號',

@@ -1,87 +1,365 @@
 .section {
-  padding: var(--space-4xl) 0;
-  background: white;
+  padding: var(--space-2xl) 0 var(--space-3xl);
+  background: var(--color-bg-alt);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景水彩暈染 */
+.bgSpot1 {
+  position: absolute;
+  top: 5%;
+  right: -40px;
+  z-index: 0;
+}
+
+.bgSpot2 {
+  position: absolute;
+  bottom: 8%;
+  left: -30px;
+  z-index: 0;
+}
+
+/* 主視覺 — 大片葉群（取代多個散佈小圖） */
+.bigLeaves1 {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  z-index: 0;
+  opacity: 0.55;
+  animation: floatSlow 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* 少量 flat 動物點綴 */
+.scatterTree {
+  position: absolute;
+  top: 8%;
+  right: 4%;
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.scatterRabbit {
+  position: absolute;
+  top: 42%;
+  left: 3%;
+  z-index: 0;
+  opacity: 0.9;
+  animation: gentleHop 5s ease-in-out infinite;
+}
+
+.scatterDeer {
+  position: absolute;
+  bottom: 10%;
+  right: 5%;
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.scatterCloud {
+  position: absolute;
+  top: 4%;
+  left: 38%;
+  z-index: 0;
+  opacity: 0.75;
+  animation: cloudDrift 14s ease-in-out infinite;
 }
 
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-lg);
+  position: relative;
+  z-index: 1;
+}
+
+/* 引言區 */
+.intro {
+  text-align: center;
+  margin-bottom: var(--space-4xl);
+}
+
+.introLead {
+  font-size: var(--font-size-md);
+  color: var(--color-primary);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-weight-medium);
 }
 
 .sectionTitle {
-  font-size: var(--font-size-2xl);
-  text-align: center;
-  margin-bottom: var(--space-3xl);
+  font-size: 2.5rem;
   color: var(--color-text);
-  font-weight: var(--font-weight-bold);
-  position: relative;
+  font-weight: var(--font-weight-black);
+  margin: 0 0 var(--space-lg);
+  letter-spacing: 0.05em;
 }
 
-.sectionTitle::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: var(--color-secondary);
-  margin: 0.75rem auto 0;
-  border-radius: var(--radius-full);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-xl);
-}
-
-.card {
-  text-align: center;
-  padding: var(--space-xl) var(--space-lg);
-  border-radius: var(--radius-lg);
-  transition: var(--transition-normal);
-  background: var(--color-bg-alt);
-  border: 2px solid transparent;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-border-light);
-}
-
-.iconCircle {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto var(--space-lg);
-}
-
-.icon {
-  font-size: 2.2rem;
-}
-
-.cardTitle {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-sm);
-  color: var(--color-text);
-}
-
-.cardDesc {
-  font-size: var(--font-size-sm);
+.introDesc {
   color: var(--color-text-light);
+  font-size: var(--font-size-md);
   line-height: var(--line-height-relaxed);
 }
 
+/* 左右交錯卡片 */
+.row {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 0;
+  align-items: center;
+  margin-bottom: var(--space-4xl);
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.row.reverse {
+  grid-template-columns: 7fr 5fr;
+}
+
+.row.reverse .illustration {
+  order: 2;
+}
+
+.row.reverse .text {
+  order: 1;
+}
+
+/* 插畫區 — 照片 + 不規則 blob 裁切，邊緣長出嫩枝/水滴 */
+.illustration {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  border-radius: 62% 38% 55% 45% / 48% 60% 40% 52%;
+  box-shadow: 0 8px 24px rgba(139, 90, 60, 0.15);
+  z-index: 2;
+}
+
+.row.reverse .illustration {
+  border-radius: 45% 55% 38% 62% / 55% 42% 58% 45%;
+}
+
+.illusImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+
+/* 從 illustration blob 頂部長出的大嫩枝 */
+.illusSprigTop {
+  position: absolute;
+  top: -58px;
+  left: 18%;
+  z-index: 3;
+  animation: sprigSway 5s ease-in-out infinite;
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+/* 從 illustration 側邊長出的小嫩枝 */
+.illusSprigSide {
+  position: absolute;
+  top: 10%;
+  right: -28px;
+  z-index: 3;
+  animation: sprigSway 6s ease-in-out infinite -1s;
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+/* 掛在 blob 底部的水滴 */
+.illusDrop {
+  position: absolute;
+  bottom: -6px;
+  right: 22%;
+  z-index: 3;
+  animation: dropBounce 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.row.reverse .illusSprigTop {
+  left: auto;
+  right: 18%;
+}
+
+.row.reverse .illusSprigSide {
+  right: auto;
+  left: -28px;
+}
+
+.row.reverse .illusDrop {
+  right: auto;
+  left: 22%;
+}
+
+@keyframes sprigSway {
+  0%, 100% { transform: rotate(-14deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* 文字區 — blob 左側疊入照片 */
+.text {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3xl) var(--space-4xl) var(--space-3xl) calc(var(--space-4xl) + 5rem);
+  margin-left: -5rem;
+  z-index: 1;
+}
+
+.row.reverse .text {
+  padding: var(--space-3xl) calc(var(--space-4xl) + 5rem) var(--space-3xl) var(--space-4xl);
+  margin-left: 0;
+  margin-right: -5rem;
+}
+
+.text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #FFF5E8 0%, #FFEAD3 100%);
+  border-radius: 48% 52% 60% 40% / 55% 45% 58% 42%;
+  z-index: 0;
+  box-shadow: 0 6px 20px rgba(139, 90, 60, 0.08);
+}
+
+.row.reverse .text::before {
+  border-radius: 55% 45% 42% 58% / 48% 60% 40% 52%;
+  background: linear-gradient(135deg, #F5F8E8 0%, #E8EFD0 100%);
+}
+
+.text > * {
+  position: relative;
+  z-index: 1;
+}
+
+.slug {
+  display: inline-block;
+  font-size: var(--font-size-sm);
+  color: #7BC5A0;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.25em;
+  margin-bottom: var(--space-md);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin: 0 0 var(--space-lg);
+  line-height: 1.5;
+}
+
+.desc {
+  color: var(--color-text-light);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* === 滾動進入動畫 === */
+.animIntro {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animRow {
+  opacity: 0;
+  transition: opacity 0.9s ease-out;
+}
+
+.animIllus {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animText {
+  opacity: 0;
+  transition: opacity 0.9s ease-out 0.15s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.fromLeft .animText {
+  transform: translateX(40px);
+}
+
+.fromRight .animText {
+  transform: translateX(-40px);
+}
+
+.inView,
+.inView .animIllus,
+.inView .animText {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animIntro,
+  .animRow,
+  .animIllus,
+  .animText,
+  .illusSprigTop,
+  .illusSprigSide,
+  .illusDrop,
+  .scatterRabbit,
+  .scatterCloud,
+  .bigLeaves1 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 @media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
+  .sectionTitle {
+    font-size: 1.875rem;
   }
 
-  .card {
-    padding: var(--space-lg);
+  .row,
+  .row.reverse {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .row.reverse .illustration {
+    order: 1;
+  }
+
+  .row.reverse .text {
+    order: 2;
+  }
+
+  .illustration {
+    min-height: 220px;
+  }
+
+  .text,
+  .row.reverse .text {
+    padding: var(--space-2xl) var(--space-xl);
+    margin: 0;
+  }
+
+  .illusSprigTop {
+    top: -44px;
+  }
+
+  .illusSprigSide,
+  .illusDrop {
+    display: none;
+  }
+
+  .title {
+    font-size: 1.375rem;
+  }
+
+  .bigLeaves1 {
+    opacity: 0.35;
   }
 }

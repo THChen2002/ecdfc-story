@@ -10,6 +10,7 @@ import { useAuthContext } from '@/contexts/AuthContext'
 import { useImageUpload } from '@/hooks/useImageUpload'
 import Button from '@/components/common/Button/Button'
 import ImageUploader from '@/components/admin/ImageUploader/ImageUploader'
+import s from '@/styles/admin.module.css'
 
 const CATEGORIES = [
   { value: 'dfc-sdgs', label: 'DFC-SDGs' },
@@ -24,25 +25,6 @@ const quillModules = {
     ['link', 'image'],
     ['clean'],
   ],
-}
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.625rem 0.875rem',
-  border: '2px solid #d6e4eb',
-  borderRadius: '12px',
-  fontSize: '0.9375rem',
-  fontFamily: 'inherit',
-  outline: 'none',
-  transition: '0.2s',
-}
-
-const labelStyle = {
-  display: 'block',
-  fontSize: '0.875rem',
-  fontWeight: 600,
-  marginBottom: '0.5rem',
-  color: '#2d3436',
 }
 
 export default function AdminPortfolioEditPage() {
@@ -139,29 +121,19 @@ export default function AdminPortfolioEditPage() {
   }
 
   if (loading) {
-    return (
-      <div style={{ padding: '3rem', textAlign: 'center', color: '#888' }}>載入中...</div>
-    )
+    return <div className={s.loadingBox}>載入中...</div>
   }
 
   return (
     <div>
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button
-            onClick={() => navigate('/admin/portfolio')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#555', fontSize: '1.25rem' }}
-          >
+      <div className={s.pageHeader}>
+        <div className={s.pageHeaderLeft}>
+          <button onClick={() => navigate('/admin/portfolio')} className={s.backBtn}>
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-            {isNew ? '新增成果' : '編輯成果'}
-          </h1>
+          <h1 className={s.pageTitle}>{isNew ? '新增成果' : '編輯成果'}</h1>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div className={s.pageActions}>
           <Button variant="ghost" onClick={() => navigate('/admin/portfolio')} icon={faTimes}>
             取消
           </Button>
@@ -171,32 +143,29 @@ export default function AdminPortfolioEditPage() {
         </div>
       </div>
 
-      <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 320px', gap: '1.5rem',
-        alignItems: 'start',
-      }}>
+      <div className={s.editGrid}>
         {/* Main column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <label style={labelStyle}>標題</label>
+        <div className={s.editColumn}>
+          <div className={s.card}>
+            <label className={s.label}>標題</label>
             <input
-              style={inputStyle}
+              className={s.input}
               value={form.title}
               onChange={(e) => handleChange('title', e.target.value)}
               placeholder="輸入成果標題"
             />
           </div>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <label style={labelStyle}>摘要</label>
+          <div className={s.card}>
+            <label className={s.label}>摘要</label>
             <textarea
-              style={{ ...inputStyle, minHeight: '80px', resize: 'vertical' }}
+              className={`${s.input} ${s.textarea}`}
               value={form.summary}
               onChange={(e) => handleChange('summary', e.target.value)}
               placeholder="簡短描述此成果"
             />
           </div>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <label style={labelStyle}>內容</label>
+          <div className={s.card}>
+            <label className={s.label}>內容</label>
             <ReactQuill
               theme="snow"
               value={form.content}
@@ -209,9 +178,9 @@ export default function AdminPortfolioEditPage() {
         </div>
 
         {/* Sidebar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <label style={labelStyle}>封面圖片</label>
+        <div className={s.editColumn}>
+          <div className={s.card}>
+            <label className={s.label}>封面圖片</label>
             <ImageUploader
               value={form.coverImage}
               pendingFile={pendingFile}
@@ -221,11 +190,11 @@ export default function AdminPortfolioEditPage() {
               progress={progress}
             />
           </div>
-          <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(91,184,212,0.08)' }}>
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={labelStyle}>分類</label>
+          <div className={s.card}>
+            <div className={s.fieldRow}>
+              <label className={s.label}>分類</label>
               <select
-                style={inputStyle}
+                className={s.input}
                 value={form.category}
                 onChange={(e) => handleChange('category', e.target.value)}
               >
@@ -234,43 +203,43 @@ export default function AdminPortfolioEditPage() {
                 ))}
               </select>
             </div>
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={labelStyle}>年份</label>
+            <div className={s.fieldRow}>
+              <label className={s.label}>年份</label>
               <input
                 type="number"
-                style={inputStyle}
+                className={s.input}
                 value={form.year}
                 onChange={(e) => handleChange('year', e.target.value)}
               />
             </div>
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={labelStyle}>排序</label>
+            <div className={s.fieldRow}>
+              <label className={s.label}>排序</label>
               <input
                 type="number"
-                style={inputStyle}
+                className={s.input}
                 value={form.order}
                 onChange={(e) => handleChange('order', e.target.value)}
                 placeholder="數字越小越前面"
               />
             </div>
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={labelStyle}>標籤（以逗號分隔）</label>
+            <div className={s.fieldRow}>
+              <label className={s.label}>標籤（以逗號分隔）</label>
               <input
-                style={inputStyle}
+                className={s.input}
                 value={form.tags}
                 onChange={(e) => handleChange('tags', e.target.value)}
                 placeholder="例如：SDGs, 環境教育, 課程設計"
               />
             </div>
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+              <label className={s.checkboxLabel}>
                 <input
                   type="checkbox"
                   checked={form.published}
                   onChange={(e) => handleChange('published', e.target.checked)}
-                  style={{ width: '18px', height: '18px', accentColor: '#5bb8d4' }}
+                  className={s.checkbox}
                 />
-                <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>公開發布</span>
+                <span className={s.checkboxText}>公開發布</span>
               </label>
             </div>
           </div>

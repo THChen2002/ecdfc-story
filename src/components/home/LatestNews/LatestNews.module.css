@@ -1,12 +1,16 @@
 .section {
   padding: var(--space-4xl) 0;
-  background: white;
+  background: var(--color-bg-alt);
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-lg);
+  position: relative;
+  z-index: 1;
 }
 
 .sectionTitle {
@@ -27,6 +31,47 @@
   border-radius: var(--radius-full);
 }
 
+/* 手繪裝飾定位 */
+.decoPlant {
+  position: absolute;
+  left: 3%;
+  top: 30%;
+  opacity: 0.5;
+}
+
+.decoFrame {
+  position: absolute;
+  left: 2%;
+  top: 10%;
+  opacity: 0.4;
+}
+
+.decoGirl {
+  position: absolute;
+  right: 3%;
+  bottom: 15%;
+  opacity: 0.35;
+}
+
+.decoStars {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  opacity: 0.5;
+}
+
+.decoSpot1 {
+  position: absolute;
+  top: -40px;
+  left: -60px;
+}
+
+.decoSpot2 {
+  position: absolute;
+  bottom: -30px;
+  right: -50px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -34,11 +79,14 @@
 }
 
 .card {
+  display: block;
   padding: var(--space-lg);
   border-radius: var(--radius-lg);
   border: 2px solid var(--color-border-light);
   transition: var(--transition-normal);
   background: white;
+  text-decoration: none;
+  color: inherit;
 }
 
 .card:hover {
@@ -104,25 +152,31 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
-  color: var(--color-text);
+  color: white;
   font-weight: var(--font-weight-bold);
   text-decoration: none;
   font-size: var(--font-size-base);
   transition: var(--transition-fast);
   padding: 0.6rem 1.5rem;
   border-radius: var(--radius-full);
-  background: var(--color-secondary);
-  box-shadow: 0 3px 10px rgba(242, 201, 76, 0.3);
+  background: var(--color-primary);
+  box-shadow: 0 3px 10px rgba(232, 116, 42, 0.3);
 }
 
 .viewAllLink:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 16px rgba(242, 201, 76, 0.4);
-  color: var(--color-text);
+  box-shadow: 0 5px 16px rgba(232, 116, 42, 0.4);
+  color: white;
 }
 
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .decoPlant,
+  .decoFrame,
+  .decoGirl {
+    display: none;
   }
 }

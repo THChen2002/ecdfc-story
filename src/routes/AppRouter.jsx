@@ -11,12 +11,15 @@ const AboutPage = lazy(() => import('@/pages/AboutPage'))
 const PortfolioListPage = lazy(() => import('@/pages/PortfolioListPage'))
 const PortfolioDetailPage = lazy(() => import('@/pages/PortfolioDetailPage'))
 const NewsPage = lazy(() => import('@/pages/NewsPage'))
+const NewsDetailPage = lazy(() => import('@/pages/NewsDetailPage'))
 const AdminLoginPage = lazy(() => import('@/pages/AdminLoginPage'))
 const AdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'))
 const AdminPortfolioPage = lazy(() => import('@/pages/AdminPortfolioPage'))
 const AdminPortfolioEditPage = lazy(() => import('@/pages/AdminPortfolioEditPage'))
 const AdminNewsPage = lazy(() => import('@/pages/AdminNewsPage'))
 const AdminNewsEditPage = lazy(() => import('@/pages/AdminNewsEditPage'))
+const AdminTeamPage = lazy(() => import('@/pages/AdminTeamPage'))
+const AdminTeamEditPage = lazy(() => import('@/pages/AdminTeamEditPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 
 function PublicLayout({ children }) {
@@ -47,6 +50,7 @@ export default function AppRouter() {
           {/* Public routes */}
           <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
           <Route path="/news" element={<PublicLayout><NewsPage /></PublicLayout>} />
+          <Route path="/news/:id" element={<PublicLayout><NewsDetailPage /></PublicLayout>} />
           <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
           <Route path="/portfolio" element={<PublicLayout><PortfolioListPage /></PublicLayout>} />
           <Route path="/portfolio/:id" element={<PublicLayout><PortfolioDetailPage /></PublicLayout>} />
@@ -58,6 +62,8 @@ export default function AppRouter() {
           <Route path="/admin/portfolio/:id" element={<AdminRoute><AdminPortfolioEditPage /></AdminRoute>} />
           <Route path="/admin/news" element={<AdminRoute><AdminNewsPage /></AdminRoute>} />
           <Route path="/admin/news/:id" element={<AdminRoute><AdminNewsEditPage /></AdminRoute>} />
+          <Route path="/admin/team" element={<AdminRoute><AdminTeamPage /></AdminRoute>} />
+          <Route path="/admin/team/:id" element={<AdminRoute><AdminTeamEditPage /></AdminRoute>} />
 
           {/* 404 */}
           <Route path="*" element={<PublicLayout><NotFoundPage /></PublicLayout>} />
