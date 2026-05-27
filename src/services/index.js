@@ -15,3 +15,10 @@ export {
   deleteNews,
 } from './newsService'
 export { uploadImage, deleteImage } from './storageService'
+export {
+  getPortfolioCategories,
+  createPortfolioCategory,
+  updatePortfolioCategory,
+  deletePortfolioCategory,
+  countPortfoliosUsingCategory,
+} from './categoryService'

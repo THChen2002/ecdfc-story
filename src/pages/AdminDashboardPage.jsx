@@ -51,8 +51,10 @@ export default function AdminDashboardPage() {
       </div>
 
       <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-        gap: '1.5rem', marginBottom: '2rem',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 320px))',
+        gap: '1.5rem',
+        justifyContent: 'start',
       }}>
         {statCards.map((stat, i) => (
           <div key={i} style={{
@@ -77,13 +79,6 @@ export default function AdminDashboardPage() {
             </div>
           </div>
         ))}
-      </div>
-
-      <div style={{
-        background: 'white', borderRadius: '16px', padding: '2rem',
-        boxShadow: '0 2px 8px rgba(91,184,212,0.08)', textAlign: 'center', color: '#888',
-      }}>
-        <p>請從左側選單選擇要管理的項目。</p>
       </div>
     </div>
   )

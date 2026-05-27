@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit, faTrash, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEdit, faTrash, faEye, faEyeSlash, faTags } from '@fortawesome/free-solid-svg-icons'
 import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore'
 import { db } from '@/services/firebase'
 import Button from '@/components/common/Button/Button'
 import Modal from '@/components/common/Modal/Modal'
 import Loading from '@/components/common/Loading/Loading'
+import CategoryManager from '@/components/admin/CategoryManager/CategoryManager'
+import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 import s from '@/styles/admin.module.css'
 
 export default function AdminPortfolioPage() {
@@ -14,10 +16,16 @@ export default function AdminPortfolioPage() {
   const [loading, setLoading] = useState(true)
   const [deleteId, setDeleteId] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [showCategoryManager, setShowCategoryManager] = useState(false)
   const navigate = useNavigate()
+  const { categories, refetch: refetchCategories } = usePortfolioCategories()
+  const categoryLabelMap = categories.reduce((acc, c) => {
+    acc[c.id] = c.label
+    return acc
+  }, {})
 
-  const fetchPortfolios = async () => {
-    setLoading(true)
+  const fetchPortfolios = async ({ silent = false } = {}) => {
+    if (!silent) setLoading(true)
     try {
       const q = query(collection(db, 'portfolios'), orderBy('order', 'asc'))
       const snap = await getDocs(q)
@@ -25,7 +33,7 @@ export default function AdminPortfolioPage() {
     } catch (err) {
       console.error('Fetch error:', err)
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }
 
@@ -54,9 +62,19 @@ export default function AdminPortfolioPage() {
     <div>
       <div className={s.pageHeader}>
         <h1 className={s.pageTitle}>成果管理</h1>
-        <Button icon={faPlus} size="sm" onClick={() => navigate('/admin/portfolio/new')}>
-          新增成果
-        </Button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button
+            variant="ghost"
+            size="sm"
+            icon={faTags}
+            onClick={() => setShowCategoryManager(true)}
+          >
+            管理分類
+          </Button>
+          <Button icon={faPlus} size="sm" onClick={() => navigate('/admin/portfolio/new')}>
+            新增成果
+          </Button>
+        </div>
       </div>
 
       {portfolios.length === 0 ? (
@@ -82,7 +100,9 @@ export default function AdminPortfolioPage() {
                     <td className={s.tdBold}>{p.title}</td>
                     <td>
                       <span className={s.badge}>
-                        {p.category === 'dfc-sdgs' ? 'DFC-SDGs' : 'DFC-SEL'}
+                        {p.category
+                          ? categoryLabelMap[p.category] || p.category
+                          : '未分類'}
                       </span>
                     </td>
                     <td className={s.tdMuted}>{p.year}</td>
@@ -125,6 +145,16 @@ export default function AdminPortfolioPage() {
           <Button variant="danger" onClick={handleDelete} loading={deleting}>確認刪除</Button>
         </div>
       </Modal>
+
+      <CategoryManager
+        isOpen={showCategoryManager}
+        onClose={() => setShowCategoryManager(false)}
+        onChanged={() => {
+          refetchCategories()
+          // silent 避免 page-level loading 把 Modal unmount
+          fetchPortfolios({ silent: true })
+        }}
+      />
     </div>
   )
 }

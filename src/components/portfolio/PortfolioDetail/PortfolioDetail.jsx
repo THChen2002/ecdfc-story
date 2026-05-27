@@ -8,19 +8,16 @@ import Tag from '@/components/common/Tag/Tag'
 import { formatDate } from '@/utils/formatDate'
 import styles from './PortfolioDetail.module.css'
 
-const categoryLabels = {
-  'dfc-sdgs': 'DFC-SDGs',
-  'dfc-sel': 'DFC-SEL',
-}
-
-export default function PortfolioDetail({ portfolio }) {
+export default function PortfolioDetail({ portfolio, categoryLabel }) {
+  const displayCategory =
+    categoryLabel || (portfolio.category ? portfolio.category : '未分類')
   return (
     <article className={styles.article}>
       <div className={styles.header}>
         <div className={styles.meta}>
           <span className={styles.category}>
             <FontAwesomeIcon icon={faFolder} />
-            {categoryLabels[portfolio.category] || portfolio.category}
+            {displayCategory}
           </span>
           {portfolio.year && (
             <span className={styles.year}>

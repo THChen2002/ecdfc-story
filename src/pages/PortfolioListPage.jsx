@@ -10,15 +10,48 @@ import {
   DoodleCloud,
 } from '@/components/common/Decorations/Decorations'
 import { usePortfolios } from '@/hooks/usePortfolios'
-import { PORTFOLIO_CATEGORIES } from '@/constants/categories'
+import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 import styles from './PortfolioListPage.module.css'
 
 export default function PortfolioListPage() {
   const [activeCategory, setActiveCategory] = useState('all')
   const { portfolios, loading, error } = usePortfolios({ published: true })
+  const { categories } = usePortfolioCategories()
+
+  const hasUncategorized = useMemo(
+    () => portfolios.some((p) => !p.category),
+    [portfolios]
+  )
+
+  // 只顯示「有 published 成果」的分類，空分類不暴露給前台
+  const usedCategoryIds = useMemo(() => {
+    const set = new Set()
+    portfolios.forEach((p) => {
+      if (p.category) set.add(p.category)
+    })
+    return set
+  }, [portfolios])
+
+  const filterOptions = useMemo(() => {
+    const opts = [{ value: 'all', label: '全部' }]
+    categories
+      .filter((c) => usedCategoryIds.has(c.id))
+      .forEach((c) => opts.push({ value: c.id, label: c.label }))
+    if (hasUncategorized) opts.push({ value: '__uncategorized__', label: '未分類' })
+    return opts
+  }, [categories, usedCategoryIds, hasUncategorized])
+
+  const categoryLabelMap = useMemo(() => {
+    const map = {}
+    categories.forEach((c) => { map[c.id] = c.label })
+    return map
+  }, [categories])
 
   const filteredPortfolios = useMemo(() => {
     if (activeCategory === 'all') return portfolios
+    if (activeCategory === '__uncategorized__') {
+      return portfolios.filter((p) => !p.category)
+    }
     return portfolios.filter((p) => p.category === activeCategory)
   }, [activeCategory, portfolios])
 
@@ -43,7 +76,7 @@ export default function PortfolioListPage() {
         <DoodleCloud size={170} className={styles.contentCloud} />
         <div className={styles.container}>
           <Filter
-            categories={PORTFOLIO_CATEGORIES}
+            categories={filterOptions}
             activeCategory={activeCategory}
             onChange={setActiveCategory}
           />
@@ -60,7 +93,15 @@ export default function PortfolioListPage() {
           ) : (
             <div className={styles.grid}>
               {filteredPortfolios.map((portfolio) => (
-                <PortfolioCard key={portfolio.id} portfolio={portfolio} />
+                <PortfolioCard
+                  key={portfolio.id}
+                  portfolio={portfolio}
+                  categoryLabel={
+                    portfolio.category
+                      ? categoryLabelMap[portfolio.category] || portfolio.category
+                      : '未分類'
+                  }
+                />
               ))}
             </div>
           )}
