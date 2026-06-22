@@ -22,7 +22,7 @@ export default function PortfolioDetail({ portfolio, categoryLabel }) {
           {portfolio.year && (
             <span className={styles.year}>
               <FontAwesomeIcon icon={faCalendarAlt} />
-              {portfolio.year}
+              {portfolio.year} 學年度
             </span>
           )}
         </div>

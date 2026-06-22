@@ -9,6 +9,7 @@ import { db } from '@/services/firebase'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { useImageUpload } from '@/hooks/useImageUpload'
 import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
+import { getCurrentAcademicYear, toAcademicYear } from '@/utils/academicYear'
 import Button from '@/components/common/Button/Button'
 import ImageUploader from '@/components/admin/ImageUploader/ImageUploader'
 import s from '@/styles/admin.module.css'
@@ -40,7 +41,7 @@ export default function AdminPortfolioEditPage() {
     content: '',
     coverImage: '',
     tags: '',
-    year: new Date().getFullYear(),
+    year: getCurrentAcademicYear(),
     published: false,
     order: 0,
   })
@@ -59,7 +60,7 @@ export default function AdminPortfolioEditPage() {
             content: data.content || '',
             coverImage: data.coverImage || '',
             tags: (data.tags || []).join(', '),
-            year: data.year || new Date().getFullYear(),
+            year: toAcademicYear(data.year) || getCurrentAcademicYear(),
             published: data.published || false,
             order: data.order || 0,
           })
@@ -202,12 +203,13 @@ export default function AdminPortfolioEditPage() {
               </select>
             </div>
             <div className={s.fieldRow}>
-              <label className={s.label}>年份</label>
+              <label className={s.label}>學年度</label>
               <input
                 type="number"
                 className={s.input}
                 value={form.year}
                 onChange={(e) => handleChange('year', e.target.value)}
+                placeholder="例如：114"
               />
             </div>
             <div className={s.fieldRow}>

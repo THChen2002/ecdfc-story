@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react'
 import { faImages } from '@fortawesome/free-solid-svg-icons'
-import Filter from '@/components/common/Filter/Filter'
 import PortfolioCard from '@/components/portfolio/PortfolioCard/PortfolioCard'
 import Loading from '@/components/common/Loading/Loading'
 import PageHero from '@/components/common/PageHero/PageHero'
@@ -15,6 +14,7 @@ import styles from './PortfolioListPage.module.css'
 
 export default function PortfolioListPage() {
   const [activeCategory, setActiveCategory] = useState('all')
+  const [activeYear, setActiveYear] = useState('all')
   const { portfolios, loading, error } = usePortfolios({ published: true })
   const { categories } = usePortfolioCategories()
 
@@ -47,13 +47,30 @@ export default function PortfolioListPage() {
     return map
   }, [categories])
 
+  const yearOptions = useMemo(() => {
+    const set = new Set()
+    portfolios.forEach((p) => {
+      if (p.year !== undefined && p.year !== null && p.year !== '') set.add(p.year)
+    })
+    const opts = [{ value: 'all', label: '全部' }]
+    ;[...set]
+      .sort((a, b) => b - a)
+      .forEach((y) => opts.push({ value: String(y), label: `${y} 學年度` }))
+    return opts
+  }, [portfolios])
+
   const filteredPortfolios = useMemo(() => {
-    if (activeCategory === 'all') return portfolios
-    if (activeCategory === '__uncategorized__') {
-      return portfolios.filter((p) => !p.category)
-    }
-    return portfolios.filter((p) => p.category === activeCategory)
-  }, [activeCategory, portfolios])
+    return portfolios.filter((p) => {
+      const categoryMatch =
+        activeCategory === 'all'
+          ? true
+          : activeCategory === '__uncategorized__'
+          ? !p.category
+          : p.category === activeCategory
+      const yearMatch = activeYear === 'all' ? true : String(p.year) === activeYear
+      return categoryMatch && yearMatch
+    })
+  }, [activeCategory, activeYear, portfolios])
 
   return (
     <>
@@ -75,11 +92,44 @@ export default function PortfolioListPage() {
         />
         <DoodleCloud size={170} className={styles.contentCloud} />
         <div className={styles.container}>
-          <Filter
-            categories={filterOptions}
-            activeCategory={activeCategory}
-            onChange={setActiveCategory}
-          />
+          <div className={styles.filterBar}>
+            <div className={styles.filterField}>
+              <label className={styles.filterLabel} htmlFor="portfolio-category-filter">
+                分類
+              </label>
+              <select
+                id="portfolio-category-filter"
+                className={styles.select}
+                value={activeCategory}
+                onChange={(e) => setActiveCategory(e.target.value)}
+              >
+                {filterOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {yearOptions.length > 1 && (
+              <div className={styles.filterField}>
+                <label className={styles.filterLabel} htmlFor="portfolio-year-filter">
+                  學年度
+                </label>
+                <select
+                  id="portfolio-year-filter"
+                  className={styles.select}
+                  value={activeYear}
+                  onChange={(e) => setActiveYear(e.target.value)}
+                >
+                  {yearOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
           {loading ? (
             <Loading text="載入成果中..." />
           ) : error ? (

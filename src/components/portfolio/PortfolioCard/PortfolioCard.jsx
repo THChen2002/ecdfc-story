@@ -102,17 +102,19 @@ export default function PortfolioCard({ portfolio, categoryLabel }) {
       </div>
       <div className={styles.body}>
         <h3 className={styles.title}>{portfolio.title}</h3>
-        <p className={styles.summary}>{portfolio.summary}</p>
-        <div className={styles.footer}>
+        {portfolio.summary && (
+          <p className={styles.summary}>{portfolio.summary}</p>
+        )}
+        {portfolio.tags?.length > 0 && (
           <div className={styles.tags}>
-            {portfolio.tags?.slice(0, 3).map((tag) => (
+            {portfolio.tags.slice(0, 3).map((tag) => (
               <Tag key={tag} size="sm">{tag}</Tag>
             ))}
           </div>
-          <span className={styles.readMore}>
-            查看詳情 <FontAwesomeIcon icon={faArrowRight} />
-          </span>
-        </div>
+        )}
+        <span className={styles.readMore}>
+          查看詳情 <FontAwesomeIcon icon={faArrowRight} />
+        </span>
       </div>
     </Link>
   )

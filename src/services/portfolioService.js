@@ -13,6 +13,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from './firebase'
+import { toAcademicYear } from '@/utils/academicYear'
 
 const COLLECTION = 'portfolios'
 
@@ -27,7 +28,10 @@ export const getPortfolios = async (filters = {}) => {
     q = query(collection(db, COLLECTION))
   }
   const snapshot = await getDocs(q)
-  let results = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }))
+  let results = snapshot.docs.map((d) => {
+    const data = d.data()
+    return { id: d.id, ...data, year: toAcademicYear(data.year) }
+  })
   if (filters.category && filters.category !== 'all') {
     results = results.filter((item) => item.category === filters.category)
   }
@@ -42,7 +46,8 @@ export const getPortfolioById = async (id) => {
   const docRef = doc(db, COLLECTION, id)
   const snapshot = await getDoc(docRef)
   if (!snapshot.exists()) return null
-  return { id: snapshot.id, ...snapshot.data() }
+  const data = snapshot.data()
+  return { id: snapshot.id, ...data, year: toAcademicYear(data.year) }
 }
 
 export const createPortfolio = async (data) => {

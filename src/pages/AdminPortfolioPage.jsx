@@ -9,6 +9,7 @@ import Modal from '@/components/common/Modal/Modal'
 import Loading from '@/components/common/Loading/Loading'
 import CategoryManager from '@/components/admin/CategoryManager/CategoryManager'
 import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
+import { toAcademicYear } from '@/utils/academicYear'
 import s from '@/styles/admin.module.css'
 
 export default function AdminPortfolioPage() {
@@ -29,7 +30,12 @@ export default function AdminPortfolioPage() {
     try {
       const q = query(collection(db, 'portfolios'), orderBy('order', 'asc'))
       const snap = await getDocs(q)
-      setPortfolios(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+      setPortfolios(
+        snap.docs.map((d) => {
+          const data = d.data()
+          return { id: d.id, ...data, year: toAcademicYear(data.year) }
+        })
+      )
     } catch (err) {
       console.error('Fetch error:', err)
     } finally {
@@ -89,7 +95,7 @@ export default function AdminPortfolioPage() {
                 <tr>
                   <th>標題</th>
                   <th>分類</th>
-                  <th>年份</th>
+                  <th>學年度</th>
                   <th>狀態</th>
                   <th className={s.thCenter}>操作</th>
                 </tr>
