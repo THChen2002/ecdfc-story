@@ -20,7 +20,7 @@
   align-items: center;
   gap: var(--space-xs);
   font-size: var(--font-size-sm);
-  color: var(--color-primary);
+  color: #a06a34;
   font-weight: var(--font-weight-medium);
 }
 
@@ -43,6 +43,12 @@
   gap: var(--space-xs);
   flex-wrap: wrap;
   margin-top: var(--space-md);
+}
+
+/* 覆寫標籤配色 → 咖啡棕系，與成果卡片一致 */
+.tags span {
+  background-color: #f1e5d3;
+  color: #a06a34;
 }
 
 .coverWrap {

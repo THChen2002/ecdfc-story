@@ -1,8 +1,11 @@
 .hero {
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   line-height: 0;
   position: relative;
+  background: var(--color-bg);
+  /* 提升層級，讓溢出到下方的尾巴泡泡疊在下一區塊之上、不被蓋住 */
+  z-index: 4;
 }
 
 .heroImage {
@@ -12,6 +15,19 @@
   object-fit: cover;
   object-position: center 70%;
   max-height: 560px;
+  /* 圓弧下緣 — 上半部完整顯示，底部 100px 以單一道圓弧裁切，露出底色 */
+  -webkit-mask-image:
+    linear-gradient(#000, #000),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q720,140 1440,20 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-position: top, bottom;
+  -webkit-mask-size: 100% calc(100% - 100px), 100% 100px;
+  -webkit-mask-repeat: no-repeat;
+  mask-image:
+    linear-gradient(#000, #000),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q720,140 1440,20 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-position: top, bottom;
+  mask-size: 100% calc(100% - 100px), 100% 100px;
+  mask-repeat: no-repeat;
 }
 
 /* 半透明遮罩 — 襯托文字，底部用 mask 跟著波浪曲線 */
@@ -27,15 +43,15 @@
   pointer-events: none;
   -webkit-mask-image:
     linear-gradient(#000, #000),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1440,0 L1440,40 C1200,0 960,80 720,40 C480,0 240,80 0,40 Z' fill='black'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q720,140 1440,20 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
   -webkit-mask-position: top, bottom;
-  -webkit-mask-size: 100% calc(100% - 80px), 100% 80px;
+  -webkit-mask-size: 100% calc(100% - 100px), 100% 100px;
   -webkit-mask-repeat: no-repeat;
   mask-image:
     linear-gradient(#000, #000),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1440,0 L1440,40 C1200,0 960,80 720,40 C480,0 240,80 0,40 Z' fill='black'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q720,140 1440,20 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
   mask-position: top, bottom;
-  mask-size: 100% calc(100% - 80px), 100% 80px;
+  mask-size: 100% calc(100% - 100px), 100% 100px;
   mask-repeat: no-repeat;
 }
 
@@ -76,33 +92,36 @@
   margin: 0;
 }
 
-/* 底部曲線裁切 */
-.hero::after {
-  content: '';
+/* 右下角分離的小泡泡 — 像思想泡泡的尾巴，內容為同張照片（草地） */
+.bubble {
   position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z' fill='%23FFF8F0'/%3E%3C/svg%3E");
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: var(--s);
+  height: var(--s);
+  bottom: var(--b);
+  border-radius: 50%;
+  background-image: url("https://truehearts.com.tw/wp-content/uploads/2025/02/399811_0-scaled.jpg");
+  background-size: 900px auto;
+  background-position: 62% 82%;
+  z-index: 2;
   pointer-events: none;
-  z-index: 3;
 }
 
 @media (max-width: 768px) {
   .heroImage {
     max-height: 300px;
-  }
-
-  .hero::after {
-    height: 50px;
+    -webkit-mask-size: 100% calc(100% - 70px), 100% 70px;
+    mask-size: 100% calc(100% - 70px), 100% 70px;
   }
 
   .hero::before {
-    -webkit-mask-size: 100% calc(100% - 50px), 100% 50px;
-    mask-size: 100% calc(100% - 50px), 100% 50px;
+    -webkit-mask-size: 100% calc(100% - 70px), 100% 70px;
+    mask-size: 100% calc(100% - 70px), 100% 70px;
+  }
+
+  .bubble {
+    width: calc(var(--s) * 0.6);
+    height: calc(var(--s) * 0.6);
+    bottom: calc(var(--b) * 0.55);
   }
 
   .heroContent {

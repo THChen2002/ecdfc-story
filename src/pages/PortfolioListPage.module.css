@@ -1,26 +1,45 @@
-/* === Content Section === */
-.contentSection {
-  padding: 4rem 0;
-  background: var(--color-bg-alt);
-  position: relative;
-  z-index: 1;
+/* === 上方照片 hero（泡泡雲朵下緣，沿用公告頁做法） === */
+.hero {
+  width: 100%;
+  background: var(--color-bg);
+  line-height: 0;
 }
 
-.contentSection::before {
-  content: '';
-  position: absolute;
-  top: -79px;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background-color: var(--color-bg-alt);
-  -webkit-mask-image: var(--wave-mask-url);
-  -webkit-mask-size: 100% 100%;
+.heroImg {
+  display: block;
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  object-position: center 60%;
+  -webkit-mask-image:
+    linear-gradient(#000, #000),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,40 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-position: top, bottom;
+  -webkit-mask-size: 100% calc(100% - 60px), 100% 60px;
   -webkit-mask-repeat: no-repeat;
-  mask-image: var(--wave-mask-url);
-  mask-size: 100% 100%;
+  mask-image:
+    linear-gradient(#000, #000),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,40 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-position: top, bottom;
+  mask-size: 100% calc(100% - 60px), 100% 60px;
   mask-repeat: no-repeat;
-  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .heroImg {
+    height: 240px;
+    -webkit-mask-size: 100% calc(100% - 44px), 100% 44px;
+    mask-size: 100% calc(100% - 44px), 100% 44px;
+  }
+}
+
+/* === Content Section === */
+.contentSection {
+  padding: 1rem 0 5rem;
+  min-height: 60vh;
+  background: var(--color-bg);
+  position: relative;
+  overflow: hidden;
   z-index: 1;
 }
 
@@ -29,7 +48,40 @@
   margin: 0 auto;
   padding: 0 1.5rem;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+/* === 手繪標題框（可填字） === */
+.titleBox {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto 2rem;
+}
+
+.titleImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.titleText {
+  position: absolute;
+  top: 49.4%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+  font-family: 'Chenyuluoyan', var(--font-family);
+  font-size: 3.4rem;
+  font-weight: 400;
+  color: var(--color-text);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .titleText {
+    font-size: 2.2rem;
+  }
 }
 
 .grid {
@@ -65,7 +117,7 @@
   appearance: none;
   -webkit-appearance: none;
   padding: 0.5rem 2.25rem 0.5rem 1.1rem;
-  border: 1px solid var(--color-border);
+  border: 1.5px solid #c1955f;
   border-radius: var(--radius-full);
   background-color: white;
   color: var(--color-text);
@@ -80,49 +132,70 @@
 }
 
 .select:hover {
-  border-color: var(--color-primary);
+  border-color: #a87c48;
 }
 
 .select:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-bg);
+  border-color: #a87c48;
+  box-shadow: 0 0 0 3px rgba(193, 149, 95, 0.22);
 }
 
-/* Content 散佈裝飾 — 少量大元素 */
-.contentSpot {
+/* === 背景點點圓 === */
+.dotYellow,
+.dotBlue {
   position: absolute;
-  top: 10%;
-  right: -80px;
+  height: auto;
   z-index: 0;
-}
-
-.contentLeaves {
-  position: absolute;
-  bottom: -50px;
-  left: -70px;
-  z-index: 0;
-  opacity: 0.55;
-  animation: floatSlow 10s ease-in-out infinite;
+  opacity: 0.5;
   pointer-events: none;
 }
 
-.contentCloud {
+.dotYellow {
+  top: 5%;
+  right: -40px;
+  width: 240px;
+}
+
+.dotBlue {
+  bottom: 6%;
+  left: -40px;
+  width: 220px;
+}
+
+/* === 四周散布手繪插圖 === */
+.illHorse,
+.illPinecone {
   position: absolute;
-  top: 4%;
-  left: 28%;
-  z-index: 0;
-  opacity: 0.75;
-  animation: cloudDrift 16s ease-in-out infinite;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
 }
 
-@media (max-width: 768px) {
-  .contentCloud { display: none; }
-  .contentLeaves { opacity: 0.3; }
+/* 木馬小孩 — 左上 */
+.illHorse {
+  top: 16%;
+  left: 1%;
+  width: 110px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .contentLeaves, .contentCloud {
-    animation: none !important;
+/* 松果小孩 — 右側中段 */
+.illPinecone {
+  top: 44%;
+  right: 1%;
+  width: 130px;
+}
+
+@media (max-width: 1000px) {
+  .illHorse,
+  .illPinecone {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .dotYellow,
+  .dotBlue {
+    display: none;
   }
 }

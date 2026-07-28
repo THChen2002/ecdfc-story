@@ -7,12 +7,9 @@ import {
   faNewspaper,
 } from '@fortawesome/free-solid-svg-icons'
 import Loading from '@/components/common/Loading/Loading'
-import {
-  WatercolorSpot,
-  GrowingLeaves,
-  DoodleCloud,
-} from '@/components/common/Decorations/Decorations'
 import { useNewsDetail } from '@/hooks/useNews'
+import dotsBlue from '@/assets/dots-blue.png'
+import illustWatering from '@/assets/illust-watering.png'
 import { formatDate } from '@/utils/formatDate'
 import styles from './NewsDetailPage.module.css'
 
@@ -38,14 +35,8 @@ export default function NewsDetailPage() {
 
   return (
     <section className={styles.section}>
-      <WatercolorSpot color="#F2C94C" size={260} className={styles.bgSpot1} />
-      <GrowingLeaves
-        size={240}
-        mainColor="#7BC5A0"
-        lineColor="#4A8A6A"
-        className={styles.leaves}
-      />
-      <DoodleCloud size={170} className={styles.cloud} />
+      <img src={dotsBlue} alt="" aria-hidden="true" className={styles.decoDots} />
+      <img src={illustWatering} alt="" aria-hidden="true" className={styles.decoIllus} />
 
       <div className={styles.container}>
         <Link to="/news" className={styles.backLink}>

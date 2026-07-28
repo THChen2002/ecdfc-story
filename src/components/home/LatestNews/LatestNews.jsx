@@ -8,13 +8,7 @@ import {
 import { useNews } from '@/hooks/useNews'
 import { formatDate } from '@/utils/formatDate'
 import { stripHtml, truncateText } from '@/utils/truncateText'
-import {
-  PlantDoodle,
-  DoodleFrame,
-  DoodleGirl,
-  DoodleStars,
-  WatercolorSpot,
-} from '@/components/common/Decorations/Decorations'
+import newsTitle from '@/assets/news-title.png'
 import styles from './LatestNews.module.css'
 
 export default function LatestNews() {
@@ -24,7 +18,7 @@ export default function LatestNews() {
     return (
       <section className={styles.section}>
         <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>最新消息</h2>
+          <img src={newsTitle} alt="最新消息" className={styles.sectionTitleImg} />
           <div style={{ textAlign: 'center', padding: '2rem 0', color: '#888' }}>載入中...</div>
         </div>
       </section>
@@ -35,16 +29,8 @@ export default function LatestNews() {
 
   return (
     <section className={styles.section}>
-      {/* 手繪裝飾 */}
-      <PlantDoodle size={50} className={styles.decoPlant} />
-      <DoodleFrame size={55} className={styles.decoFrame} />
-      <DoodleGirl size={45} className={styles.decoGirl} />
-      <DoodleStars size={70} className={styles.decoStars} />
-      <WatercolorSpot color="#F2C94C" size={180} className={styles.decoSpot1} />
-      <WatercolorSpot color="#E8742A" size={140} className={styles.decoSpot2} />
-
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>最新消息</h2>
+        <img src={newsTitle} alt="最新消息" className={styles.sectionTitleImg} />
         <div className={styles.grid}>
           {news.map((item) => (
             <Link

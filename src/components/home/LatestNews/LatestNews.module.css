@@ -1,6 +1,6 @@
 .section {
   padding: var(--space-4xl) 0;
-  background: var(--color-bg-alt);
+  background: var(--color-bg);
   position: relative;
   overflow: hidden;
 }
@@ -13,22 +13,13 @@
   z-index: 1;
 }
 
-.sectionTitle {
-  font-size: var(--font-size-2xl);
-  text-align: center;
-  margin-bottom: var(--space-3xl);
-  font-weight: var(--font-weight-bold);
-  position: relative;
-}
-
-.sectionTitle::after {
-  content: '';
+/* 手繪「最新消息」標題圖 */
+.sectionTitleImg {
   display: block;
-  width: 60px;
-  height: 4px;
-  background: var(--color-secondary);
-  margin: 0.75rem auto 0;
-  border-radius: var(--radius-full);
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  margin: 0 auto var(--space-3xl);
 }
 
 /* 手繪裝飾定位 */
@@ -78,21 +69,31 @@
   gap: var(--space-xl);
 }
 
+/* 蠟筆手繪外框 — 與其他頁面卡片統一技法（均勻邊框 + 位移濾鏡），顏色用咖啡色，粗細一致 */
 .card {
+  position: relative;
   display: block;
-  padding: var(--space-lg);
-  border-radius: var(--radius-lg);
-  border: 2px solid var(--color-border-light);
-  transition: var(--transition-normal);
-  background: white;
+  padding: var(--space-xl);
+  background: #fffefa;
+  border-radius: var(--radius-md);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   text-decoration: none;
   color: inherit;
 }
 
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 3px solid #c0905f;
+  border-radius: var(--radius-md);
+  filter: url(#crayonWobble);
+}
+
 .card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
-  border-color: var(--color-primary-light);
+  transform: translateY(-4px) rotate(-0.5deg);
+  box-shadow: 0 8px 14px rgba(150, 110, 70, 0.2);
 }
 
 .cardTop {
@@ -148,25 +149,28 @@
   margin-top: var(--space-2xl);
 }
 
+/* 蠟筆塗抹按鈕 — 奶茶色色塊 + 手寫感文字，整體套 SVG 位移濾鏡 */
 .viewAllLink {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
-  color: white;
+  color: #fff;
   font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
   text-decoration: none;
-  font-size: var(--font-size-base);
-  transition: var(--transition-fast);
-  padding: 0.6rem 1.5rem;
-  border-radius: var(--radius-full);
-  background: var(--color-primary);
-  box-shadow: 0 3px 10px rgba(232, 116, 42, 0.3);
+  font-size: var(--font-size-md);
+  transition: transform var(--transition-fast);
+  padding: 0.8rem 2.25rem;
+  /* 不規則邊角，位移濾鏡後呈現手繪塗抹的粗糙輪廓 */
+  border-radius: 46px 52px 44px 54px / 52px 44px 54px 46px;
+  background: #d8ab74;
+  filter: url(#crayonButton);
 }
 
 .viewAllLink:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 16px rgba(232, 116, 42, 0.4);
-  color: white;
+  transform: translateY(-2px) rotate(-0.6deg);
+  color: #fff;
 }
 
 @media (max-width: 768px) {

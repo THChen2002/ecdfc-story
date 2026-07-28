@@ -1,23 +1,27 @@
 .footer {
-  background: linear-gradient(180deg, #D4641A 0%, #B5531A 100%);
-  color: #FFF5ED;
+  background: linear-gradient(180deg, #9ab8d5 0%, #89a9c8 100%);
+  color: #ffffff;
   padding-top: var(--space-3xl);
+  /* 預留山丘上緣（約 71px）凸出的高度＋緩衝，避免與上方主要區域重疊 */
+  margin-top: 6rem;
   position: relative;
   z-index: 2;
+  text-shadow: 0 1px 2px rgba(45, 74, 102, 0.28);
 }
 
+/* 頁尾上緣 — 一排圓弧山丘狀（連續圓凸、之間小凹口） */
 .footer::before {
   content: '';
   position: absolute;
-  top: -59px;
+  top: -71px;
   left: 0;
   right: 0;
-  height: 60px;
-  background-color: #D4641A;
-  -webkit-mask-image: var(--wave-mask-url);
+  height: 72px;
+  background-color: #9ab8d5;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,48 Q120,-30 240,48 Q360,-30 480,48 Q600,-30 720,48 Q840,-30 960,48 Q1080,-30 1200,48 Q1320,-30 1440,48 L1440,80 L0,80 Z' fill='black'/%3E%3C/svg%3E");
   -webkit-mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
-  mask-image: var(--wave-mask-url);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,48 Q120,-30 240,48 Q360,-30 480,48 Q600,-30 720,48 Q840,-30 960,48 Q1080,-30 1200,48 Q1320,-30 1440,48 L1440,80 L0,80 Z' fill='black'/%3E%3C/svg%3E");
   mask-size: 100% 100%;
   mask-repeat: no-repeat;
   pointer-events: none;
@@ -37,14 +41,14 @@
 
 /* About column */
 .title {
-  color: white;
+  color: #ffffff;
   font-size: var(--font-size-xl);
   margin-bottom: var(--space-md);
   font-weight: var(--font-weight-bold);
 }
 
 .subtitle {
-  color: white;
+  color: #ffffff;
   font-size: var(--font-size-md);
   margin-bottom: var(--space-md);
   font-weight: var(--font-weight-bold);
@@ -54,12 +58,12 @@
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
   margin-bottom: var(--space-sm);
-  color: #FFF5ED;
+  color: #ffffff;
 }
 
 .org {
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Quick links column */
@@ -73,7 +77,7 @@
 }
 
 .link {
-  color: #FFF5ED;
+  color: #ffffff;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -83,12 +87,13 @@
 }
 
 .link:hover {
-  color: var(--color-secondary-light);
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 .linkIcon {
   font-size: 0.7em;
-  color: var(--color-secondary);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Contact column */
@@ -103,11 +108,11 @@
   align-items: flex-start;
   gap: var(--space-sm);
   font-size: var(--font-size-sm);
-  color: #FFF5ED;
+  color: #ffffff;
 }
 
 .contactIcon {
-  color: var(--color-secondary);
+  color: rgba(255, 255, 255, 0.9);
   margin-top: 3px;
   width: 16px;
 }
@@ -115,14 +120,14 @@
 /* Bottom bar */
 .bottom {
   margin-top: var(--space-2xl);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
   padding: var(--space-lg) 0;
 }
 
 .copyright {
   font-size: var(--font-size-xs);
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Mobile responsive */

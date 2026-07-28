@@ -5,8 +5,12 @@ import {
   faUsers,
   faChalkboardTeacher,
 } from '@fortawesome/free-solid-svg-icons'
-import { LeafSprig, WaterDrop } from '@/components/common/Decorations/Decorations'
 import styles from './GoalSection.module.css'
+import titleGoals from '@/assets/title-goals.png'
+import illustHorse from '@/assets/illust-2.png'
+import illustBoy from '@/assets/illust-3.png'
+import dotsYellow from '@/assets/dots-yellow.png'
+import dotsBlue from '@/assets/dots-blue.png'
 
 const goals = [
   {
@@ -34,15 +38,21 @@ const goals = [
 export default function GoalSection() {
   return (
     <section className={styles.section}>
+      {/* 背景點點圓 */}
+      <img src={dotsYellow} alt="" aria-hidden="true" className={styles.dotYellow} />
+      <img src={dotsBlue} alt="" aria-hidden="true" className={styles.dotBlue} />
+
+      {/* 四周散布手繪插圖 */}
+      <img src={illustHorse} alt="" aria-hidden="true" className={styles.illHorse} />
+      <img src={illustBoy} alt="" aria-hidden="true" className={styles.illBoy} />
+
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>計畫目標</h2>
+        {/* 手繪標題框 */}
+        <img src={titleGoals} alt="計畫目標" className={styles.titleImg} />
+
         <div className={styles.grid}>
           {goals.map((goal, index) => (
             <div key={index} className={styles.card}>
-              {/* 從卡片邊緣長出的嫩枝與水滴 */}
-              <LeafSprig size={38} className={styles.sprigTop} />
-              <WaterDrop size={18} color="#7BC5A0" className={styles.dropSide} />
-
               <div className={styles.iconWrap}>
                 <FontAwesomeIcon
                   icon={goal.icon}

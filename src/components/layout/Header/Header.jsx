@@ -9,6 +9,7 @@ import {
   faNewspaper,
 } from '@fortawesome/free-solid-svg-icons'
 import { SITE_CONFIG } from '@/constants/siteConfig'
+import logo from '@/assets/logo.png'
 import styles from './Header.module.css'
 
 const iconMap = {
@@ -31,9 +32,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          <span className={styles.logoIcon}>
-            <FontAwesomeIcon icon={faHome} />
-          </span>
+          <img src={logo} alt={SITE_CONFIG.shortName} className={styles.logoImg} />
           <div className={styles.logoText}>
             <span className={styles.logoName}>{SITE_CONFIG.shortName}</span>
             <span className={styles.logoSub}>{SITE_CONFIG.organization}</span>

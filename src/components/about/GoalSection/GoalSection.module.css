@@ -1,25 +1,8 @@
 .section {
   padding: var(--space-3xl) 0 var(--space-2xl);
-  background: var(--color-bg-alt);
+  background: var(--color-bg);
   position: relative;
-  z-index: 1;
-}
-
-.section::before {
-  content: '';
-  position: absolute;
-  top: -79px;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background-color: var(--color-bg-alt);
-  -webkit-mask-image: var(--wave-mask-url);
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-image: var(--wave-mask-url);
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  pointer-events: none;
+  overflow: hidden;
   z-index: 1;
 }
 
@@ -27,28 +10,62 @@
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-lg);
-}
-
-.sectionTitle {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  text-align: center;
-  margin-bottom: var(--space-2xl);
-  color: var(--color-text);
   position: relative;
-  padding-bottom: var(--space-md);
+  z-index: 2;
 }
 
-.sectionTitle::after {
-  content: '';
+/* 手繪標題框 */
+.titleImg {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin: 0 auto var(--space-2xl);
+}
+
+/* 背景點點圓 */
+.dotYellow,
+.dotBlue {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: var(--color-secondary);
-  border-radius: var(--radius-full);
+  height: auto;
+  z-index: 0;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dotYellow {
+  top: 4%;
+  right: -40px;
+  width: 240px;
+}
+
+.dotBlue {
+  top: 34%;
+  left: -40px;
+  width: 220px;
+}
+
+/* 四周散布手繪插圖 */
+.illHorse,
+.illBoy {
+  position: absolute;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 木馬小孩 — 左上（素材已裁切留白，改用貼齊內容尺寸） */
+.illHorse {
+  top: 3%;
+  left: 1%;
+  width: 110px;
+}
+
+/* 蹲坐男孩 — 右下 */
+.illBoy {
+  bottom: 2%;
+  right: 2%;
+  width: 105px;
 }
 
 .grid {
@@ -57,116 +74,118 @@
   gap: var(--space-xl);
 }
 
-/* 橫向佈局：icon 左、文字右。邊角不規則像手繪的圓角卡片 */
+/* 橫向佈局：icon 左、文字右。蠟筆手繪塗抹的卡片 */
 .card {
   position: relative;
   display: flex;
   align-items: flex-start;
   gap: var(--space-xl);
   padding: var(--space-2xl);
-  background: linear-gradient(135deg, #FFF5E8 0%, #FFEAD3 100%);
-  border-radius: 32px 48px 36px 52px / 44px 36px 52px 32px;
-  transition: box-shadow 0.4s ease, transform 0.4s ease;
-  box-shadow: 0 6px 20px rgba(139, 90, 60, 0.08);
+  transition: transform 0.4s ease;
 }
 
-.card:nth-child(2n) {
-  background: linear-gradient(135deg, #F5F8E8 0%, #E8EFD0 100%);
+/* 卡片底色 — 單色 + 蠟筆位移濾鏡，做出塗抹粗邊（像首頁按鈕） */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #fadfc6;
+  border-radius: 32px 48px 36px 52px / 44px 36px 52px 32px;
+  filter: url(#crayonButton);
+}
+
+/* 手繪描邊 — 與底色套同一個位移濾鏡，塗抹邊和外框對齊 */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border: 3px solid #edbf98;
+  border-radius: 32px 48px 36px 52px / 44px 36px 52px 32px;
+  filter: url(#crayonButton);
+}
+
+.card:nth-child(2n)::after {
+  border-color: #bfd5a5;
   border-radius: 48px 32px 52px 36px / 36px 48px 32px 52px;
 }
 
-.card:nth-child(3n) {
-  background: linear-gradient(135deg, #FBDFDF 0%, #F5C6C6 100%);
+.card:nth-child(3n)::after {
+  border-color: #eeb6b6;
   border-radius: 44px 36px 48px 32px / 36px 44px 32px 48px;
 }
 
-.card:nth-child(4n) {
-  background: linear-gradient(135deg, #FAEAB8 0%, #F5D77F 100%);
+.card:nth-child(4n)::after {
+  border-color: #e8cd8e;
   border-radius: 36px 52px 32px 48px / 48px 32px 44px 36px;
 }
 
+.card:nth-child(2n)::before {
+  background: #e2ebce;
+  border-radius: 48px 32px 52px 36px / 36px 48px 32px 52px;
+}
+
+.card:nth-child(3n)::before {
+  background: #f8d4d4;
+  border-radius: 44px 36px 48px 32px / 36px 44px 32px 48px;
+}
+
+.card:nth-child(4n)::before {
+  background: #f8e4b3;
+  border-radius: 36px 52px 32px 48px / 48px 32px 44px 36px;
+}
+
+/* 內容維持清晰在濾鏡之上 */
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+
 .card:hover {
-  box-shadow: 0 12px 30px rgba(139, 90, 60, 0.16);
-  transform: translateY(-4px);
+  transform: translateY(-4px) rotate(-0.4deg);
 }
 
-/* 「一撮嫩葉」從卡片左上緣長出，只留一個點綴不做多餘裝飾 */
-.sprigTop {
-  position: absolute;
-  top: -22px;
-  left: 32px;
-  transform: rotate(-12deg);
-  transform-origin: bottom center;
-  animation: sprigSway 5s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.card:nth-child(2n) .sprigTop {
-  left: auto;
-  right: 32px;
-  transform: rotate(12deg);
-  animation-duration: 5.6s;
-}
-
-/* 水滴掛在卡片右下角，隱約從邊緣滑出 */
-.dropSide {
-  position: absolute;
-  bottom: -6px;
-  right: 18%;
-  animation: dropBounce 3.2s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.card:nth-child(2n) .dropSide {
-  right: auto;
-  left: 18%;
-  animation-duration: 3.6s;
-}
-
-@keyframes sprigSway {
-  0%, 100% { transform: rotate(-12deg); }
-  50% { transform: rotate(0deg); }
-}
-
-/* icon 放大、放在左側當作「印章」 */
+/* icon 底 — 蠟筆塗抹圓塊（單色 + 位移濾鏡），與卡片同手感 */
 .iconWrap {
+  position: relative;
   width: 72px;
   height: 72px;
-  background: linear-gradient(135deg, #FFD0A8 0%, #FFB87C 100%);
-  border-radius: 38% 62% 42% 58% / 58% 38% 62% 42%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 6px 16px rgba(232, 116, 42, 0.28);
-  animation: blobMorph 8s ease-in-out infinite;
 }
 
-.card:nth-child(2n) .iconWrap {
-  background: linear-gradient(135deg, #9CDBB8 0%, #7BC5A0 100%);
-  box-shadow: 0 6px 16px rgba(123, 197, 160, 0.35);
+.iconWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #ef9646;
+  border-radius: 38% 62% 42% 58% / 58% 38% 62% 42%;
+  filter: url(#crayonButton);
 }
 
-.card:nth-child(3n) .iconWrap {
-  background: linear-gradient(135deg, #F2A8A8 0%, #E88B8B 100%);
-  box-shadow: 0 6px 16px rgba(232, 139, 139, 0.35);
+.card:nth-child(2n) .iconWrap::before {
+  background: #7bc5a0;
 }
 
-.card:nth-child(4n) .iconWrap {
-  background: linear-gradient(135deg, #F5D77F 0%, #E8B93A 100%);
-  box-shadow: 0 6px 16px rgba(212, 160, 42, 0.35);
+.card:nth-child(3n) .iconWrap::before {
+  background: #e88b8b;
 }
 
-@keyframes blobMorph {
-  0%, 100% { border-radius: 38% 62% 42% 58% / 58% 38% 62% 42%; }
-  50% { border-radius: 58% 42% 62% 38% / 42% 58% 38% 62%; }
+.card:nth-child(4n) .iconWrap::before {
+  background: #e8b93a;
 }
 
 .icon {
+  position: relative;
+  z-index: 1;
   font-size: 1.875rem;
   color: #FFFFFF;
+  filter: url(#crayonButton);
 }
 
 .textWrap {
@@ -190,6 +209,13 @@
   margin: 0;
 }
 
+@media (max-width: 1000px) {
+  .illHorse,
+  .illBoy {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
@@ -209,10 +235,15 @@
   .icon {
     font-size: 1.5rem;
   }
+
+  .dotYellow,
+  .dotBlue {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card, .iconWrap, .sprigTop, .dropSide {
+  .card, .iconWrap {
     animation: none !important;
     transition: none !important;
   }
