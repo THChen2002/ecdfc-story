@@ -11,11 +11,6 @@ import {
 } from '@/components/common/Decorations/Decorations'
 import styles from './PortfolioCard.module.css'
 
-const categoryLabels = {
-  'dfc-sdgs': 'DFC-SDGs',
-  'dfc-sel': 'DFC-SEL',
-}
-
 // 依 id 字串雜湊穩定挑選 placeholder 樣式，確保同一筆成果每次顯示一致
 function pickPlaceholder(id = '') {
   let hash = 0
@@ -58,8 +53,9 @@ const placeholderThemes = [
   },
 ]
 
-export default function PortfolioCard({ portfolio }) {
+export default function PortfolioCard({ portfolio, categoryLabel }) {
   const theme = placeholderThemes[pickPlaceholder(portfolio.id)]
+  const displayCategory = categoryLabel || (portfolio.category ? portfolio.category : '未分類')
 
   return (
     <Link
@@ -101,7 +97,7 @@ export default function PortfolioCard({ portfolio }) {
           </div>
         )}
         <span className={styles.category}>
-          {categoryLabels[portfolio.category] || portfolio.category}
+          {displayCategory}
         </span>
       </div>
       <div className={styles.body}>

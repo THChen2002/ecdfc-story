@@ -208,7 +208,7 @@ export default function AdminNewsEditPage() {
                   type="checkbox"
                   checked={form.pinned}
                   onChange={(e) => handleChange('pinned', e.target.checked)}
-                  className={`${s.checkbox} ${s.checkboxPin}`}
+                  className={s.checkbox}
                 />
                 <span className={s.checkboxText}>置頂公告</span>
               </label>

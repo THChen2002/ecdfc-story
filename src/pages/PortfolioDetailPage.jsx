@@ -4,10 +4,15 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import PortfolioDetail from '@/components/portfolio/PortfolioDetail/PortfolioDetail'
 import Loading from '@/components/common/Loading/Loading'
 import { usePortfolioDetail } from '@/hooks/usePortfolios'
+import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 
 export default function PortfolioDetailPage() {
   const { id } = useParams()
   const { portfolio, loading, error } = usePortfolioDetail(id)
+  const { categories } = usePortfolioCategories()
+  const categoryLabel = portfolio?.category
+    ? categories.find((c) => c.id === portfolio.category)?.label || portfolio.category
+    : '未分類'
 
   if (loading) {
     return <Loading fullPage text="載入成果中..." />
@@ -53,7 +58,7 @@ export default function PortfolioDetailPage() {
           <FontAwesomeIcon icon={faArrowLeft} />
           返回成果列表
         </Link>
-        <PortfolioDetail portfolio={portfolio} />
+        <PortfolioDetail portfolio={portfolio} categoryLabel={categoryLabel} />
       </div>
     </section>
   )

@@ -8,14 +8,10 @@ import { doc, getDoc, addDoc, updateDoc, collection, serverTimestamp } from 'fir
 import { db } from '@/services/firebase'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { useImageUpload } from '@/hooks/useImageUpload'
+import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 import Button from '@/components/common/Button/Button'
 import ImageUploader from '@/components/admin/ImageUploader/ImageUploader'
 import s from '@/styles/admin.module.css'
-
-const CATEGORIES = [
-  { value: 'dfc-sdgs', label: 'DFC-SDGs' },
-  { value: 'dfc-sel', label: 'DFC-SEL' },
-]
 
 const quillModules = {
   toolbar: [
@@ -33,12 +29,13 @@ export default function AdminPortfolioEditPage() {
   const { user } = useAuthContext()
   const isNew = id === 'new'
   const { upload, uploading, progress } = useImageUpload()
+  const { categories } = usePortfolioCategories()
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(!isNew)
   const [pendingFile, setPendingFile] = useState(null)
   const [form, setForm] = useState({
     title: '',
-    category: 'dfc-sdgs',
+    category: '',
     summary: '',
     content: '',
     coverImage: '',
@@ -57,7 +54,7 @@ export default function AdminPortfolioEditPage() {
           const data = snap.data()
           setForm({
             title: data.title || '',
-            category: data.category || 'dfc-sdgs',
+            category: data.category || '',
             summary: data.summary || '',
             content: data.content || '',
             coverImage: data.coverImage || '',
@@ -198,8 +195,9 @@ export default function AdminPortfolioEditPage() {
                 value={form.category}
                 onChange={(e) => handleChange('category', e.target.value)}
               >
-                {CATEGORIES.map((c) => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
+                <option value="">未分類</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>{c.label}</option>
                 ))}
               </select>
             </div>
