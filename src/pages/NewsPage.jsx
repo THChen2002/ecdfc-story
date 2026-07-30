@@ -1,12 +1,17 @@
 import { useState, useMemo } from 'react'
-import { faNewspaper } from '@fortawesome/free-solid-svg-icons'
 import Filter from '@/components/common/Filter/Filter'
 import NewsCard from '@/components/news/NewsCard/NewsCard'
 import Loading from '@/components/common/Loading/Loading'
-import PageHero from '@/components/common/PageHero/PageHero'
 import { useNews } from '@/hooks/useNews'
 import { NEWS_CATEGORIES } from '@/constants/categories'
 import styles from './NewsPage.module.css'
+import titleBox from '@/assets/news-title-box.png'
+import illustWatering from '@/assets/illust-watering.png'
+import illustPinecone from '@/assets/illust-pinecone.png'
+import illustBlocks from '@/assets/illust-4.png'
+import decoTwigs from '@/assets/deco-twigs.png'
+import dotsBlue from '@/assets/dots-blue.png'
+import dotsOrange from '@/assets/dots-orange.png'
 
 export default function NewsPage() {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -27,39 +32,54 @@ export default function NewsPage() {
 
   return (
     <>
-      <PageHero
-        icon={faNewspaper}
-        lead="ECDFC NEWS"
-        title="最新消息"
-        desc="掌握計畫最新動態與活動資訊"
-        waveColor="var(--color-bg)"
-        fruit="watermelon"
-      />
+      {/* 上方照片 hero（沿用首頁照片，雲朵下緣） */}
+      <div className={styles.hero}>
+        <img
+          src="https://truehearts.com.tw/wp-content/uploads/2025/02/399811_0-scaled.jpg"
+          alt="ECDFC Story"
+          className={styles.heroImg}
+        />
+      </div>
+
       <section className={styles.newsSection}>
-        <div className={styles.newsContainer}>
-          <Filter
-            categories={NEWS_CATEGORIES}
-            activeCategory={activeCategory}
-            onChange={setActiveCategory}
-          />
-          {loading ? (
-            <Loading text="載入消息中..." />
-          ) : error ? (
-            <div className="page-error">
-              <p>載入失敗，請重新整理頁面</p>
-            </div>
-          ) : filteredNews.length === 0 ? (
-            <div className="page-empty">
-              <p style={{ fontSize: 'var(--font-size-lg)' }}>目前沒有相關消息</p>
-            </div>
-          ) : (
-            <div className={styles.newsGrid}>
-              {filteredNews.map((news) => (
-                <NewsCard key={news.id} news={news} />
-              ))}
-            </div>
-          )}
-        </div>
+      {/* 背景點點圓 */}
+      <img src={dotsBlue} alt="" aria-hidden="true" className={styles.dotBlue} />
+      <img src={dotsOrange} alt="" aria-hidden="true" className={styles.dotOrange} />
+
+      {/* 四周散布插圖 */}
+      <img src={illustWatering} alt="" aria-hidden="true" className={styles.illWatering} />
+      <img src={illustPinecone} alt="" aria-hidden="true" className={styles.illPinecone} />
+      <img src={decoTwigs} alt="" aria-hidden="true" className={styles.illTwigs} />
+      <img src={illustBlocks} alt="" aria-hidden="true" className={styles.illBlocks} />
+
+      <div className={styles.newsContainer}>
+        {/* 大標題圖 */}
+        <img src={titleBox} alt="最新消息 ECDFC NEWS" className={styles.titleImg} />
+
+        <Filter
+          categories={NEWS_CATEGORIES}
+          activeCategory={activeCategory}
+          onChange={setActiveCategory}
+        />
+
+        {loading ? (
+          <Loading text="載入消息中..." />
+        ) : error ? (
+          <div className="page-error">
+            <p>載入失敗，請重新整理頁面</p>
+          </div>
+        ) : filteredNews.length === 0 ? (
+          <div className="page-empty">
+            <p style={{ fontSize: 'var(--font-size-lg)' }}>目前沒有相關消息</p>
+          </div>
+        ) : (
+          <div className={styles.newsGrid}>
+            {filteredNews.map((news) => (
+              <NewsCard key={news.id} news={news} />
+            ))}
+          </div>
+        )}
+      </div>
       </section>
     </>
   )

@@ -1,83 +1,53 @@
-/* 偏方形的 blob 卡片 */
+/* 蠟筆塗抹的有機造型卡片 */
 .card {
+  position: relative;
   text-align: center;
-  padding: var(--space-2xl) var(--space-xl);
-  background: linear-gradient(135deg, #FFF5E8 0%, #FFEAD3 100%);
-  border-radius: 38% 42% 36% 44% / 40% 36% 44% 38%;
-  transition: box-shadow 0.4s ease, transform 0.4s ease, border-radius 0.6s ease;
-  box-shadow: 0 6px 20px rgba(139, 90, 60, 0.1);
+  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  transition: transform 0.4s ease;
 }
 
-.card:nth-child(2n) {
-  background: linear-gradient(135deg, #F5F8E8 0%, #E8EFD0 100%);
-  border-radius: 42% 36% 44% 38% / 36% 42% 38% 44%;
+/* 底色 — 單色 + 蠟筆位移濾鏡（塗抹粗邊） */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--fill);
+  border-radius: var(--radius, 30px 46px 34px 48px / 46px 34px 48px 30px);
+  filter: url(#crayonButton);
 }
 
-.card:nth-child(3n) {
-  background: linear-gradient(135deg, #FBDFDF 0%, #F5C6C6 100%);
-  border-radius: 36% 44% 40% 38% / 44% 38% 36% 42%;
+/* 手繪描邊 — 與底色套同一濾鏡對齊 */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border: 3px solid var(--border);
+  border-radius: var(--radius, 30px 46px 34px 48px / 46px 34px 48px 30px);
+  filter: url(#crayonButton);
 }
 
-.card:nth-child(4n) {
-  background: linear-gradient(135deg, #FAEAB8 0%, #F5D77F 100%);
-  border-radius: 44% 38% 42% 36% / 38% 44% 36% 42%;
-}
-
-.card:nth-child(5n) {
-  background: linear-gradient(135deg, #E0EEF5 0%, #C5DDE8 100%);
-  border-radius: 40% 40% 38% 42% / 42% 38% 40% 40%;
+.inner {
+  position: relative;
+  z-index: 1;
 }
 
 .card:hover {
-  box-shadow: 0 14px 32px rgba(139, 90, 60, 0.18);
   transform: translateY(-6px) rotate(-1deg);
-  border-radius: 40% 40% 40% 40% / 40% 40% 40% 40%;
 }
 
-/* avatar 區塊 — 嫩枝與水滴的定位錨點 */
-.avatarBlock {
-  position: relative;
-  display: inline-block;
-  margin: 0 auto var(--space-md);
-}
-
+/* 頭像 — 柔和有機圓框 + 白色襯邊 */
 .avatarWrap {
-  width: 110px;
-  height: 110px;
+  position: relative;
+  width: 112px;
+  height: 112px;
+  margin: 0 auto var(--space-md);
   overflow: hidden;
-  border: 4px solid #FFFFFF;
-  border-radius: 38% 42% 36% 44% / 40% 36% 44% 38%;
-  box-shadow: 0 4px 16px rgba(139, 90, 60, 0.2);
-  animation: blobMorph 8s ease-in-out infinite;
-}
-
-.sprig {
-  position: absolute;
-  top: -26px;
-  left: -4px;
-  animation: sprigSway 4.5s ease-in-out infinite;
-  transform-origin: bottom center;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.drop {
-  position: absolute;
-  bottom: 0;
-  right: -6px;
-  animation: dropBounce 3s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-@keyframes sprigSway {
-  0%, 100% { transform: rotate(-18deg); }
-  50% { transform: rotate(-8deg); }
-}
-
-@keyframes blobMorph {
-  0%, 100% { border-radius: 38% 42% 36% 44% / 40% 36% 44% 38%; }
-  50% { border-radius: 44% 36% 42% 38% / 36% 44% 38% 42%; }
+  border: 4px solid #fffdf6;
+  border-radius: 48% 52% 47% 53% / 53% 47% 52% 48%;
+  box-shadow: 0 4px 14px rgba(139, 90, 60, 0.2);
 }
 
 .avatar {
@@ -86,41 +56,46 @@
   object-fit: cover;
 }
 
-/* 沒有頭像時的預設版面 — 顯示使用者 icon */
+/* 沒有頭像時 — 使用者 icon（手繪抖動） */
 .avatarPlaceholder {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.phIcon {
   font-size: 3rem;
-  opacity: 0.8;
+  color: #ffffff;
+  filter: url(#crayonButton);
 }
 
 .name {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-xs);
   color: var(--color-text);
+  margin-bottom: 3px;
+  letter-spacing: 0.02em;
 }
 
 .memberTitle {
   display: block;
   font-size: var(--font-size-sm);
-  color: var(--color-primary);
-  font-weight: var(--font-weight-medium);
+  color: var(--accent);
+  font-weight: var(--font-weight-bold);
   margin-bottom: 2px;
 }
 
 .role {
   display: block;
   font-size: var(--font-size-xs);
-  color: var(--color-text-lighter);
+  color: var(--color-text-light);
   margin-bottom: var(--space-sm);
 }
 
 .bio {
   font-size: var(--font-size-sm);
   color: var(--color-text-light);
-  line-height: 1.7;
+  line-height: 1.75;
 }

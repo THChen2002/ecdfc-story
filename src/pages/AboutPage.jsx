@@ -1,62 +1,49 @@
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import GoalSection from '@/components/about/GoalSection/GoalSection'
 import TeamMemberCard from '@/components/about/TeamMemberCard/TeamMemberCard'
 import Loading from '@/components/common/Loading/Loading'
-import PageHero from '@/components/common/PageHero/PageHero'
-import {
-  WatercolorSpot,
-  GrowingLeaves,
-  DoodleCloud,
-  FlatRabbit,
-  FlatDeer,
-} from '@/components/common/Decorations/Decorations'
 import { useTeamMembers } from '@/hooks/useTeamMembers'
 import styles from './AboutPage.module.css'
+import titleTeam from '@/assets/title-team.png'
+import illustHandhold from '@/assets/illust-handhold.png'
+import illustGirl from '@/assets/illust-1.png'
+import dotsBlue from '@/assets/dots-blue.png'
+import dotsOrange from '@/assets/dots-orange.png'
 
 export default function AboutPage() {
   const { members, loading } = useTeamMembers({ visible: true })
 
   return (
     <>
-      <PageHero
-        icon={faInfoCircle}
-        lead="ABOUT US"
-        title="計畫介紹"
-        desc="本計畫以「培育未來幼兒的教育人才」為核心，透過 DFC 設計思考方法論，結合 SDGs 永續發展目標與 SEL 社會情緒學習，全面提升幼兒教育師資的專業素養。"
-        waveColor="var(--color-bg-alt)"
-        fruit="tomato"
-      />
+      {/* 上方照片 hero（沿用首頁照片，泡泡雲朵下緣） */}
+      <div className={styles.hero}>
+        <img
+          src="https://truehearts.com.tw/wp-content/uploads/2025/02/399811_0-scaled.jpg"
+          alt="ECDFC Story"
+          className={styles.heroImg}
+        />
+      </div>
 
       <GoalSection />
 
       <section className={styles.teamSection}>
-        {/* 少量大型裝飾 */}
-        <WatercolorSpot color="#7BC5A0" size={260} className={styles.teamSpot1} />
-        <WatercolorSpot color="#F2C94C" size={220} className={styles.teamSpot2} />
-        <GrowingLeaves
-          size={300}
-          mainColor="#7BC5A0"
-          lineColor="#4A8A6A"
-          className={styles.teamLeaves1}
-        />
-        <GrowingLeaves
-          size={240}
-          mainColor="#E8742A"
-          lineColor="#C85D1A"
-          className={styles.teamLeaves2}
-          flip
-        />
-        <DoodleCloud size={180} className={styles.teamCloud} />
-        <FlatRabbit size={95} className={styles.teamRabbit} />
-        <FlatDeer size={120} className={styles.teamDeer} />
+        {/* 背景點點圓 */}
+        <img src={dotsBlue} alt="" aria-hidden="true" className={styles.dotBlue} />
+        <img src={dotsOrange} alt="" aria-hidden="true" className={styles.dotOrange} />
+
+        {/* 四周散布手繪插圖 */}
+        <img src={illustHandhold} alt="" aria-hidden="true" className={styles.illHandhold} />
+        <img src={illustGirl} alt="" aria-hidden="true" className={styles.illGirl} />
 
         <div className={styles.teamContainer}>
-          <h2 className={styles.teamTitle}>
-            團隊成員
-            <span className={styles.teamTitleBar} />
-          </h2>
+          {/* 手繪標題框 */}
+          <img src={titleTeam} alt="團隊成員" className={styles.teamTitleImg} />
+
           {loading ? (
             <Loading text="載入團隊成員中..." />
+          ) : members.length === 0 ? (
+            <div className="page-empty">
+              <p style={{ fontSize: 'var(--font-size-lg)' }}>目前尚無團隊成員資料</p>
+            </div>
           ) : (
             <div className={styles.teamGrid}>
               {members.map((member) => (

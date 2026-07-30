@@ -1,8 +1,12 @@
 .card {
-  display: block;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   border-radius: var(--radius-md);
-  overflow: hidden;
-  background-color: white;
+  background-color: #fffefa;
+  /* 白色襯邊，讓圖片與文字內縮到蠟筆框裡面 */
+  padding: 11px;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   text-decoration: none;
@@ -14,10 +18,24 @@
   transform: translateY(-6px);
 }
 
+/* 棕褐蠟筆外框 — 呼應 header 奶咖色；沿卡片最外緣，套 SVG 位移濾鏡呈現手繪抖動筆觸 */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border: 3px solid #c1955f;
+  border-radius: var(--radius-md);
+  filter: url(#crayonWobble);
+}
+
 .imageWrap {
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
 }
 
 .image {
@@ -31,39 +49,16 @@
   transform: scale(1.05);
 }
 
-/* 沒有圖片時的預設裝飾性版面 */
-.placeholder {
+/* 無封面圖時的原創手繪風景插畫，鋪滿圖片區 */
+.placeholderArt {
   width: 100%;
   height: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  display: block;
   transition: transform 0.5s ease;
 }
 
-.card:hover .placeholder {
-  transform: scale(1.04);
-}
-
-.placeholderMain {
-  position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 4px 12px rgba(60, 40, 20, 0.12));
-  animation: phFloat 4s ease-in-out infinite;
-}
-
-.placeholderAccent {
-  position: absolute;
-  z-index: 0;
-  opacity: 0.85;
-  pointer-events: none;
-}
-
-@keyframes phFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-6px) rotate(3deg); }
+.card:hover .placeholderArt {
+  transform: scale(1.05);
 }
 
 .category {
@@ -72,7 +67,7 @@
   left: var(--space-sm);
   padding: 0.25rem 0.75rem;
   background-color: white;
-  color: var(--color-primary);
+  color: #a06a34;
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
@@ -80,7 +75,10 @@
 }
 
 .body {
-  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-md) var(--space-sm) var(--space-xs);
 }
 
 .title {
@@ -102,21 +100,24 @@
   overflow: hidden;
 }
 
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .tags {
   display: flex;
   gap: var(--space-xs);
   flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+
+/* 覆寫卡片內標籤配色 → 咖啡棕系（僅限成果卡片，不影響其他頁） */
+.tags span {
+  background-color: #f1e5d3;
+  color: #a06a34;
 }
 
 .readMore {
+  margin-top: auto;
+  align-self: flex-end;
   font-size: var(--font-size-xs);
-  color: var(--color-primary);
+  color: #a06a34;
   font-weight: var(--font-weight-medium);
   display: flex;
   align-items: center;

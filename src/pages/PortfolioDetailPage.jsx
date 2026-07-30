@@ -5,6 +5,9 @@ import PortfolioDetail from '@/components/portfolio/PortfolioDetail/PortfolioDet
 import Loading from '@/components/common/Loading/Loading'
 import { usePortfolioDetail } from '@/hooks/usePortfolios'
 import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
+import s from './PortfolioDetailPage.module.css'
+import dotsYellow from '@/assets/dots-yellow.png'
+import illustPinecone from '@/assets/illust-pinecone.png'
 
 export default function PortfolioDetailPage() {
   const { id } = useParams()
@@ -31,7 +34,7 @@ export default function PortfolioDetailPage() {
       }}>
         <h2 style={{ fontSize: 'var(--font-size-xl)', marginBottom: '1rem' }}>找不到此成果</h2>
         <Link to="/portfolio" style={{
-          color: 'var(--color-primary)',
+          color: '#a06a34',
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
@@ -44,8 +47,10 @@ export default function PortfolioDetailPage() {
   }
 
   return (
-    <section style={{ padding: '3rem 0', minHeight: '60vh' }}>
-      <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '0 1.5rem' }}>
+    <section className={s.section}>
+      <img src={dotsYellow} alt="" aria-hidden="true" className={s.decoDots} />
+      <img src={illustPinecone} alt="" aria-hidden="true" className={s.decoIllus} />
+      <div className={s.container}>
         <Link to="/portfolio" style={{
           display: 'inline-flex',
           alignItems: 'center',

@@ -1,73 +1,33 @@
 .section {
   padding: var(--space-4xl) 0;
-  background: linear-gradient(180deg, #FFF8F0 0%, #FFF3E6 100%);
+  background: var(--color-bg);
   position: relative;
-  /* 移除 overflow: hidden 並提升 z-index，
-     讓葉子等裝飾可以疊在下一個區塊上而不被截斷 */
+  overflow: hidden;
   z-index: 1;
 }
 
-/* 背景水彩暈染 */
-.bgSpot1 {
+/* 散布的腳印裝飾 */
+.footPrint1,
+.footPrint2 {
   position: absolute;
-  top: -80px;
-  left: -100px;
-  z-index: 0;
-}
-
-.bgSpot2 {
-  position: absolute;
-  bottom: -60px;
-  right: -80px;
-  z-index: 0;
-}
-
-/* 主視覺 — 大片葉群 */
-.bigLeavesLeft {
-  position: absolute;
-  bottom: -60px;
-  left: -80px;
-  z-index: 0;
-  opacity: 0.7;
-  animation: floatSlow 9s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.bigLeavesRight {
-  position: absolute;
-  top: -40px;
-  right: -60px;
+  height: auto;
   z-index: 0;
   opacity: 0.6;
-  animation: floatSlow 10s ease-in-out infinite -2s;
   pointer-events: none;
 }
 
-/* Flat 動物與樹（少量點綴） */
-.statTree {
-  position: absolute;
-  bottom: 4%;
-  left: 18%;
-  z-index: 0;
-  opacity: 0.9;
+.footPrint1 {
+  top: 12%;
+  left: 3%;
+  width: 64px;
+  transform: rotate(-18deg);
 }
 
-.statRabbit {
-  position: absolute;
+.footPrint2 {
   bottom: 8%;
-  right: 18%;
-  z-index: 0;
-  opacity: 0.9;
-  animation: gentleHop 5s ease-in-out infinite;
-}
-
-.bgCloud {
-  position: absolute;
-  top: 6%;
-  left: 30%;
-  z-index: 0;
-  opacity: 0.8;
-  animation: cloudDrift 16s ease-in-out infinite;
+  right: 4%;
+  width: 72px;
+  transform: rotate(14deg);
 }
 
 .container {
@@ -78,7 +38,7 @@
   z-index: 1;
 }
 
-/* 標題 */
+/* 標題圖（陪伴的足跡） */
 .header {
   text-align: center;
   margin-bottom: var(--space-3xl);
@@ -92,20 +52,12 @@
   transform: none;
 }
 
-.lead {
-  color: var(--color-primary);
-  letter-spacing: 0.25em;
-  font-size: var(--font-size-md);
-  margin: 0 0 var(--space-md);
-  font-weight: var(--font-weight-medium);
-}
-
-.title {
-  font-size: 2.5rem;
-  color: var(--color-text);
-  font-weight: var(--font-weight-black);
-  margin: 0;
-  letter-spacing: 0.05em;
+.titleImg {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin: 0 auto;
 }
 
 /* 數據網格 */
@@ -113,7 +65,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-2xl) var(--space-xl);
-  align-items: end;
+  align-items: start;
 }
 
 .stat {
@@ -134,80 +86,28 @@
 
 .stat:nth-child(2),
 .stat:nth-child(4) {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
-/* blob + 嫩枝/水滴 容器 */
-.blobWrap {
-  position: relative;
-  width: 100%;
-  max-width: 220px;
-  display: flex;
-}
-
+/* 蠟筆塗抹不規則橢圓底盛放數字 — 套 SVG 位移濾鏡呈現手繪塗抹感 */
 .blob {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  max-width: 190px;
+  aspect-ratio: 7 / 5;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  box-shadow: 0 10px 30px rgba(139, 90, 60, 0.15);
-  position: relative;
-  transition: transform 0.4s ease, border-radius 0.6s ease;
+  background: #d8ab74;
+  filter: url(#crayonButton);
+  transition: transform 0.4s ease;
 }
 
 .stat:hover .blob {
   transform: translateY(-6px) rotate(-1deg);
 }
 
-/* 從 blob 頂部長出嫩枝 */
-.sprig {
-  position: absolute;
-  top: -36px;
-  left: 16%;
-  z-index: 2;
-  animation: sprigSway 5s ease-in-out infinite;
-  transform-origin: bottom center;
-  pointer-events: none;
-}
-
-.stat:nth-child(2n) .sprig {
-  left: auto;
-  right: 16%;
-  animation-duration: 6s;
-}
-
-/* 掛在 blob 邊的水滴 */
-.drop {
-  position: absolute;
-  bottom: 8%;
-  right: -4px;
-  z-index: 2;
-  animation: dropBounce 3.2s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.stat:nth-child(2n) .drop {
-  right: auto;
-  left: -4px;
-  animation-duration: 3.6s;
-}
-
-@keyframes sprigSway {
-  0%, 100% { transform: rotate(-12deg); }
-  50% { transform: rotate(4deg); }
-}
-
-.icon {
-  font-size: 1.75rem;
-  opacity: 0.9;
-}
-
 .number {
-  font-size: 3rem;
+  font-size: 2.75rem;
   font-weight: var(--font-weight-black);
   line-height: 1;
   display: inline-flex;
@@ -219,8 +119,16 @@
   margin-left: 2px;
 }
 
-.label {
+/* 數字下方手繪小捲線 */
+.squiggle {
+  width: 84px;
+  height: auto;
   margin-top: var(--space-md);
+  opacity: 0.85;
+}
+
+.label {
+  margin-top: var(--space-sm);
   font-size: var(--font-size-md);
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
@@ -237,10 +145,6 @@
   .stat:nth-child(4) {
     margin-top: 0;
   }
-
-  .stat:nth-child(2) {
-    margin-top: var(--space-xl);
-  }
 }
 
 @media (max-width: 480px) {
@@ -249,28 +153,14 @@
     gap: var(--space-xl);
   }
 
-  .title {
-    font-size: 1.875rem;
-  }
-
   .stat:nth-child(n) {
     margin-top: 0;
-  }
-
-  .blobWrap {
-    max-width: 200px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .header,
-  .stat,
-  .sprig,
-  .drop,
-  .bigLeavesLeft,
-  .bigLeavesRight,
-  .bgCloud,
-  .statRabbit {
+  .stat {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;

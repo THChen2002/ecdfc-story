@@ -1,20 +1,18 @@
 import { useState, useMemo } from 'react'
-import { faImages } from '@fortawesome/free-solid-svg-icons'
-import Filter from '@/components/common/Filter/Filter'
 import PortfolioCard from '@/components/portfolio/PortfolioCard/PortfolioCard'
 import Loading from '@/components/common/Loading/Loading'
-import PageHero from '@/components/common/PageHero/PageHero'
-import {
-  WatercolorSpot,
-  GrowingLeaves,
-  DoodleCloud,
-} from '@/components/common/Decorations/Decorations'
 import { usePortfolios } from '@/hooks/usePortfolios'
 import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 import styles from './PortfolioListPage.module.css'
+import titleBlank from '@/assets/title-blank.png'
+import illustPinecone from '@/assets/illust-pinecone.png'
+import illustHorse from '@/assets/illust-2.png'
+import dotsBlue from '@/assets/dots-blue.png'
+import dotsYellow from '@/assets/dots-yellow.png'
 
 export default function PortfolioListPage() {
   const [activeCategory, setActiveCategory] = useState('all')
+  const [activeYear, setActiveYear] = useState('all')
   const { portfolios, loading, error } = usePortfolios({ published: true })
   const { categories } = usePortfolioCategories()
 
@@ -47,39 +45,96 @@ export default function PortfolioListPage() {
     return map
   }, [categories])
 
+  const yearOptions = useMemo(() => {
+    const set = new Set()
+    portfolios.forEach((p) => {
+      if (p.year !== undefined && p.year !== null && p.year !== '') set.add(p.year)
+    })
+    const opts = [{ value: 'all', label: '全部' }]
+    ;[...set]
+      .sort((a, b) => b - a)
+      .forEach((y) => opts.push({ value: String(y), label: `${y} 學年度` }))
+    return opts
+  }, [portfolios])
+
   const filteredPortfolios = useMemo(() => {
-    if (activeCategory === 'all') return portfolios
-    if (activeCategory === '__uncategorized__') {
-      return portfolios.filter((p) => !p.category)
-    }
-    return portfolios.filter((p) => p.category === activeCategory)
-  }, [activeCategory, portfolios])
+    return portfolios.filter((p) => {
+      const categoryMatch =
+        activeCategory === 'all'
+          ? true
+          : activeCategory === '__uncategorized__'
+          ? !p.category
+          : p.category === activeCategory
+      const yearMatch = activeYear === 'all' ? true : String(p.year) === activeYear
+      return categoryMatch && yearMatch
+    })
+  }, [activeCategory, activeYear, portfolios])
 
   return (
     <>
-      <PageHero
-        icon={faImages}
-        lead="OUR PORTFOLIO"
-        title="成果展示"
-        desc="探索我們的教學成果與創新實踐"
-        waveColor="var(--color-bg-alt)"
-        fruit="orange"
-      />
-      <section className={styles.contentSection}>
-        <WatercolorSpot color="#7BC5A0" size={240} className={styles.contentSpot} />
-        <GrowingLeaves
-          size={260}
-          mainColor="#7BC5A0"
-          lineColor="#4A8A6A"
-          className={styles.contentLeaves}
+      {/* 上方照片 hero（沿用首頁照片，泡泡雲朵下緣） */}
+      <div className={styles.hero}>
+        <img
+          src="https://truehearts.com.tw/wp-content/uploads/2025/02/399811_0-scaled.jpg"
+          alt="ECDFC Story"
+          className={styles.heroImg}
         />
-        <DoodleCloud size={170} className={styles.contentCloud} />
+      </div>
+
+      <section className={styles.contentSection}>
+        {/* 背景點點圓 */}
+        <img src={dotsYellow} alt="" aria-hidden="true" className={styles.dotYellow} />
+        <img src={dotsBlue} alt="" aria-hidden="true" className={styles.dotBlue} />
+
+        {/* 四周散布手繪插圖 */}
+        <img src={illustHorse} alt="" aria-hidden="true" className={styles.illHorse} />
+        <img src={illustPinecone} alt="" aria-hidden="true" className={styles.illPinecone} />
+
         <div className={styles.container}>
-          <Filter
-            categories={filterOptions}
-            activeCategory={activeCategory}
-            onChange={setActiveCategory}
-          />
+          {/* 手繪標題框（可填字） */}
+          <div className={styles.titleBox}>
+            <img src={titleBlank} alt="成果展示" className={styles.titleImg} />
+            <span className={styles.titleText}>成果展示</span>
+          </div>
+
+          <div className={styles.filterBar}>
+            <div className={styles.filterField}>
+              <label className={styles.filterLabel} htmlFor="portfolio-category-filter">
+                分類
+              </label>
+              <select
+                id="portfolio-category-filter"
+                className={styles.select}
+                value={activeCategory}
+                onChange={(e) => setActiveCategory(e.target.value)}
+              >
+                {filterOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {yearOptions.length > 1 && (
+              <div className={styles.filterField}>
+                <label className={styles.filterLabel} htmlFor="portfolio-year-filter">
+                  學年度
+                </label>
+                <select
+                  id="portfolio-year-filter"
+                  className={styles.select}
+                  value={activeYear}
+                  onChange={(e) => setActiveYear(e.target.value)}
+                >
+                  {yearOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
           {loading ? (
             <Loading text="載入成果中..." />
           ) : error ? (

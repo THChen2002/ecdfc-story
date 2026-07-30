@@ -1,11 +1,12 @@
 /* 直式卡片（圖上文下） — truehearts 風格 */
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-md);
-  overflow: hidden;
-  background-color: white;
-  border: 1px solid var(--color-border-light);
+  background-color: #fffefa;
+  /* 白色襯邊，讓圖片與文字內縮到蠟筆框裡面 */
+  padding: 11px;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   text-decoration: none;
   color: inherit;
@@ -17,11 +18,24 @@
   color: inherit;
 }
 
+/* 藍色蠟筆外框 — 沿整張卡片最外緣的均勻邊框，套 SVG 位移濾鏡呈現手繪抖動筆觸 */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border: 3px solid #6f9ec9;
+  border-radius: var(--radius-md);
+  filter: url(#crayonWobble);
+}
+
 .imageWrap {
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   position: relative;
+  border-radius: var(--radius-sm);
 }
 
 .image {
@@ -51,18 +65,16 @@
   transform: scale(1.04);
 }
 
-.placeholderMain {
-  position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 4px 12px rgba(60, 40, 20, 0.12));
-  animation: phFloat 4s ease-in-out infinite;
+/* 無封面圖時的原創手繪風景插畫，鋪滿圖片區 */
+.placeholderArt {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform 0.5s ease;
 }
 
-.placeholderAccent {
-  position: absolute;
-  z-index: 0;
-  opacity: 0.85;
-  pointer-events: none;
+.card:hover .placeholderArt {
+  transform: scale(1.05);
 }
 
 @keyframes phFloat {
@@ -71,7 +83,7 @@
 }
 
 .body {
-  padding: var(--space-lg);
+  padding: var(--space-md) var(--space-sm) var(--space-xs);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -90,7 +102,7 @@
   justify-content: center;
   font-size: var(--font-size-xs);
   padding: 0.25rem 0.75rem;
-  background-color: var(--color-primary);
+  background-color: #5a8bc0;
   color: white;
   border-radius: var(--radius-full);
   font-weight: var(--font-weight-bold);
@@ -98,7 +110,7 @@
 
 .pinned {
   font-size: var(--font-size-xs);
-  color: var(--color-primary);
+  color: #4a7fb0;
   display: flex;
   align-items: center;
 }
@@ -126,7 +138,7 @@
   align-items: center;
   gap: 4px;
   font-size: var(--font-size-sm);
-  color: var(--color-primary);
+  color: #4a7fb0;
   font-weight: var(--font-weight-medium);
   transition: gap 0.2s ease;
 }
