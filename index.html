@@ -11,11 +11,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <!-- 辰宇落雁體（手寫字）— 供手繪標題框內文字使用 -->
+    <style>
+      @font-face {
+        font-family: 'Chenyuluoyan';
+        src: url('https://cdn.jsdelivr.net/npm/@fontpkg/chenyuluoyan/ChenYuluoyan-Thin.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
     <title>培育未來幼兒的教育人才 | 國立臺北教育大學</title>
-    <script type="module" crossorigin src="/ecdfc-story/assets/index-C4asx4gh.js"></script>
-    <link rel="stylesheet" crossorigin href="/ecdfc-story/assets/index-H13DsH9X.css">
+    <script type="module" crossorigin src="/ecdfc-story/assets/index-CUG6JMR3.js"></script>
+    <link rel="stylesheet" crossorigin href="/ecdfc-story/assets/index-DsS-jTiI.css">
   </head>
   <body>
     <div id="root"></div>
+    <!-- 蠟筆濾鏡 — 供卡片外框（::after border）套用：粗糙邊緣 + 顆粒紋理，做出蠟筆筆觸 -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <filter id="crayonWobble" x="-12%" y="-12%" width="124%" height="124%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="9" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" result="d" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="4" result="g" />
+        <feComponentTransfer in="g" result="m">
+          <feFuncA type="discrete" tableValues="0 0 0 0 1 1" />
+        </feComponentTransfer>
+        <feComposite in="d" in2="m" operator="out" />
+      </filter>
+      <!-- 較粗糙的蠟筆濾鏡 — 供按鈕整體（色塊＋文字）套用，做出手繪塗抹感 -->
+      <filter id="crayonButton" x="-18%" y="-30%" width="136%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.016 0.022" numOctaves="2" seed="7" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5" />
+      </filter>
+    </svg>
   </body>
 </html>
