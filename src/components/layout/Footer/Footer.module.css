@@ -141,4 +141,10 @@
   .contactItem {
     justify-content: center;
   }
+
+  /* 山丘數量減為 3 個，弧形比例與電腦版一致（不會被壓縮） */
+  .footer::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 80' preserveAspectRatio='none'%3E%3Cpath d='M0,48 Q120,-30 240,48 Q360,-30 480,48 Q600,-30 720,48 L720,80 L0,80 Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 80' preserveAspectRatio='none'%3E%3Cpath d='M0,48 Q120,-30 240,48 Q360,-30 480,48 Q600,-30 720,48 L720,80 L0,80 Z' fill='black'/%3E%3C/svg%3E");
+  }
 }

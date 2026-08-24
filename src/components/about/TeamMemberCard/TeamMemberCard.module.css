@@ -1,12 +1,14 @@
-/* 蠟筆塗抹的有機造型卡片 */
+/* 有機造型卡片 — 平滑不規則圓角 */
 .card {
   position: relative;
   text-align: center;
   padding: var(--space-2xl) var(--space-xl) var(--space-xl);
   transition: transform 0.4s ease;
+  /* 作為 grid 項目允許縮小，避免手機版超出畫面右緣 */
+  min-width: 0;
 }
 
-/* 底色 — 單色 + 蠟筆位移濾鏡（塗抹粗邊） */
+/* 底色 — 平滑邊緣（不套位移濾鏡，避免馬賽克感） */
 .card::before {
   content: '';
   position: absolute;
@@ -14,10 +16,9 @@
   z-index: 0;
   background: var(--fill);
   border-radius: var(--radius, 30px 46px 34px 48px / 46px 34px 48px 30px);
-  filter: url(#crayonButton);
 }
 
-/* 手繪描邊 — 與底色套同一濾鏡對齊 */
+/* 手繪描邊 — 細框套蠟筆濾鏡保留手繪感 */
 .card::after {
   content: '';
   position: absolute;
@@ -26,7 +27,7 @@
   pointer-events: none;
   border: 3px solid var(--border);
   border-radius: var(--radius, 30px 46px 34px 48px / 46px 34px 48px 30px);
-  filter: url(#crayonButton);
+  filter: url(#crayonWobble);
 }
 
 .inner {
@@ -68,7 +69,6 @@
 .phIcon {
   font-size: 3rem;
   color: #ffffff;
-  filter: url(#crayonButton);
 }
 
 .name {
@@ -98,4 +98,12 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-light);
   line-height: 1.75;
+  /* 長字串（網址、英文）強制換行，避免撐寬卡片超出畫面 */
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: var(--space-xl) var(--space-md) var(--space-lg);
+  }
 }

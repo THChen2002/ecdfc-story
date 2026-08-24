@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
 import ReactQuill from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
-import { doc, getDoc, addDoc, updateDoc, collection, serverTimestamp, Timestamp } from 'firebase/firestore'
+import { doc, getDoc, getDocs, addDoc, updateDoc, collection, serverTimestamp, Timestamp } from 'firebase/firestore'
 import { db } from '@/services/firebase'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { useImageUpload } from '@/hooks/useImageUpload'
@@ -105,6 +105,13 @@ export default function AdminNewsEditPage() {
         updatedAt: serverTimestamp(),
       }
       if (isNew) {
+        // 新增的公告排在最後面：取現有最大 order + 1
+        const snap = await getDocs(collection(db, 'news'))
+        const maxOrder = snap.docs.reduce(
+          (max, d) => Math.max(max, d.data().order || 0),
+          -1
+        )
+        payload.order = maxOrder + 1
         payload.createdAt = serverTimestamp()
         payload.createdBy = user?.email || ''
         await addDoc(collection(db, 'news'), payload)

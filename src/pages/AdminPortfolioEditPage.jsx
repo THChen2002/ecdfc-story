@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
 import ReactQuill from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
-import { doc, getDoc, addDoc, updateDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { doc, getDoc, getDocs, addDoc, updateDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '@/services/firebase'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { useImageUpload } from '@/hooks/useImageUpload'
@@ -43,7 +43,6 @@ export default function AdminPortfolioEditPage() {
     tags: '',
     year: getCurrentAcademicYear(),
     published: false,
-    order: 0,
   })
 
   useEffect(() => {
@@ -62,7 +61,6 @@ export default function AdminPortfolioEditPage() {
             tags: (data.tags || []).join(', '),
             year: toAcademicYear(data.year) || getCurrentAcademicYear(),
             published: data.published || false,
-            order: data.order || 0,
           })
         }
       } catch (err) {
@@ -99,10 +97,16 @@ export default function AdminPortfolioEditPage() {
         tags: form.tags.split(',').map((t) => t.trim()).filter(Boolean),
         year: Number(form.year),
         published: form.published,
-        order: Number(form.order),
         updatedAt: serverTimestamp(),
       }
       if (isNew) {
+        // 新增的成果排在最後面：取現有最大 order + 1
+        const snap = await getDocs(collection(db, 'portfolios'))
+        const maxOrder = snap.docs.reduce(
+          (max, d) => Math.max(max, d.data().order || 0),
+          -1
+        )
+        payload.order = maxOrder + 1
         payload.createdAt = serverTimestamp()
         payload.createdBy = user?.email || ''
         await addDoc(collection(db, 'portfolios'), payload)
@@ -210,16 +214,6 @@ export default function AdminPortfolioEditPage() {
                 value={form.year}
                 onChange={(e) => handleChange('year', e.target.value)}
                 placeholder="例如：114"
-              />
-            </div>
-            <div className={s.fieldRow}>
-              <label className={s.label}>排序</label>
-              <input
-                type="number"
-                className={s.input}
-                value={form.order}
-                onChange={(e) => handleChange('order', e.target.value)}
-                placeholder="數字越小越前面"
               />
             </div>
             <div className={s.fieldRow}>

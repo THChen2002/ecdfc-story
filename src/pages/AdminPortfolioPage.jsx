@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit, faTrash, faEye, faEyeSlash, faTags } from '@fortawesome/free-solid-svg-icons'
-import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore'
+import {
+  faPlus,
+  faEdit,
+  faTrash,
+  faEye,
+  faEyeSlash,
+  faTags,
+  faArrowUp,
+  faArrowDown,
+} from '@fortawesome/free-solid-svg-icons'
+import { collection, getDocs, deleteDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '@/services/firebase'
 import Button from '@/components/common/Button/Button'
 import Modal from '@/components/common/Modal/Modal'
@@ -18,6 +27,7 @@ export default function AdminPortfolioPage() {
   const [deleteId, setDeleteId] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [showCategoryManager, setShowCategoryManager] = useState(false)
+  const [reordering, setReordering] = useState(false)
   const navigate = useNavigate()
   const { categories, refetch: refetchCategories } = usePortfolioCategories()
   const categoryLabelMap = categories.reduce((acc, c) => {
@@ -28,14 +38,14 @@ export default function AdminPortfolioPage() {
   const fetchPortfolios = async ({ silent = false } = {}) => {
     if (!silent) setLoading(true)
     try {
-      const q = query(collection(db, 'portfolios'), orderBy('order', 'asc'))
-      const snap = await getDocs(q)
-      setPortfolios(
-        snap.docs.map((d) => {
-          const data = d.data()
-          return { id: d.id, ...data, year: toAcademicYear(data.year) }
-        })
-      )
+      // 客端排序，避免 Firestore orderBy 略過缺 order 欄位的舊資料
+      const snap = await getDocs(collection(db, 'portfolios'))
+      const results = snap.docs.map((d) => {
+        const data = d.data()
+        return { id: d.id, ...data, year: toAcademicYear(data.year) }
+      })
+      results.sort((a, b) => (a.order || 0) - (b.order || 0))
+      setPortfolios(results)
     } catch (err) {
       console.error('Fetch error:', err)
     } finally {
@@ -46,6 +56,40 @@ export default function AdminPortfolioPage() {
   useEffect(() => {
     fetchPortfolios()
   }, [])
+
+  const handleMove = async (index, direction) => {
+    if (reordering) return
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+    if (targetIndex < 0 || targetIndex >= portfolios.length) return
+
+    const swapped = [...portfolios]
+    ;[swapped[index], swapped[targetIndex]] = [swapped[targetIndex], swapped[index]]
+
+    // 以新陣列索引為準重新正規化 order，順便自動修復重複或缺號
+    const updates = []
+    const normalized = swapped.map((p, i) => {
+      if (p.order !== i) {
+        updates.push({ id: p.id, order: i })
+        return { ...p, order: i }
+      }
+      return p
+    })
+
+    setReordering(true)
+    const prev = portfolios
+    setPortfolios(normalized)
+    try {
+      await Promise.all(
+        updates.map((u) => updateDoc(doc(db, 'portfolios', u.id), { order: u.order }))
+      )
+    } catch (err) {
+      console.error('Reorder error:', err)
+      alert('調整順序失敗，請重試')
+      setPortfolios(prev)
+    } finally {
+      setReordering(false)
+    }
+  }
 
   const handleDelete = async () => {
     if (!deleteId) return
@@ -93,6 +137,7 @@ export default function AdminPortfolioPage() {
             <table className={s.table}>
               <thead>
                 <tr>
+                  <th className={s.thCenter} style={{ width: 90 }}>順序</th>
                   <th>標題</th>
                   <th>分類</th>
                   <th>學年度</th>
@@ -101,8 +146,28 @@ export default function AdminPortfolioPage() {
                 </tr>
               </thead>
               <tbody>
-                {portfolios.map((p) => (
+                {portfolios.map((p, idx) => (
                   <tr key={p.id}>
+                    <td className={s.tdCenter}>
+                      <div className={s.reorderGroup}>
+                        <button
+                          onClick={() => handleMove(idx, 'up')}
+                          disabled={idx === 0 || reordering}
+                          title="上移"
+                          className={s.reorderBtn}
+                        >
+                          <FontAwesomeIcon icon={faArrowUp} />
+                        </button>
+                        <button
+                          onClick={() => handleMove(idx, 'down')}
+                          disabled={idx === portfolios.length - 1 || reordering}
+                          title="下移"
+                          className={s.reorderBtn}
+                        >
+                          <FontAwesomeIcon icon={faArrowDown} />
+                        </button>
+                      </div>
+                    </td>
                     <td className={s.tdBold}>{p.title}</td>
                     <td>
                       <span className={s.badge}>

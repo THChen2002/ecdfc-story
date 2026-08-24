@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBars,
+  faXmark,
   faHome,
   faInfoCircle,
   faImages,
@@ -21,12 +22,6 @@ const iconMap = {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const location = useLocation()
-
-  // 路由變更時自動關閉行動版選單
-  useEffect(() => {
-    setMenuOpen(false)
-  }, [location.pathname])
 
   return (
     <header className={styles.header}>
@@ -35,16 +30,17 @@ export default function Header() {
           <img src={logo} alt={SITE_CONFIG.shortName} className={styles.logoImg} />
           <div className={styles.logoText}>
             <span className={styles.logoName}>{SITE_CONFIG.shortName}</span>
-            <span className={styles.logoSub}>{SITE_CONFIG.organization}</span>
+            <span className={styles.logoSub}>{SITE_CONFIG.tagline}</span>
           </div>
         </Link>
 
         <button
-          className={styles.menuBtn}
+          className={`${styles.menuBtn} ${menuOpen ? styles.menuBtnOpen : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? '關閉選單' : '開啟選單'}
+          aria-expanded={menuOpen}
         >
-          <FontAwesomeIcon icon={faBars} />
+          <FontAwesomeIcon icon={menuOpen ? faXmark : faBars} className={styles.menuIcon} />
         </button>
 
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`}>
@@ -56,6 +52,7 @@ export default function Header() {
                 `${styles.navLink} ${isActive ? styles.active : ''}`
               }
               end={link.path === '/'}
+              onClick={() => setMenuOpen(false)}
             >
               <FontAwesomeIcon
                 icon={iconMap[link.icon]}

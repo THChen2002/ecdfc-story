@@ -9,6 +9,7 @@ import illustPinecone from '@/assets/illust-pinecone.png'
 import illustHorse from '@/assets/illust-2.png'
 import dotsBlue from '@/assets/dots-blue.png'
 import dotsYellow from '@/assets/dots-yellow.png'
+import pageHeroPhoto from '@/assets/其他頁照片.jpg'
 
 export default function PortfolioListPage() {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -72,10 +73,10 @@ export default function PortfolioListPage() {
 
   return (
     <>
-      {/* 上方照片 hero（沿用首頁照片，泡泡雲朵下緣） */}
+      {/* 上方照片 hero（其他頁照片，泡泡雲朵下緣） */}
       <div className={styles.hero}>
         <img
-          src="https://truehearts.com.tw/wp-content/uploads/2025/02/399811_0-scaled.jpg"
+          src={pageHeroPhoto}
           alt="ECDFC Story"
           className={styles.heroImg}
         />

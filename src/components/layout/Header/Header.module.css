@@ -23,12 +23,14 @@
 }
 
 .container {
-  max-width: var(--max-width);
+  /* 比內文寬版更寬，讓 logo 與導覽列在大螢幕上拉得更開 */
+  max-width: 1440px;
   margin: 0 auto;
   padding: 0 var(--space-lg);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-xl);
   height: 100%;
 }
 
@@ -55,16 +57,19 @@
 }
 
 .logoName {
-  font-size: var(--font-size-xl);
+  /* 站名永遠單行：空間不足時縮字級，不換行 */
+  font-size: clamp(1rem, 2.2vw - 0.5rem, var(--font-size-xl));
   font-weight: var(--font-weight-bold);
   color: #FFFFFF;
   text-shadow: 0 1px 2px rgba(94, 62, 38, 0.35);
+  white-space: nowrap;
 }
 
 .logoSub {
   font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 1px 2px rgba(94, 62, 38, 0.3);
+  white-space: nowrap;
 }
 
 /* Navigation — 手繪線條風 */
@@ -86,6 +91,8 @@
   font-weight: var(--font-weight-medium);
   position: relative;
   text-shadow: 0 1px 2px rgba(94, 62, 38, 0.3);
+  /* 空間不足時不可直排堆疊 */
+  white-space: nowrap;
 }
 
 /* 手繪風 hover 底線 — 用 SVG 模擬不規則曲線 */
@@ -123,65 +130,156 @@
   font-size: 0.9em;
 }
 
-/* Mobile menu button */
+/* Mobile menu button — 深土黃圓底 + 奶白符號，與 header 同色系但看得出是按鈕 */
 .menuBtn {
   display: none;
-  background: none;
-  border: none;
-  font-size: var(--font-size-xl);
-  color: var(--color-text);
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  background: #c1955f;
+  border: 2px solid rgba(255, 253, 246, 0.6);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  color: #fffdf6;
   cursor: pointer;
-  padding: var(--space-sm);
+  padding: 0;
   z-index: calc(var(--z-sticky) + 1);
+  box-shadow: 0 2px 6px rgba(94, 62, 38, 0.25);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
+.menuBtn:active {
+  transform: scale(0.86);
+}
+
+.menuBtnOpen {
+  background: #a4713a;
+  transform: rotate(90deg);
+}
+
+.menuBtnOpen:active {
+  transform: rotate(90deg) scale(0.86);
+}
+
+.menuIcon {
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+/* Mobile responsive — 1080 以下 logo + 完整導覽列排不下，改用漢堡選單 */
+@media (max-width: 1080px) {
   .menuBtn {
     display: flex;
     align-items: center;
   }
 
+  /* 漢堡模式下縮小 logo 與站名，避免擠壓選單按鈕 */
+  .logoImg {
+    width: 96px;
+    height: 96px;
+  }
+
+  .logoName {
+    font-size: clamp(0.85rem, 3.4vw, var(--font-size-lg));
+  }
+
+  .logoSub {
+    font-size: var(--font-size-xs);
+  }
+
+  /* 下拉選單 — 淺土黃底、底部土黃色邊，與奶白頁面背景區隔；以縮放＋淡入展開 */
   .nav {
-    display: none;
+    display: flex;
     flex-direction: column;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--color-bg);
+    background: #f6e7cf;
+    border-bottom: 3px solid #d8ab74;
     /* 上方留出 Header 底部波浪修飾的高度（約 46px），避免第一個項目被波浪蓋住 */
-    padding: 56px var(--space-lg) var(--space-md);
+    padding: 56px var(--space-lg) var(--space-lg);
     gap: var(--space-xs);
     align-items: stretch;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 18px rgba(94, 62, 38, 0.18);
+    transform-origin: top center;
+    transform: scaleY(0.85) translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.22s ease,
+      visibility 0s linear 0.28s;
   }
 
   .navOpen {
-    display: flex;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      transform 0.32s cubic-bezier(0.34, 1.4, 0.64, 1),
+      opacity 0.22s ease,
+      visibility 0s;
   }
 
+  /* 選單項目依序彈入 */
   .navLink {
     padding: 0.75rem 1rem;
     font-size: var(--font-size-base);
     border-radius: var(--radius-md);
-    /* 下拉選單為淺底，文字改深色才看得清楚（覆寫桌機版白字） */
-    color: var(--color-text);
+    /* 淺底上改用深咖啡字（覆寫桌機版白字） */
+    color: #6b5744;
     text-shadow: none;
+    background: rgba(255, 253, 246, 0.55);
+    transform: translateY(-6px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s ease;
   }
+
+  .navOpen .navLink {
+    transform: none;
+    opacity: 1;
+  }
+
+  .navOpen .navLink:nth-child(1) { transition-delay: 0.05s; }
+  .navOpen .navLink:nth-child(2) { transition-delay: 0.1s; }
+  .navOpen .navLink:nth-child(3) { transition-delay: 0.15s; }
+  .navOpen .navLink:nth-child(4) { transition-delay: 0.2s; }
 
   .navLink::after {
     display: none;
   }
 
   .navLink:hover {
-    background: var(--color-primary-bg);
-    color: var(--color-primary-dark);
+    background: #eed6b3;
+    color: #6b5744;
   }
 
+  /* 目前頁面 — 與 header 同色的土黃底、白字 */
   .active {
-    background: var(--color-primary-bg);
-    border-left: 3px solid var(--color-primary);
-    color: var(--color-primary-dark);
+    background: #e3b895;
+    color: #fffdf6;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .active:hover {
+    background: #d8ab74;
+    color: #fffdf6;
+  }
+}
+
+/* 窄手機 — logo 再縮、間距收緊，確保單行站名 + 漢堡按鈕都放得下 */
+@media (max-width: 520px) {
+  .container {
+    gap: var(--space-md);
+  }
+
+  .logoImg {
+    width: 64px;
+    height: 64px;
   }
 }

@@ -63,6 +63,28 @@
   right: -50px;
 }
 
+/* 背景點點圓 — 左右貼邊，填補畫面空曠感 */
+.dotOrange,
+.dotBlue {
+  position: absolute;
+  height: auto;
+  z-index: 0;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dotOrange {
+  top: 8%;
+  left: -70px;
+  width: 320px;
+}
+
+.dotBlue {
+  bottom: 4%;
+  right: -70px;
+  width: 340px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -149,7 +171,7 @@
   margin-top: var(--space-2xl);
 }
 
-/* 蠟筆塗抹按鈕 — 奶茶色色塊 + 手寫感文字，整體套 SVG 位移濾鏡 */
+/* 奶茶色按鈕 — 不規則圓角保留手繪感；不套位移濾鏡，邊緣平滑、文字清晰 */
 .viewAllLink {
   position: relative;
   display: inline-flex;
@@ -160,20 +182,29 @@
   letter-spacing: 0.08em;
   text-decoration: none;
   font-size: var(--font-size-md);
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   padding: 0.8rem 2.25rem;
-  /* 不規則邊角，位移濾鏡後呈現手繪塗抹的粗糙輪廓 */
   border-radius: 46px 52px 44px 54px / 52px 44px 54px 46px;
   background: #d8ab74;
-  filter: url(#crayonButton);
+  box-shadow: 0 3px 10px rgba(150, 110, 70, 0.22);
 }
 
 .viewAllLink:hover {
   transform: translateY(-2px) rotate(-0.6deg);
   color: #fff;
+  box-shadow: 0 6px 14px rgba(150, 110, 70, 0.28);
 }
 
 @media (max-width: 768px) {
+  /* 底部留白縮小，銜接下方「探索DFC」不會空一大段 */
+  .section {
+    padding-bottom: var(--space-xl);
+  }
+
+  .viewAll {
+    margin-top: var(--space-xl);
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }
@@ -182,5 +213,18 @@
   .decoFrame,
   .decoGirl {
     display: none;
+  }
+
+  /* 手機保留點點裝飾（縮小貼邊） */
+  .dotOrange {
+    top: 4%;
+    left: -55px;
+    width: 170px;
+  }
+
+  .dotBlue {
+    bottom: 2%;
+    right: -55px;
+    width: 180px;
   }
 }

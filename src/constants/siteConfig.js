@@ -1,6 +1,7 @@
 export const SITE_CONFIG = {
   name: '培育未來幼兒的教育人才',
-  shortName: 'ECDFC-Story',
+  shortName: 'CHILDHOOD ✕ DFC Story',
+  tagline: '陪伴孩子 看見改變',
   organization: '國立臺北教育大學',
   description: '精進師資素質與特色發展計畫',
   fullTitle: '精進師資素質與特色發展計畫 — 培育未來幼兒的教育人才',
@@ -23,9 +24,9 @@ export const SITE_CONFIG = {
     copyright: '© 2026 國立臺北教育大學. All rights reserved.',
   },
   defaultStats: {
-    students: 500,
-    projects: 120,
-    partners: 30,
-    years: 5,
+    students: 130,
+    projects: 34,
+    partners: 34,
+    years: 2,
   },
 }

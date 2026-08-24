@@ -35,14 +35,14 @@
 
 .dotYellow {
   top: 4%;
-  right: -40px;
-  width: 240px;
+  right: -70px;
+  width: 330px;
 }
 
 .dotBlue {
   top: 34%;
-  left: -40px;
-  width: 220px;
+  left: -70px;
+  width: 310px;
 }
 
 /* 四周散布手繪插圖 */
@@ -54,18 +54,18 @@
   pointer-events: none;
 }
 
-/* 木馬小孩 — 左上（素材已裁切留白，改用貼齊內容尺寸） */
+/* 木馬小孩 — 左上（放大） */
 .illHorse {
-  top: 3%;
-  left: 1%;
-  width: 110px;
+  top: 2%;
+  left: -1%;
+  width: 180px;
 }
 
 /* 蹲坐男孩 — 右下 */
 .illBoy {
   bottom: 2%;
-  right: 2%;
-  width: 105px;
+  right: 1%;
+  width: 175px;
 }
 
 .grid {
@@ -84,56 +84,55 @@
   transition: transform 0.4s ease;
 }
 
-/* 卡片底色 — 單色 + 蠟筆位移濾鏡，做出塗抹粗邊（像首頁按鈕） */
+/* 卡片底色 — 平滑不規則圓角（不套位移濾鏡，避免邊緣馬賽克感）；配色統一藍/土黃 */
 .card::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #fadfc6;
+  background: #f4e5cb;
   border-radius: 32px 48px 36px 52px / 44px 36px 52px 32px;
-  filter: url(#crayonButton);
 }
 
-/* 手繪描邊 — 與底色套同一個位移濾鏡，塗抹邊和外框對齊 */
+/* 手繪描邊 — 細框套蠟筆濾鏡保留手繪感 */
 .card::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  border: 3px solid #edbf98;
+  border: 3px solid #d8ab74;
   border-radius: 32px 48px 36px 52px / 44px 36px 52px 32px;
-  filter: url(#crayonButton);
+  filter: url(#crayonWobble);
 }
 
 .card:nth-child(2n)::after {
-  border-color: #bfd5a5;
+  border-color: #9ab8d5;
   border-radius: 48px 32px 52px 36px / 36px 48px 32px 52px;
 }
 
 .card:nth-child(3n)::after {
-  border-color: #eeb6b6;
+  border-color: #d8ab74;
   border-radius: 44px 36px 48px 32px / 36px 44px 32px 48px;
 }
 
 .card:nth-child(4n)::after {
-  border-color: #e8cd8e;
+  border-color: #9ab8d5;
   border-radius: 36px 52px 32px 48px / 48px 32px 44px 36px;
 }
 
 .card:nth-child(2n)::before {
-  background: #e2ebce;
+  background: #dde8f2;
   border-radius: 48px 32px 52px 36px / 36px 48px 32px 52px;
 }
 
 .card:nth-child(3n)::before {
-  background: #f8d4d4;
+  background: #f4e5cb;
   border-radius: 44px 36px 48px 32px / 36px 44px 32px 48px;
 }
 
 .card:nth-child(4n)::before {
-  background: #f8e4b3;
+  background: #dde8f2;
   border-radius: 36px 52px 32px 48px / 48px 32px 44px 36px;
 }
 
@@ -163,21 +162,20 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #ef9646;
+  background: #c1955f;
   border-radius: 38% 62% 42% 58% / 58% 38% 62% 42%;
-  filter: url(#crayonButton);
 }
 
 .card:nth-child(2n) .iconWrap::before {
-  background: #7bc5a0;
+  background: #89a9c8;
 }
 
 .card:nth-child(3n) .iconWrap::before {
-  background: #e88b8b;
+  background: #c1955f;
 }
 
 .card:nth-child(4n) .iconWrap::before {
-  background: #e8b93a;
+  background: #89a9c8;
 }
 
 .icon {
@@ -185,7 +183,6 @@
   z-index: 1;
   font-size: 1.875rem;
   color: #FFFFFF;
-  filter: url(#crayonButton);
 }
 
 .textWrap {
@@ -236,9 +233,17 @@
     font-size: 1.5rem;
   }
 
-  .dotYellow,
+  /* 手機保留點點裝飾（縮小貼邊） */
+  .dotYellow {
+    top: 1%;
+    right: -55px;
+    width: 170px;
+  }
+
   .dotBlue {
-    display: none;
+    top: 40%;
+    left: -55px;
+    width: 180px;
   }
 }
 
