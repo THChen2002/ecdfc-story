@@ -12,6 +12,7 @@ import illustBlocks from '@/assets/illust-4.png'
 import decoTwigs from '@/assets/deco-twigs.png'
 import dotsBlue from '@/assets/dots-blue.png'
 import dotsOrange from '@/assets/dots-orange.png'
+import pageHeroPhoto from '@/assets/其他頁照片.jpg'
 
 export default function NewsPage() {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -32,10 +33,10 @@ export default function NewsPage() {
 
   return (
     <>
-      {/* 上方照片 hero（沿用首頁照片，雲朵下緣） */}
+      {/* 上方照片 hero（其他頁照片，雲朵下緣） */}
       <div className={styles.hero}>
         <img
-          src="https://truehearts.com.tw/wp-content/uploads/2025/02/399811_0-scaled.jpg"
+          src={pageHeroPhoto}
           alt="ECDFC Story"
           className={styles.heroImg}
         />

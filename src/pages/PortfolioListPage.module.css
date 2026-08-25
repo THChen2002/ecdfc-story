@@ -1,4 +1,4 @@
-/* === 上方照片 hero（泡泡雲朵下緣，沿用公告頁做法） === */
+/* === 上方照片 hero（圓弧下緣，與首頁一致，沿用公告頁做法） === */
 .hero {
   width: 100%;
   background: var(--color-bg);
@@ -13,23 +13,23 @@
   object-position: center 60%;
   -webkit-mask-image:
     linear-gradient(#000, #000),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,40 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q720,140 1440,20 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
   -webkit-mask-position: top, bottom;
-  -webkit-mask-size: 100% calc(100% - 60px), 100% 60px;
+  -webkit-mask-size: 100% calc(100% - 100px), 100% 100px;
   -webkit-mask-repeat: no-repeat;
   mask-image:
     linear-gradient(#000, #000),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,40 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 a90,76 0 0 0 180,0 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q720,140 1440,20 L1440,0 L0,0 Z' fill='black'/%3E%3C/svg%3E");
   mask-position: top, bottom;
-  mask-size: 100% calc(100% - 60px), 100% 60px;
+  mask-size: 100% calc(100% - 100px), 100% 100px;
   mask-repeat: no-repeat;
 }
 
 @media (max-width: 768px) {
   .heroImg {
     height: 240px;
-    -webkit-mask-size: 100% calc(100% - 44px), 100% 44px;
-    mask-size: 100% calc(100% - 44px), 100% 44px;
+    -webkit-mask-size: 100% calc(100% - 70px), 100% 70px;
+    mask-size: 100% calc(100% - 70px), 100% 70px;
   }
 }
 
@@ -52,11 +52,14 @@
 }
 
 /* === 手繪標題框（可填字） === */
+/* title-blank.png 藍色框佔圖面約 55% 寬，與「最新消息」標題圖同比例 */
 .titleBox {
   position: relative;
   width: 100%;
-  max-width: 560px;
-  margin: 0 auto 2rem;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  /* 讓標題文字可用 cqw 跟著圖寬等比縮放 */
+  container-type: inline-size;
 }
 
 .titleImg {
@@ -65,23 +68,21 @@
   height: auto;
 }
 
+/* 藍框中心約在圖面 x 47.5%、y 52.5% */
 .titleText {
   position: absolute;
-  top: 49.4%;
-  left: 52%;
+  top: 52.5%;
+  left: 47.5%;
   transform: translate(-50%, -50%);
   font-family: 'Chenyuluoyan', var(--font-family);
-  font-size: 3.4rem;
+  /* 依圖寬等比縮放（四字約佔藍框八成寬，與「最新消息」的字級比例一致）；白字與「最新消息」一致 */
+  font-size: min(5.6rem, 15vw);
+  font-size: 15cqw;
+  line-height: 1;
   font-weight: 400;
-  color: var(--color-text);
-  letter-spacing: 0.03em;
+  color: #fffdf6;
+  letter-spacing: 0.05em;
   white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-  .titleText {
-    font-size: 2.2rem;
-  }
 }
 
 .grid {
@@ -153,14 +154,14 @@
 
 .dotYellow {
   top: 5%;
-  right: -40px;
-  width: 240px;
+  right: -70px;
+  width: 340px;
 }
 
 .dotBlue {
   bottom: 6%;
-  left: -40px;
-  width: 220px;
+  left: -70px;
+  width: 320px;
 }
 
 /* === 四周散布手繪插圖 === */
@@ -172,18 +173,18 @@
   pointer-events: none;
 }
 
-/* 木馬小孩 — 左上 */
+/* 木馬小孩 — 左上（放大） */
 .illHorse {
-  top: 16%;
-  left: 1%;
-  width: 110px;
+  top: 14%;
+  left: -1%;
+  width: 190px;
 }
 
 /* 松果小孩 — 右側中段 */
 .illPinecone {
-  top: 44%;
-  right: 1%;
-  width: 130px;
+  top: 42%;
+  right: -1%;
+  width: 210px;
 }
 
 @media (max-width: 1000px) {
@@ -193,9 +194,17 @@
   }
 }
 
+/* 手機保留點點裝飾（縮小貼邊） */
 @media (max-width: 640px) {
-  .dotYellow,
+  .dotYellow {
+    top: 2%;
+    right: -55px;
+    width: 170px;
+  }
+
   .dotBlue {
-    display: none;
+    bottom: 4%;
+    left: -55px;
+    width: 180px;
   }
 }

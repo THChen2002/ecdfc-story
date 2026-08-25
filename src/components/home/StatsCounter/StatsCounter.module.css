@@ -19,15 +19,37 @@
 .footPrint1 {
   top: 12%;
   left: 3%;
-  width: 64px;
+  width: 108px;
   transform: rotate(-18deg);
 }
 
 .footPrint2 {
   bottom: 8%;
   right: 4%;
-  width: 72px;
+  width: 118px;
   transform: rotate(14deg);
+}
+
+/* 背景點點圓 — 放大並貼齊左右邊緣 */
+.dotBlue,
+.dotYellow {
+  position: absolute;
+  height: auto;
+  z-index: 0;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dotBlue {
+  top: 6%;
+  left: -70px;
+  width: 300px;
+}
+
+.dotYellow {
+  bottom: 4%;
+  right: -70px;
+  width: 280px;
 }
 
 .container {
@@ -89,7 +111,7 @@
   margin-top: var(--space-lg);
 }
 
-/* 蠟筆塗抹不規則橢圓底盛放數字 — 套 SVG 位移濾鏡呈現手繪塗抹感 */
+/* 不規則橢圓底盛放數字 — 平滑邊緣（不套位移濾鏡，避免馬賽克感、數字模糊） */
 .blob {
   width: 100%;
   max-width: 190px;
@@ -98,7 +120,6 @@
   align-items: center;
   justify-content: center;
   background: #d8ab74;
-  filter: url(#crayonButton);
   transition: transform 0.4s ease;
 }
 
@@ -144,6 +165,43 @@
   .stat:nth-child(2),
   .stat:nth-child(4) {
     margin-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 上方留白縮小，讓「陪伴的足跡」往上靠 */
+  .section {
+    padding: var(--space-xl) 0 var(--space-3xl);
+  }
+
+  .header {
+    margin-bottom: var(--space-xl);
+  }
+
+  /* 腳印避開標題人物：往角落移、縮小 */
+  .footPrint1 {
+    top: 1%;
+    left: 2%;
+    width: 60px;
+  }
+
+  .footPrint2 {
+    bottom: 2%;
+    right: 3%;
+    width: 66px;
+  }
+
+  /* 手機保留點點，縮小貼邊 */
+  .dotBlue {
+    top: 4%;
+    left: -50px;
+    width: 170px;
+  }
+
+  .dotYellow {
+    bottom: 3%;
+    right: -50px;
+    width: 160px;
   }
 }
 

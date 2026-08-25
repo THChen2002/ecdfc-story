@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit, faTrash, faEye, faEyeSlash, faThumbtack } from '@fortawesome/free-solid-svg-icons'
-import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore'
+import {
+  faPlus,
+  faEdit,
+  faTrash,
+  faEye,
+  faEyeSlash,
+  faThumbtack,
+  faArrowUp,
+  faArrowDown,
+} from '@fortawesome/free-solid-svg-icons'
+import { collection, getDocs, deleteDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '@/services/firebase'
 import Button from '@/components/common/Button/Button'
 import Modal from '@/components/common/Modal/Modal'
@@ -15,14 +24,24 @@ export default function AdminNewsPage() {
   const [loading, setLoading] = useState(true)
   const [deleteId, setDeleteId] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [reordering, setReordering] = useState(false)
   const navigate = useNavigate()
 
   const fetchNews = async () => {
     setLoading(true)
     try {
-      const q = query(collection(db, 'news'), orderBy('publishDate', 'desc'))
-      const snap = await getDocs(q)
-      setNewsList(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+      const snap = await getDocs(collection(db, 'news'))
+      const results = snap.docs.map((d) => ({ id: d.id, ...d.data() }))
+      // 與前台一致：先依手動順序，order 相同再以日期新到舊排
+      results.sort((a, b) => {
+        const orderA = a.order || 0
+        const orderB = b.order || 0
+        if (orderA !== orderB) return orderA - orderB
+        const dateA = a.publishDate?.toDate?.() || new Date(0)
+        const dateB = b.publishDate?.toDate?.() || new Date(0)
+        return dateB - dateA
+      })
+      setNewsList(results)
     } catch (err) {
       console.error('Fetch error:', err)
     } finally {
@@ -33,6 +52,40 @@ export default function AdminNewsPage() {
   useEffect(() => {
     fetchNews()
   }, [])
+
+  const handleMove = async (index, direction) => {
+    if (reordering) return
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+    if (targetIndex < 0 || targetIndex >= newsList.length) return
+
+    const swapped = [...newsList]
+    ;[swapped[index], swapped[targetIndex]] = [swapped[targetIndex], swapped[index]]
+
+    // 以新陣列索引為準重新正規化 order，順便自動修復重複或缺號
+    const updates = []
+    const normalized = swapped.map((n, i) => {
+      if (n.order !== i) {
+        updates.push({ id: n.id, order: i })
+        return { ...n, order: i }
+      }
+      return n
+    })
+
+    setReordering(true)
+    const prev = newsList
+    setNewsList(normalized)
+    try {
+      await Promise.all(
+        updates.map((u) => updateDoc(doc(db, 'news', u.id), { order: u.order }))
+      )
+    } catch (err) {
+      console.error('Reorder error:', err)
+      alert('調整順序失敗，請重試')
+      setNewsList(prev)
+    } finally {
+      setReordering(false)
+    }
+  }
 
   const handleDelete = async () => {
     if (!deleteId) return
@@ -70,6 +123,7 @@ export default function AdminNewsPage() {
             <table className={s.table}>
               <thead>
                 <tr>
+                  <th className={s.thCenter} style={{ width: 90 }}>順序</th>
                   <th>標題</th>
                   <th>分類</th>
                   <th>日期</th>
@@ -78,8 +132,28 @@ export default function AdminNewsPage() {
                 </tr>
               </thead>
               <tbody>
-                {newsList.map((n) => (
+                {newsList.map((n, idx) => (
                   <tr key={n.id}>
+                    <td className={s.tdCenter}>
+                      <div className={s.reorderGroup}>
+                        <button
+                          onClick={() => handleMove(idx, 'up')}
+                          disabled={idx === 0 || reordering}
+                          title="上移"
+                          className={s.reorderBtn}
+                        >
+                          <FontAwesomeIcon icon={faArrowUp} />
+                        </button>
+                        <button
+                          onClick={() => handleMove(idx, 'down')}
+                          disabled={idx === newsList.length - 1 || reordering}
+                          title="下移"
+                          className={s.reorderBtn}
+                        >
+                          <FontAwesomeIcon icon={faArrowDown} />
+                        </button>
+                      </div>
+                    </td>
                     <td className={s.tdBold}>
                       {n.pinned && (
                         <FontAwesomeIcon icon={faThumbtack} className={s.pinned} />

@@ -8,8 +8,6 @@ import {
   deleteDoc,
   query,
   where,
-  orderBy,
-  limit,
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from './firebase'
@@ -34,7 +32,11 @@ export const getNewsList = async (filters = {}) => {
   if (filters.pinned !== undefined) {
     results = results.filter((item) => item.pinned === filters.pinned)
   }
+  // 先依後台手動順序，未調整過的（order 相同）再以日期新到舊排
   results.sort((a, b) => {
+    const orderA = a.order || 0
+    const orderB = b.order || 0
+    if (orderA !== orderB) return orderA - orderB
     const dateA = a.publishDate?.toDate?.() || new Date(0)
     const dateB = b.publishDate?.toDate?.() || new Date(0)
     return dateB - dateA

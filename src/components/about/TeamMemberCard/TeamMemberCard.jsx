@@ -20,13 +20,13 @@ function seededRadius(seed) {
   return `${v()}px ${v()}px ${v()}px ${v()}px / ${v()}px ${v()}px ${v()}px ${v()}px`
 }
 
-// 與「計畫目標」卡片同一套暖色系（橘/綠/粉/黃 + 珊瑚），保有飽和度
+// 與整體網頁同色調 — 藍色、土黃交錯，深淺變化維持每張卡片的差異
 const themes = [
-  { fill: '#f8d3ad', border: '#e6ab74', accent: '#bf6a2c', ph: '#efa863' }, // 橘
-  { fill: '#dcebbb', border: '#aecb7e', accent: '#5f8a44', ph: '#a7cc79' }, // 綠
-  { fill: '#f8cccc', border: '#e89f9f', accent: '#c25a5a', ph: '#ea9a9a' }, // 粉
-  { fill: '#f8dd9c', border: '#dfbc60', accent: '#a07d1e', ph: '#e8c561' }, // 黃
-  { fill: '#f6cbb4', border: '#e0a082', accent: '#b45c40', ph: '#e79f80' }, // 珊瑚
+  { fill: '#f4e5cb', border: '#d8ab74', accent: '#a4713a', ph: '#d3aa72' }, // 土黃
+  { fill: '#dde8f2', border: '#9ab8d5', accent: '#5b7d9e', ph: '#9ab8d5' }, // 藍
+  { fill: '#efe0c3', border: '#c9a267', accent: '#96682f', ph: '#c9a267' }, // 深土黃
+  { fill: '#e6eef7', border: '#aac4dc', accent: '#68859f', ph: '#aac4dc' }, // 淺藍
+  { fill: '#f6ead2', border: '#dbb783', accent: '#a4713a', ph: '#dbb783' }, // 奶茶
 ]
 
 export default function TeamMemberCard({ member }) {

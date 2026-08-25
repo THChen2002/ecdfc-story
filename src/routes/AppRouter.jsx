@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer/Footer'
 import AdminLayout from '@/components/layout/AdminLayout/AdminLayout'
 import Loading from '@/components/common/Loading/Loading'
 import PrivateRoute from './PrivateRoute'
+import ScrollToTop from './ScrollToTop'
 
 const HomePage = lazy(() => import('@/pages/HomePage'))
 const AboutPage = lazy(() => import('@/pages/AboutPage'))
@@ -45,6 +46,7 @@ function AdminRoute({ children }) {
 export default function AppRouter() {
   return (
     <HashRouter>
+      <ScrollToTop />
       <Suspense fallback={<Loading fullPage />}>
         <Routes>
           {/* Public routes */}

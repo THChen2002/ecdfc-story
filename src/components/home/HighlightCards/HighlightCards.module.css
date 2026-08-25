@@ -47,7 +47,8 @@
   left: 59.7%;
   transform: translate(-50%, -50%);
   font-family: 'Chenyuluoyan', var(--font-family);
-  font-size: 3.8rem;
+  /* 跟著泡泡圖寬度縮放，手機上字不會縮得太小 */
+  font-size: min(3.8rem, 10vw);
   color: var(--color-text);
   font-weight: 400;
   margin: 0;
@@ -55,10 +56,14 @@
   white-space: nowrap;
 }
 
-@media (max-width: 640px) {
-  .sectionTitle {
-    font-size: var(--font-size-xl);
-  }
+/* 標題泡泡下方的引言文字 */
+.introLead {
+  margin: var(--space-lg) auto 0;
+  max-width: 640px;
+  font-size: 1.125rem;
+  line-height: 2;
+  color: var(--color-text);
+  letter-spacing: 0.05em;
 }
 
 /* === 交錯大圖列 === */
@@ -81,29 +86,33 @@
 }
 
 .decoDots {
-  width: 140px;
+  width: 260px;
   opacity: 0.5;
-  top: -26px;
-  left: -36px;
+  top: -48px;
+  left: -70px;
 }
 
 .row.reverse .decoDots {
   left: auto;
-  right: -36px;
+  right: -70px;
 }
 
+/* 腳印 — 圓圈左下外側（以插圖容器為基準，圓從 4% 起，此處落在圓弧外） */
 .decoAccent {
-  width: 62px;
+  width: 28%;
   opacity: 0.9;
   z-index: 2;
-  bottom: 6%;
-  left: 6%;
+  bottom: -10%;
+  left: -22%;
   transform: rotate(-8deg);
 }
 
+/* 閃光 — 圓圈右下外側 */
 .row.reverse .decoAccent {
+  width: 26%;
   left: auto;
-  right: 6%;
+  right: -20%;
+  bottom: -6%;
   transform: rotate(8deg);
 }
 
@@ -129,7 +138,7 @@
   order: 1;
 }
 
-/* 插圖坐在柔和的蠟筆奶茶色塊上 */
+/* 插圖坐在白底手繪外框圓圈上 */
 .illusWrap {
   position: relative;
   z-index: 1;
@@ -142,11 +151,14 @@
   margin: 0 auto;
 }
 
+/* 白色內裡 + 手繪感外框（borderColor 由 JSX 依卡片指定） */
 .blob {
   position: absolute;
   inset: 4%;
   border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%;
-  filter: url(#crayonButton);
+  background: #fffdfa;
+  border: 3px solid #d8b98c;
+  filter: url(#crayonWobble);
   z-index: 0;
 }
 
@@ -158,12 +170,13 @@
   border-radius: 50% 50% 44% 56% / 56% 48% 52% 44%;
 }
 
+/* 插圖限制在圓的內接方形內（圓徑 92%，內接邊 ≈ 65%），不會超出圓框 */
 .illusImage {
   position: relative;
   z-index: 1;
-  width: 76%;
-  max-width: 260px;
-  height: auto;
+  width: 64%;
+  height: 64%;
+  object-fit: contain;
   display: block;
 }
 
@@ -231,12 +244,28 @@
 }
 
 @media (max-width: 768px) {
+  /* 上下留白縮小，與上方「查看全部消息」、下方「陪伴的足跡」不會空一大段 */
+  .section {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+
+  .intro {
+    margin-bottom: var(--space-2xl);
+  }
+
   .row,
   .row.reverse {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
     margin-bottom: var(--space-3xl);
     text-align: center;
+  }
+
+  /* 最後一列不留底部間距（覆寫上面 .row.reverse 的 margin） */
+  .row:last-child,
+  .row.reverse:last-child {
+    margin-bottom: 0;
   }
 
   .row.reverse .illusWrap {
@@ -251,9 +280,16 @@
     max-width: 260px;
   }
 
-  .decoDots,
-  .decoAccent {
-    display: none;
+  /* 手機保留點點裝飾（縮小、貼邊），畫面不會太乾 */
+  .decoDots {
+    width: 150px;
+    top: -20px;
+    left: -46px;
+  }
+
+  .row.reverse .decoDots {
+    left: auto;
+    right: -46px;
   }
 
   .slug {

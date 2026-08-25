@@ -13,41 +13,45 @@ import exploreBubble from '@/assets/title-explore-bubble.png'
 
 const concepts = [
   {
-    slug: '設計即思考',
-    title: 'DFC 四步驟引導孩子主動解決問題',
-    desc: '透過「感受、想像、實踐、分享」的歷程，讓幼兒從生活情境中發現議題、提出方案，培養同理心與行動力。',
+    slug: '解鎖 DFC 思考',
+    title: '陪伴孩子改變行動的四個步驟',
+    desc: 'DFC（Design For Change）是一套引導孩子透過「感受、想像、實踐、分享」四個步驟，主動發現身邊的問題，並發展行動力。',
     illust: illust1,
     tint: '#f0e0c2',
+    stroke: '#d8b98c',
     dots: dotsBlue,
     accent: footprints,
     alt: '孩子在探索與創作',
   },
   {
-    slug: '永續即未來',
-    title: 'SDGs 融入幼兒園日常課程',
-    desc: '將聯合國永續發展目標化為孩子可以理解的故事，從一棵植物、一場分享開始建立全球公民素養。',
+    slug: '結合 SEL ✕ SDGs',
+    title: 'SEL ✕ SDGs 融入幼兒園生活日常',
+    desc: '引導師生從情緒同理與自我覺察出發，對接真實世界的永續議題，兼具心靈韌性與全球視野。',
     illust: illust2,
     tint: '#e5ecd2',
+    stroke: '#b8cf90',
     dots: dotsOrange,
     accent: sparkle,
     alt: '孩子親近植物與自然',
   },
   {
-    slug: '教育即溫度',
-    title: '社會情緒學習陪伴每個孩子成長',
-    desc: '重視自我覺察、情緒管理與人際互動，讓孩子在被理解與被支持的環境中，發展健全的人格與自信。',
+    slug: '實習實踐',
+    title: '走入真實教學現場',
+    desc: '透過實習將 DFC 精神融入幼兒園的課程設計、例行活動，陪伴孩子一起展開行動。',
     illust: illust3,
     tint: '#f6e2d2',
+    stroke: '#e3b79b',
     dots: dotsYellow,
     accent: footprints,
     alt: '老師陪伴孩子學習',
   },
   {
-    slug: '故事即實踐',
-    title: '用聲影記錄孩子的真實生命經驗',
-    desc: '結合多媒體與真實場景，把每一段探索旅程留下來，成為孩子可以回望、家長可以共讀的成長故事。',
+    slug: '聲影留存',
+    title: '紀錄真實生命經驗',
+    desc: '在實踐過程中，運用照片、影片，捕捉並珍藏孩子們在行動中的歷程。',
     illust: illust4,
     tint: '#f2e7cb',
+    stroke: '#d9c48f',
     dots: dotsBlue,
     accent: sparkle,
     alt: '孩子閱讀與分享故事',
@@ -66,14 +70,15 @@ function ConceptRow({ c, idx }) {
       }`}
     >
       <img src={c.dots} alt="" aria-hidden="true" className={styles.decoDots} />
-      <img src={c.accent} alt="" aria-hidden="true" className={styles.decoAccent} />
       <div className={`${styles.illusWrap} ${styles.animIllus}`}>
         <span
           className={styles.blob}
-          style={{ background: c.tint }}
+          style={{ borderColor: c.stroke }}
           aria-hidden="true"
         />
         <img src={c.illust} alt={c.alt} className={styles.illusImage} />
+        {/* 腳印／閃光貼在圓圈外側，不遮住圓內插圖 */}
+        <img src={c.accent} alt="" aria-hidden="true" className={styles.decoAccent} />
       </div>
       <div className={`${styles.text} ${styles.animText}`}>
         <span className={styles.slug}>{c.slug}</span>
@@ -103,6 +108,11 @@ export default function HighlightCards() {
             />
             <h2 className={styles.sectionTitle}>探索DFC</h2>
           </div>
+          <p className={styles.introLead}>
+            當日常教學牽起永續想像，串聯著社會情緒的學習
+            <br />
+            我們用一個個溫柔卻有力的故事，讓孩子學會關心、行動與影響世界
+          </p>
         </div>
 
         {concepts.map((c, idx) => (

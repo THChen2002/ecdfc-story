@@ -9,6 +9,8 @@ import { useNews } from '@/hooks/useNews'
 import { formatDate } from '@/utils/formatDate'
 import { stripHtml, truncateText } from '@/utils/truncateText'
 import newsTitle from '@/assets/news-title.png'
+import dotsOrange from '@/assets/dots-orange.png'
+import dotsBlue from '@/assets/dots-blue.png'
 import styles from './LatestNews.module.css'
 
 export default function LatestNews() {
@@ -25,10 +27,26 @@ export default function LatestNews() {
     )
   }
 
-  if (news.length === 0) return null
+  if (news.length === 0) {
+    return (
+      <section className={styles.section}>
+        <img src={dotsOrange} alt="" aria-hidden="true" className={styles.dotOrange} />
+        <img src={dotsBlue} alt="" aria-hidden="true" className={styles.dotBlue} />
+        <div className={styles.container}>
+          <img src={newsTitle} alt="最新消息" className={styles.sectionTitleImg} />
+          <div className="page-empty">
+            <p style={{ fontSize: 'var(--font-size-lg)' }}>目前沒有相關消息</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className={styles.section}>
+      {/* 背景點點圓 — 左右貼邊 */}
+      <img src={dotsOrange} alt="" aria-hidden="true" className={styles.dotOrange} />
+      <img src={dotsBlue} alt="" aria-hidden="true" className={styles.dotBlue} />
       <div className={styles.container}>
         <img src={newsTitle} alt="最新消息" className={styles.sectionTitleImg} />
         <div className={styles.grid}>

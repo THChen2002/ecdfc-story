@@ -13,7 +13,7 @@
   height: auto;
   display: block;
   object-fit: cover;
-  object-position: center 70%;
+  object-position: center 58%;
   max-height: 560px;
   /* 圓弧下緣 — 上半部完整顯示，底部 100px 以單一道圓弧裁切，露出底色 */
   -webkit-mask-image:
@@ -99,7 +99,6 @@
   height: var(--s);
   bottom: var(--b);
   border-radius: 50%;
-  background-image: url("https://truehearts.com.tw/wp-content/uploads/2025/02/399811_0-scaled.jpg");
   background-size: 900px auto;
   background-position: 62% 82%;
   z-index: 2;
@@ -118,10 +117,11 @@
     mask-size: 100% calc(100% - 70px), 100% 70px;
   }
 
+  /* 手機弧線區縮為 70px，泡泡等比縮小、下移比例維持與照片下緣有間距 */
   .bubble {
     width: calc(var(--s) * 0.6);
     height: calc(var(--s) * 0.6);
-    bottom: calc(var(--b) * 0.55);
+    bottom: calc(var(--b) * 0.7);
   }
 
   .heroContent {
