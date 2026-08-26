@@ -26,6 +26,7 @@
 }
 
 .newsSection {
+  scroll-margin-top: var(--header-height);
   padding: 1rem 0 5rem;
   min-height: 60vh;
   position: relative;

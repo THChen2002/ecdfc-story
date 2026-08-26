@@ -35,6 +35,7 @@
 
 /* === Content Section === */
 .contentSection {
+  scroll-margin-top: var(--header-height);
   padding: 1rem 0 5rem;
   min-height: 60vh;
   background: var(--color-bg);
@@ -68,12 +69,14 @@
   height: auto;
 }
 
-/* 藍框中心約在圖面 x 47.5%、y 52.5% */
+/* 藍框中心經圖檔像素量測約在圖面 x 48%、y 53.4% */
 .titleText {
   position: absolute;
-  top: 52.5%;
-  left: 47.5%;
+  top: 53.4%;
+  left: 48%;
   transform: translate(-50%, -50%);
+  /* 抵銷 letter-spacing 在最後一字後多出的空白，讓字面真正置中 */
+  padding-left: 0.05em;
   font-family: 'Chenyuluoyan', var(--font-family);
   /* 依圖寬等比縮放（四字約佔藍框八成寬，與「最新消息」的字級比例一致）；白字與「最新消息」一致 */
   font-size: min(5.6rem, 15vw);
