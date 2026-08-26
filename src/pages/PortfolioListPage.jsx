@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import PortfolioCard from '@/components/portfolio/PortfolioCard/PortfolioCard'
 import Loading from '@/components/common/Loading/Loading'
+import Pagination from '@/components/common/Pagination/Pagination'
 import { usePortfolios } from '@/hooks/usePortfolios'
 import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 import styles from './PortfolioListPage.module.css'
@@ -11,9 +12,13 @@ import dotsBlue from '@/assets/dots-blue.png'
 import dotsYellow from '@/assets/dots-yellow.png'
 import pageHeroPhoto from '@/assets/其他頁照片.jpg'
 
+const PAGE_SIZE = 12
+
 export default function PortfolioListPage() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [activeYear, setActiveYear] = useState('all')
+  const [currentPage, setCurrentPage] = useState(1)
+  const sectionRef = useRef(null)
   const { portfolios, loading, error } = usePortfolios({ published: true })
   const { categories } = usePortfolioCategories()
 
@@ -71,6 +76,27 @@ export default function PortfolioListPage() {
     })
   }, [activeCategory, activeYear, portfolios])
 
+  const totalPages = Math.max(1, Math.ceil(filteredPortfolios.length / PAGE_SIZE))
+  const pagedPortfolios = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE
+    return filteredPortfolios.slice(start, start + PAGE_SIZE)
+  }, [filteredPortfolios, currentPage])
+
+  // 篩選變更時回到第 1 頁
+  const handleCategoryChange = (value) => {
+    setActiveCategory(value)
+    setCurrentPage(1)
+  }
+  const handleYearChange = (value) => {
+    setActiveYear(value)
+    setCurrentPage(1)
+  }
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <>
       {/* 上方照片 hero（其他頁照片，泡泡雲朵下緣） */}
@@ -82,7 +108,7 @@ export default function PortfolioListPage() {
         />
       </div>
 
-      <section className={styles.contentSection}>
+      <section className={styles.contentSection} ref={sectionRef}>
         {/* 背景點點圓 */}
         <img src={dotsYellow} alt="" aria-hidden="true" className={styles.dotYellow} />
         <img src={dotsBlue} alt="" aria-hidden="true" className={styles.dotBlue} />
@@ -107,7 +133,7 @@ export default function PortfolioListPage() {
                 id="portfolio-category-filter"
                 className={styles.select}
                 value={activeCategory}
-                onChange={(e) => setActiveCategory(e.target.value)}
+                onChange={(e) => handleCategoryChange(e.target.value)}
               >
                 {filterOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -125,7 +151,7 @@ export default function PortfolioListPage() {
                   id="portfolio-year-filter"
                   className={styles.select}
                   value={activeYear}
-                  onChange={(e) => setActiveYear(e.target.value)}
+                  onChange={(e) => handleYearChange(e.target.value)}
                 >
                   {yearOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -147,8 +173,9 @@ export default function PortfolioListPage() {
               <p style={{ fontSize: 'var(--font-size-lg)' }}>目前沒有相關成果</p>
             </div>
           ) : (
+            <>
             <div className={styles.grid}>
-              {filteredPortfolios.map((portfolio) => (
+              {pagedPortfolios.map((portfolio) => (
                 <PortfolioCard
                   key={portfolio.id}
                   portfolio={portfolio}
@@ -160,6 +187,12 @@ export default function PortfolioListPage() {
                 />
               ))}
             </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+            </>
           )}
         </div>
       </section>
