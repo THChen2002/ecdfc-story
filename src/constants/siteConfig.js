@@ -20,7 +20,6 @@ export const SITE_CONFIG = {
   footer: {
     address: '臺北市大安區和平東路二段134號',
     phone: '(02) 2732-1104',
-    email: 'info@ntue.edu.tw',
     copyright: '© 2026 國立臺北教育大學. All rights reserved.',
   },
   defaultStats: {

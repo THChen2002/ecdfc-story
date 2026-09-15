@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faMapMarkerAlt,
   faPhone,
-  faEnvelope,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { SITE_CONFIG } from '@/constants/siteConfig'
@@ -51,13 +50,6 @@ export default function Footer() {
                   className={styles.contactIcon}
                 />
                 <span>{SITE_CONFIG.footer.phone}</span>
-              </div>
-              <div className={styles.contactItem}>
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className={styles.contactIcon}
-                />
-                <span>{SITE_CONFIG.footer.email}</span>
               </div>
             </div>
           </div>

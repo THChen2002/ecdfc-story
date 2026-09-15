@@ -35,7 +35,7 @@
 
 /* === Team Section === */
 .teamSection {
-  padding: var(--space-2xl) 0 5rem;
+  padding: var(--space-2xl) 0 9rem;
   background: var(--color-bg);
   position: relative;
   overflow: hidden;
@@ -98,7 +98,7 @@
 
 /* 三小孩牽手 — 右下（放大，可稍微貼出邊緣） */
 .illHandhold {
-  bottom: 3%;
+  bottom: 0%;
   right: -1%;
   width: 300px;
 }
