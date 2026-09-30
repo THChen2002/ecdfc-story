@@ -1,0 +1,148 @@
+.wrap {
+  display: contents;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* 與分類／學年度下拉選單同樣的膠囊外框 */
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.95rem;
+  font-size: 0.8rem;
+  color: #6b5744;
+  pointer-events: none;
+}
+
+.input {
+  width: 180px;
+  padding: 0.5rem 1.1rem 0.5rem 2.2rem;
+  border: 1.5px solid #c1955f;
+  border-radius: var(--radius-full);
+  background-color: white;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:hover {
+  border-color: #a87c48;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #a87c48;
+  box-shadow: 0 0 0 3px rgba(193, 149, 95, 0.22);
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: white;
+  border: 1.5px solid #c1955f;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 20px rgba(107, 87, 68, 0.15);
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.option {
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.optionActive {
+  background: var(--color-primary-bg);
+  color: var(--color-primary-dark);
+}
+
+.empty {
+  padding: 0.45rem 0.75rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}
+
+/* 已選標籤：獨立一整列，置中於篩選列下方 */
+.selected {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.45rem 0.3rem 0.85rem;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-bg);
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+}
+
+.remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.remove:hover {
+  background: rgba(200, 93, 26, 0.18);
+}
+
+.clear {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-light);
+  font-family: inherit;
+  font-size: var(--font-size-xs);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clear:hover {
+  color: var(--color-primary-dark);
+}
