@@ -12,6 +12,7 @@ import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 import { getCurrentAcademicYear, toAcademicYear } from '@/utils/academicYear'
 import Button from '@/components/common/Button/Button'
 import ImageUploader from '@/components/admin/ImageUploader/ImageUploader'
+import TagInput from '@/components/admin/TagInput/TagInput'
 import s from '@/styles/admin.module.css'
 
 const quillModules = {
@@ -40,7 +41,7 @@ export default function AdminPortfolioEditPage() {
     summary: '',
     content: '',
     coverImage: '',
-    tags: '',
+    tags: [],
     year: getCurrentAcademicYear(),
     published: false,
   })
@@ -58,7 +59,7 @@ export default function AdminPortfolioEditPage() {
             summary: data.summary || '',
             content: data.content || '',
             coverImage: data.coverImage || '',
-            tags: (data.tags || []).join(', '),
+            tags: [...new Set((data.tags || []).map((t) => t.trim()).filter(Boolean))],
             year: toAcademicYear(data.year) || getCurrentAcademicYear(),
             published: data.published || false,
           })
@@ -94,7 +95,7 @@ export default function AdminPortfolioEditPage() {
         summary: form.summary.trim(),
         content: form.content,
         coverImage,
-        tags: form.tags.split(',').map((t) => t.trim()).filter(Boolean),
+        tags: form.tags,
         year: Number(form.year),
         published: form.published,
         updatedAt: serverTimestamp(),
@@ -217,12 +218,11 @@ export default function AdminPortfolioEditPage() {
               />
             </div>
             <div className={s.fieldRow}>
-              <label className={s.label}>標籤（以逗號分隔）</label>
-              <input
-                className={s.input}
+              <label className={s.label}>標籤</label>
+              <TagInput
                 value={form.tags}
-                onChange={(e) => handleChange('tags', e.target.value)}
-                placeholder="例如：SDGs, 環境教育, 課程設計"
+                onChange={(tags) => handleChange('tags', tags)}
+                placeholder="例如：SDGs"
               />
             </div>
             <div>

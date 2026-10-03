@@ -2,6 +2,7 @@ import { useState, useMemo, useRef } from 'react'
 import PortfolioCard from '@/components/portfolio/PortfolioCard/PortfolioCard'
 import Loading from '@/components/common/Loading/Loading'
 import Pagination from '@/components/common/Pagination/Pagination'
+import TagFilter from '@/components/portfolio/TagFilter/TagFilter'
 import { usePortfolios } from '@/hooks/usePortfolios'
 import { usePortfolioCategories } from '@/hooks/usePortfolioCategories'
 import styles from './PortfolioListPage.module.css'
@@ -17,6 +18,7 @@ const PAGE_SIZE = 12
 export default function PortfolioListPage() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [activeYear, setActiveYear] = useState('all')
+  const [activeTags, setActiveTags] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const sectionRef = useRef(null)
   const { portfolios, loading, error } = usePortfolios({ published: true })
@@ -63,6 +65,17 @@ export default function PortfolioListPage() {
     return opts
   }, [portfolios])
 
+  // 所有已公開成果出現過的標籤（去重、依筆畫排序）
+  const allTags = useMemo(() => {
+    const set = new Set()
+    portfolios.forEach((p) => {
+      ;(p.tags || []).forEach((t) => {
+        if (t?.trim()) set.add(t.trim())
+      })
+    })
+    return [...set].sort((a, b) => a.localeCompare(b, 'zh-Hant'))
+  }, [portfolios])
+
   const filteredPortfolios = useMemo(() => {
     return portfolios.filter((p) => {
       const categoryMatch =
@@ -72,9 +85,13 @@ export default function PortfolioListPage() {
           ? !p.category
           : p.category === activeCategory
       const yearMatch = activeYear === 'all' ? true : String(p.year) === activeYear
-      return categoryMatch && yearMatch
+      // 多個標籤時需同時包含所有選取的標籤
+      const tagMatch = activeTags.every((t) =>
+        (p.tags || []).some((pt) => pt?.trim() === t)
+      )
+      return categoryMatch && yearMatch && tagMatch
     })
-  }, [activeCategory, activeYear, portfolios])
+  }, [activeCategory, activeYear, activeTags, portfolios])
 
   const totalPages = Math.max(1, Math.ceil(filteredPortfolios.length / PAGE_SIZE))
   const pagedPortfolios = useMemo(() => {
@@ -89,6 +106,10 @@ export default function PortfolioListPage() {
   }
   const handleYearChange = (value) => {
     setActiveYear(value)
+    setCurrentPage(1)
+  }
+  const handleTagsChange = (tags) => {
+    setActiveTags(tags)
     setCurrentPage(1)
   }
 
@@ -160,6 +181,13 @@ export default function PortfolioListPage() {
                   ))}
                 </select>
               </div>
+            )}
+            {allTags.length > 0 && (
+              <TagFilter
+                allTags={allTags}
+                selectedTags={activeTags}
+                onChange={handleTagsChange}
+              />
             )}
           </div>
           {loading ? (
